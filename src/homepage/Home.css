@@ -1,0 +1,33 @@
+.product {
+  width: 80%;
+  margin-left: 17%;
+}
+
+.label {
+  text-align: center;
+  margin-top: 10px;
+}
+
+.display-flex {
+  display: flex;
+  margin-bottom: 20px;
+}
+
+.div-size-img {
+  /* border: 1px solid red; */
+  width: 300px;
+}
+
+.div-size-content {
+  /* border: 1px solid red; */
+  width: 200px;
+  height: 120px;
+  margin: 10px;
+}
+
+.div-size-button {
+  /* border: 1px solid red; */
+  width: 200px;
+  height: 120px;
+  margin: 10px;
+}
