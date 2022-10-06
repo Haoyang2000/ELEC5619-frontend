@@ -2,12 +2,15 @@ import React, { useEffect } from "react";
 import { useRecoilState } from "recoil";
 import { loggedInUser, FakeUser, loadProduct } from "../atom/globalState";
 import { getCurrentUser, getFakeusers, getProducts } from "../util/ApiUtil";
-
+import { Card, Avatar, Form, Input, Button, notification } from "antd";
 import "./Home.css";
+import { useState } from "react";
 
 const Home = (props) => {
   const [currentUser, setLoggedInUser] = useRecoilState(loggedInUser);
   const [products, setProducts] = useRecoilState(loadProduct);
+
+  const [query, setQuery] = useState("");
 
   useEffect(() => {
     if (localStorage.getItem("accessToken") === null) {
@@ -45,10 +48,12 @@ const Home = (props) => {
       });
   };
 
-  const logout = () => {
-    localStorage.removeItem("accessToken");
-    props.history.push("/login");
-  };
+  // const logout = () => {
+  //   localStorage.removeItem("accessToken");
+  //   props.history.push("/login");
+  // };
+
+  const search = (e) => setQuery(e);
 
   return (
     <div>
@@ -64,49 +69,63 @@ const Home = (props) => {
           <a class="nav-item nav-link" href="/chat">
             Chat
           </a>
-          <a
-            style={{ marginLeft: "1000px" }}
-            class="nav-item nav-link"
-            href="/cart"
-          >
+          <a class="nav-item nav-link" href="/cart">
             Cart
           </a>
         </div>
+        <div style={{ marginLeft: "auto", marginRight: 0 }}>
+          {" "}
+          <div>
+            <input
+              type="text"
+              placeholder="Search"
+              className="form-control"
+              onChange={(e) => setQuery(e.target.value)}
+            ></input>
+          </div>
+        </div>
       </nav>
+
       <h1 class="label">Our best products</h1>
       <hr class="solid"></hr>
       <div class="product">
-        {products.map((product) => (
-          <div>
-            {" "}
-            <div class="display-flex">
-              <div class="div-size-img">
-                <img src={product.picture.large}></img>
-              </div>
+        {products
+          .filter(
+            (product) =>
+              product.name.first.toLowerCase().includes(query) ||
+              product.name.last.toLowerCase().includes(query)
+          )
+          .map((product) => (
+            <div>
+              {" "}
+              <div class="display-flex">
+                <div class="div-size-img">
+                  <img src={product.picture.large}></img>
+                </div>
 
-              <div class="div-size-content">
-                <h4>Product name</h4>
-                <p>{product.name.first}</p>
-              </div>
-              <div class="div-size-button">
-                <h4>Owner</h4>
-                <p> {product.name.last}</p>
-              </div>
-              <div class="div-size-button">
-                <a href="/detail">
-                  <btn onclick="/" className="btn btn-secondary btn-mid mr-3">
-                    Buy
-                  </btn>
-                </a>
-                <a href="/">
-                  <btn onclick="/" className="btn btn-secondary btn-mid mr-3">
-                    Chat
-                  </btn>
-                </a>
-              </div>
-            </div>{" "}
-          </div>
-        ))}
+                <div class="div-size-content">
+                  <h4>Product name</h4>
+                  <p>{product.name.first}</p>
+                </div>
+                <div class="div-size-button">
+                  <h4>Owner</h4>
+                  <p> {product.name.last}</p>
+                </div>
+                <div class="div-size-button">
+                  <a href="/detail">
+                    <btn onclick="/" className="btn btn-secondary btn-mid mr-3">
+                      Buy
+                    </btn>
+                  </a>
+                  <a href="/">
+                    <btn onclick="/" className="btn btn-secondary btn-mid mr-3">
+                      Chat
+                    </btn>
+                  </a>
+                </div>
+              </div>{" "}
+            </div>
+          ))}
       </div>
     </div>
   );

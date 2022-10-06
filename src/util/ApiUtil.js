@@ -82,7 +82,7 @@ export function getProducts() {
   }
 
   return request({
-    url: "https://randomuser.me/api/?results=5",
+    url: "https://randomuser.me/api/?results=20",
     method: "GET",
   });
 }
