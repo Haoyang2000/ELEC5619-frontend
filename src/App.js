@@ -8,6 +8,9 @@ import Chat from "./chat/Chat";
 import Cart from "./cart/Cart";
 import Detail from "./detail/Detail";
 import ChangePassword from "./changePassword/ChangePassword";
+import UserManagement from "./userManagement/UserManagement";
+import ProductManagement from "./productManagement/ProductManagement";
+import CommentManagement from "./commentManagement/CommentManagement";
 import "./App.css";
 import "bootstrap/dist/css/bootstrap.css";
 
@@ -45,6 +48,21 @@ const App = (props) => {
             exact
             path="/changepassword"
             render={(props) => <ChangePassword {...props} />}
+          />
+          <Route
+            exact
+            path="/UserManagement"
+            render={(props) => <UserManagement {...props} />}
+          />
+          <Route
+            exact
+            path="/ProductManagement"
+            render={(props) => <ProductManagement {...props} />}
+          />
+          <Route
+            exact
+            path="/CommentManagement"
+            render={(props) => <CommentManagement {...props} />}
           />
         </Switch>
       </BrowserRouter>

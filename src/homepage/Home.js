@@ -1,23 +1,37 @@
 import React, { useEffect } from "react";
 import { useRecoilState } from "recoil";
-import { loggedInUser, FakeUser, loadProduct } from "../atom/globalState";
-import { getCurrentUser, getFakeusers, getProducts } from "../util/ApiUtil";
-import { Card, Avatar, Form, Input, Button, notification } from "antd";
+import {
+  loggedInUser,
+  loadProduct,
+  loadSingleProduct,
+} from "../atom/globalState";
+import { getCurrentUser, getProducts } from "../util/ApiUtil";
 import "./Home.css";
 import { useState } from "react";
+import Axios from "axios";
 
 const Home = (props) => {
   const [currentUser, setLoggedInUser] = useRecoilState(loggedInUser);
   const [products, setProducts] = useRecoilState(loadProduct);
-
+  const [myProduct, setMyProducts] = useRecoilState(loadSingleProduct);
   const [query, setQuery] = useState("");
 
   useEffect(() => {
     if (localStorage.getItem("accessToken") === null) {
       props.history.push("/login");
     }
+
     loadCurrentUser();
+
+    // jump to user management
+    if (1) {
+      props.history.push("/userManagement");
+    }
+
     loadProducts();
+
+    console.log("product");
+    console.log(myProduct);
   }, []);
 
   const loadCurrentUser = () => {
@@ -38,9 +52,6 @@ const Home = (props) => {
         console.log("loadProducts");
         console.log(response);
         setProducts(response.results);
-        // name = response.title;
-        // console.log(user);
-
         console.log(products);
       })
       .catch((error) => {
@@ -48,12 +59,32 @@ const Home = (props) => {
       });
   };
 
+  // const selectProduct = (id) => {
+  //   Axios.get("https://randomuser.me/api/?result=10").then((response) => {
+  //     let a = [];
+  //     console.log("Clean array");
+  //     setMyProducts(a);
+  //     console.log("see if blank");
+  //     console.log(myProduct);
+  //     setMyProducts(response.data.results);
+  //     console.log("response.data.results");
+  //     console.log(response.data.results);
+  //     console.log("myProduct");
+  //     console.log(myProduct);
+  //   });
+  // };
+
   // const logout = () => {
   //   localStorage.removeItem("accessToken");
   //   props.history.push("/login");
   // };
 
   const search = (e) => setQuery(e);
+
+  const buyClick = (id) => {
+    setMyProducts([id]);
+    console.log(myProduct);
+  };
 
   return (
     <div>
@@ -97,7 +128,6 @@ const Home = (props) => {
           )
           .map((product) => (
             <div>
-              {" "}
               <div class="display-flex">
                 <div class="div-size-img">
                   <img src={product.picture.large}></img>
@@ -112,18 +142,23 @@ const Home = (props) => {
                   <p> {product.name.last}</p>
                 </div>
                 <div class="div-size-button">
-                  <a href="/detail">
-                    <btn onclick="/" className="btn btn-secondary btn-mid mr-3">
-                      Buy
-                    </btn>
-                  </a>
+                  <a href="/detail"></a>{" "}
+                  <btn
+                    onClick={() => {
+                      console.log(product.gender);
+                      buyClick(product.location.number);
+                    }}
+                    className="btn btn-secondary btn-mid mr-3"
+                  >
+                    Buy
+                  </btn>
                   <a href="/">
                     <btn onclick="/" className="btn btn-secondary btn-mid mr-3">
                       Chat
                     </btn>
                   </a>
                 </div>
-              </div>{" "}
+              </div>
             </div>
           ))}
       </div>

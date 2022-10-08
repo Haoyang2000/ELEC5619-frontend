@@ -16,6 +16,14 @@ export const loadProduct = atom({
   },
 });
 
+export const loadSingleProduct = atom({
+  key: "loadSingleProduct",
+  default: [],
+  persistence_UNSTABLE: {
+    type: "loadSingleProduct",
+  },
+});
+
 export const chatActiveContact = atom({
   key: "chatActiveContact",
   persistence_UNSTABLE: {

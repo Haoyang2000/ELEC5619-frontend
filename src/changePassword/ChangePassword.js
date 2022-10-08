@@ -60,24 +60,6 @@ const ChangePassword = (props) => {
 
   return (
     <div className="profile-container">
-      <Card
-        style={{ width: 420, border: "1px solid #e1e0e0" }}
-        actions={[<LogoutOutlined onClick={logout} />]}
-      >
-        <Meta
-          avatar={
-            <Avatar
-              src={currentUser.profilePicture}
-              className="user-avatar-circle"
-            />
-          }
-          title={currentUser.username}
-          description={"@" + currentUser.username}
-        />
-      </Card>
-
-      <br></br>
-
       <Form
         name="normal_login"
         className="login-form"
