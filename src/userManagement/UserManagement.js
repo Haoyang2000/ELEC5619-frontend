@@ -1,33 +1,94 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useRecoilState } from "recoil";
-import { loggedInUser, FakeUser, loadProduct } from "../atom/globalState";
-import { getCurrentUser, getFakeusers, getProducts } from "../util/ApiUtil";
+import { notification } from "antd";
+import { loadUsers, loggedInUser } from "../atom/globalState";
+import { getUsers, deleteUser, modifyUser } from "../util/ApiUtil";
 
 import "./UserManagement.css";
 
 const UserManagement = (props) => {
-  const [products, setProducts] = useRecoilState(loadProduct);
+  const [users, setUsers] = useRecoilState(loadUsers);
+  const [query, setQuery] = useState("");
+  const [newEmail, setNewEmail] = useState("");
+  const [currentUser, setLoggedInUser] = useRecoilState(loggedInUser);
 
   useEffect(() => {
     if (localStorage.getItem("accessToken") === null) {
       props.history.push("/login");
     }
-    loadProducts();
+    loadTotalUsers();
   }, []);
 
-  const loadProducts = () => {
-    getProducts()
+  const loadTotalUsers = () => {
+    getUsers()
       .then((response) => {
-        console.log("loadProducts");
+        console.log("loadUsers");
         console.log(response);
-        setProducts(response.results);
-        // name = response.title;
-        // console.log(user);
-
-        console.log(products);
+        setUsers(response);
+        console.log("show users");
+        console.log(users);
       })
       .catch((error) => {
         console.log(error);
+      });
+  };
+
+  const logout = () => {
+    localStorage.removeItem("accessToken");
+    props.history.push("/login");
+  };
+
+  const deleteClick = (value) => {
+    console.log(value);
+    const info = {
+      id: value,
+    };
+    deleteUser(info)
+      .then((response) => {
+        notification.success({
+          message: "Success",
+          description: "Deleted user successfully!",
+        });
+        props.history.push("/userManagement");
+      })
+      .catch((error) => {
+        notification.error({
+          message: "Error",
+          description:
+            error.message || "Sorry! Something went wrong. Please try again!",
+        });
+      });
+  };
+
+  const changeClick = (value) => {
+    console.log(value);
+    const info = {
+      id: value.id,
+      email: newEmail,
+      username: value.username,
+      active: value.active,
+      address: value.address,
+      admin: value.admin,
+      cardId: 100,
+      createTime: value.createTime,
+      language: value.language,
+      password: value.password,
+    };
+    console.log(info);
+    modifyUser(info)
+      .then((response) => {
+        notification.success({
+          message: "Success",
+          description: "Email has been changed",
+        });
+        props.history.push("/");
+      })
+      .catch((error) => {
+        notification.error({
+          message: "Error",
+          description:
+            error.message || "Sorry! Something went wrong. Please try again!",
+        });
       });
   };
 
@@ -50,58 +111,56 @@ const UserManagement = (props) => {
             </tr>
           </thead>
           <tbody>
-            <tr>
-              <td>Larry</td>
-              <td>Mark</td>
-              <td>Otto</td>
-              <td>@mdo</td>
-              <td>Larry</td>
-              <td>Mark</td>
-              <td>
-                <button type="button" class="btn btn-danger">
-                  Delete
-                </button>
-              </td>
-            </tr>
-            <tr>
-              <td>Larry</td>
-              <td>Mark</td>
-              <td>Otto</td>
-              <td>@mdo</td>
-              <td>Larry</td>
-              <td>Mark</td>
-              <td>
-                <button type="button" class="btn btn-danger">
-                  Delete
-                </button>
-              </td>
-            </tr>
-            <tr>
-              <td>Larry</td>
-              <td>Mark</td>
-              <td>Otto</td>
-              <td>@mdo</td>
-              <td>Larry</td>
-              <td>Mark</td>
-              <td>
-                <button type="button" class="btn btn-danger">
-                  Delete
-                </button>
-              </td>
-            </tr>
-            <tr>
-              <td>Larry</td>
-              <td>Mark</td>
-              <td>Otto</td>
-              <td>@mdo</td>
-              <td>Larry</td>
-              <td>Mark</td>
-              <td>
-                <button type="button" class="btn btn-danger">
-                  Delete
-                </button>
-              </td>
-            </tr>
+            {users
+              .filter(
+                (user) =>
+                  user.username.toLowerCase().includes(query) ||
+                  user.address.toLowerCase().includes(query) ||
+                  user.email.toLowerCase().includes(query) ||
+                  user.address.toLowerCase().includes(query) ||
+                  user.id.toString().includes(query) ||
+                  user.createTime.toString().includes(query)
+              )
+              .map((user) => (
+                <tr>
+                  <td>{user.id}</td>
+                  <td>{user.username}</td>
+                  <td>{user.language}</td>
+                  <td>
+                    <div>
+                      <div class="input-group mb-3">
+                        <input
+                          type="text"
+                          class="form-control"
+                          placeholder={user.email}
+                          aria-describedby="basic-addon2"
+                          onChange={(e) => setNewEmail(e.target.value)}
+                        ></input>
+                        <div class="input-group-append">
+                          <button
+                            onClick={() => changeClick(user)}
+                            class="btn btn-outline-secondary"
+                            type="button"
+                          >
+                            Change
+                          </button>
+                        </div>
+                      </div>
+                    </div>
+                  </td>
+                  <td>{user.address}</td>
+                  <td>{user.createTime}</td>
+                  <td>
+                    <button
+                      onClick={() => deleteClick(user.id)}
+                      type="button"
+                      class="btn btn-danger"
+                    >
+                      Delete
+                    </button>
+                  </td>
+                </tr>
+              ))}
           </tbody>
         </table>
       </div>
@@ -112,13 +171,8 @@ const UserManagement = (props) => {
         <h1>You are not admin!</h1>
       </div>
     );
-    if (1) return content;
+    if (currentUser.username == "Admin") return content;
     else return warning;
-  };
-
-  const logout = () => {
-    localStorage.removeItem("accessToken");
-    props.history.push("/login");
   };
 
   return (
@@ -149,7 +203,7 @@ const UserManagement = (props) => {
               type="text"
               placeholder="Search"
               className="form-control"
-              // onChange={(e) => setQuery(e.target.value)}
+              onChange={(e) => setQuery(e.target.value)}
             ></input>
           </div>
         </div>

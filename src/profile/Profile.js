@@ -62,7 +62,7 @@ const Profile = (props) => {
                     <label>Name</label>
                   </div>
                   <div class="col-md-6">
-                    <p>{currentUser.name}</p>
+                    <p>{currentUser.username}</p>
                   </div>
                 </div>
                 <div class="row">

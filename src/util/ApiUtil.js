@@ -87,6 +87,24 @@ export function getProducts() {
   });
 }
 
+// delete user
+export function deleteUser(deleteRequest) {
+  return request({
+    url: AUTH_SERVICE + "/admin/delete",
+    method: "POST",
+    body: JSON.stringify(deleteRequest),
+  });
+}
+
+// modify user
+export function modifyUser(modifyUser) {
+  return request({
+    url: AUTH_SERVICE + "/admin/modifyProfile",
+    method: "POST",
+    body: JSON.stringify(modifyUser),
+  });
+}
+
 // change password
 export function changepassword(loginRequest) {
   return request({

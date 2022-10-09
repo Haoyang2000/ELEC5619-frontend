@@ -16,6 +16,14 @@ export const loadProduct = atom({
   },
 });
 
+export const loadUsers = atom({
+  key: "loadUsers",
+  default: [],
+  persistence_UNSTABLE: {
+    type: "loadUsers",
+  },
+});
+
 export const loadSingleProduct = atom({
   key: "loadSingleProduct",
   default: [],

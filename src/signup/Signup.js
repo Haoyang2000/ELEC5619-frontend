@@ -14,6 +14,10 @@ const Signup = (props) => {
   }, []);
 
   const register = (values) => {
+    console.log(values);
+    if (values.language == null) {
+      values.language = "en";
+    }
     setLoading(true);
     signup(values)
       .then((response) => {
@@ -37,8 +41,7 @@ const Signup = (props) => {
 
   return (
     <div className="login-container">
-      <h3>Register</h3>
-      <hr class="solid"></hr>
+      <DingtalkOutlined style={{ fontSize: 50 }} />
       <Form
         name="normal_login"
         className="login-form"
@@ -64,23 +67,33 @@ const Signup = (props) => {
           <Input size="large" placeholder="Email" />
         </Form.Item>
         <Form.Item
-          name="language"
-          rules={[
-            {
-              required: true,
-              message: "Please input your perferred Language!",
-            },
-          ]}
-        >
-          <Input size="large" placeholder="Perferred Language" />
-        </Form.Item>
-        <Form.Item
           name="address"
           rules={[
             { required: true, message: "Please input your home Address!" },
           ]}
         >
           <Input size="large" placeholder="Address" />
+        </Form.Item>
+        <Form.Item name="language">
+          <select id="language" size="large" placeholder="Perferred Language">
+            <option value="ar">Arabic</option>
+            <option value="zh">Chinese</option>
+            <option value="nl">Dutch</option>
+            <option value="en">English</option>
+            <option value="en" selected>
+              {" "}
+              Pick a language you perfer to use (default English){" "}
+            </option>
+            <option value="fr">French</option>
+            <option value="de">German</option>
+            <option value="el">Greek</option>
+            <option value="it">Italian</option>
+            <option value="ja">Japanese</option>
+            <option value="ko">Korean</option>
+            <option value="pt">Portuguese</option>
+            <option value="es">Spanish</option>
+            <option value="th">Thai</option>
+          </select>
         </Form.Item>
         <Form.Item>
           <Button

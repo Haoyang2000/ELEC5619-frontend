@@ -41,7 +41,7 @@ const App = (props) => {
           <Route exact path="/cart" render={(props) => <Cart {...props} />} />
           <Route
             exact
-            path="/detail"
+            path="/detail/:productId"
             render={(props) => <Detail {...props} />}
           />
           <Route

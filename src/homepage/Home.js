@@ -24,9 +24,9 @@ const Home = (props) => {
     loadCurrentUser();
 
     // jump to user management
-    if (1) {
+    if (currentUser.username == "Admin") {
       props.history.push("/userManagement");
-    }
+    } else props.history.push("/");
 
     loadProducts();
 
@@ -79,17 +79,15 @@ const Home = (props) => {
   //   props.history.push("/login");
   // };
 
-  const search = (e) => setQuery(e);
-
-  const buyClick = (id) => {
-    setMyProducts([id]);
-    console.log(myProduct);
-  };
+  // const buyClick = (id) => {
+  //   setMyProducts([id]);
+  //   console.log(myProduct);
+  // };
 
   return (
     <div>
       <nav class="navbar navbar-expand-lg navbar-light bg-light">
-        <a class="navbar-brand">Hello {currentUser.name}</a>
+        <a class="navbar-brand">Hello {currentUser.username}</a>
         <div class="navbar-nav">
           <a class="nav-item nav-link active" href="/">
             Home <span class="sr-only">(current)</span>
@@ -142,16 +140,10 @@ const Home = (props) => {
                   <p> {product.name.last}</p>
                 </div>
                 <div class="div-size-button">
-                  <a href="/detail"></a>{" "}
-                  <btn
-                    onClick={() => {
-                      console.log(product.gender);
-                      buyClick(product.location.number);
-                    }}
-                    className="btn btn-secondary btn-mid mr-3"
-                  >
-                    Buy
-                  </btn>
+                  <a href={`/detail/${1 + 1}`}>
+                    <btn className="btn btn-secondary btn-mid mr-3">Buy</btn>
+                  </a>
+
                   <a href="/">
                     <btn onclick="/" className="btn btn-secondary btn-mid mr-3">
                       Chat

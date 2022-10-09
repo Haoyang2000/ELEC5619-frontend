@@ -14,13 +14,13 @@ const Detail = (props) => {
   const [currentUser, setLoggedInUser] = useRecoilState(loggedInUser);
   const [products, setProducts] = useRecoilState(loadProduct);
   const [myProduct, setMyProducts] = useRecoilState(loadSingleProduct);
+  const productId = props.match.params.productId;
 
   useEffect(() => {
     if (localStorage.getItem("accessToken") === null) {
       props.history.push("/login");
     }
-
-    console.log(myProduct);
+    console.log("show the productId: " + productId);
     loadCurrentUser();
   }, []);
 
