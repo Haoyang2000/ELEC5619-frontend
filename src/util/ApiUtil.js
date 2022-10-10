@@ -4,9 +4,10 @@ const CHAT_SERVICE = "http://localhost:8080";
 const request = (options) => {
   const headers = new Headers();
 
-  if (options.setContentType !== false) {
+  if (options.setContentType !== false && options.url !== "http://localhost:8080/products/add") {
     headers.append("Content-Type", "application/json");
   }
+
   console.log(localStorage);
   if (localStorage.getItem("accessToken")) {
     headers.append(
@@ -17,7 +18,7 @@ const request = (options) => {
   console.log(headers);
   const defaults = { headers: headers };
   options = Object.assign({}, defaults, options);
-
+  console.log(options);
   return fetch(options.url, options).then((response) =>
     response.json().then((json) => {
       console.log(response);
@@ -53,6 +54,17 @@ export function signup(signupRequest) {
   });
 }
 
+export function createProduct(createRequest, image){
+  return request({
+    url: AUTH_SERVICE + "/products/add",
+    method: "POST",
+    body: createRequest,
+  });
+}
+
+
+
+
 export function getCurrentUser() {
   if (!localStorage.getItem("accessToken")) {
     return Promise.reject("No access token set.");
@@ -87,6 +99,17 @@ export function getProducts() {
   });
 }
 
+
+export function getProductss() {
+  if (!localStorage.getItem("accessToken")) {
+    return Promise.reject("No access token set.");
+  }
+
+  return request({
+    url: AUTH_SERVICE + "/product/main",
+    method: "GET",
+  });
+}
 // delete user
 export function deleteUser(deleteRequest) {
   return request({

@@ -20,11 +20,16 @@ const Home = (props) => {
       props.history.push("/login");
     }
 
-    // jump to user management
+    console.log("name:  " + localStorage.getItem("username"));
     if (localStorage.getItem("name") === "Admin") {
       props.history.push("/userManagement");
     }
     loadCurrentUser();
+
+    // jump to user management
+    // if (currentUser.username == "Admin") {
+    //   props.history.push("/userManagement");
+    // } else props.history.push("/");
 
     loadProducts();
 

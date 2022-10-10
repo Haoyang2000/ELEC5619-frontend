@@ -1,0 +1,183 @@
+import React, { useEffect, useState } from "react";
+import { Form, Input, Button, notification } from "antd";
+import { DingtalkOutlined } from "@ant-design/icons";
+import { signup } from "../util/ApiUtil";
+import ScrollToBottom from "react-scroll-to-bottom";
+import { useRecoilState } from "recoil";
+import {
+    loggedInUser,
+    productsI
+  } from "../atom/globalState";
+  import { getCurrentUser, getProductss,createProduct} from "../util/ApiUtil";
+
+const UploadAndDisplayImage = (props) => {
+  const [selectedImage, setSelectedImage] = useState(null);
+  const [currentUser, setLoggedInUser] = useRecoilState(loggedInUser);
+  const [products, setProducts] = useRecoilState(productsI);
+
+
+  useEffect(() => {
+    if (localStorage.getItem("accessToken") === null) {
+      props.history.push("/login");
+    }
+    loadProducts();
+  }, []);
+
+  const addProduct = (values) => {
+    console.log(values);
+    console.log(selectedImage);
+    loadCurrentUser()
+    const formData = new FormData();
+    
+    formData.append('file', selectedImage);
+    formData.append('productName', values.productName);
+    formData.append('productDescription', values.productDescription);
+    formData.append('price', values.price);
+    formData.append('userId', currentUser.id);
+    formData.append('category', values.category);
+
+    console.log(formData)
+    createProduct(formData)
+    .then((response) => {
+            notification.success({
+              message: "Success",
+              description:
+                "Thank you! You're successfully registered. Please Login to continue!",
+            });
+            loadProducts();
+          })
+          .catch((error) => {
+            notification.error({
+              message: "Error",
+              description:
+                error.message || "Sorry! Something went wrong. Please try again!",
+            });
+          });
+
+  };
+
+  const loadCurrentUser = () => {
+    getCurrentUser()
+      .then((response) => {
+        setLoggedInUser(response);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+
+  const loadProducts = () => {
+    getProductss()
+      .then((response) => {
+        console.log("loadProducts");
+        console.log(response);
+        setProducts(response);
+     
+        
+        console.log(products);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+
+  return (
+    <div>
+      <h1>Add product </h1>
+      {selectedImage && (
+        <div>
+        <img alt="notImage" width={"250px"} src={URL.createObjectURL(selectedImage)} />
+        <br />
+        <button onClick={()=>setSelectedImage(null)}>Remove</button>
+        </div>
+      )}
+      <br />
+     
+      <br /> 
+      <input
+        type="file"
+        name="myImage"
+        onChange={(event) => {
+          console.log(event.target.files[0]);
+          setSelectedImage(event.target.files[0]);
+        }}
+      />
+
+
+
+
+    <Form
+        name="normal_login"
+        className="login-form"
+        initialValues={{ remember: true }}
+        onFinish={addProduct}
+      >
+        <Form.Item
+          name="productName"
+          rules={[{ required: true, message: "Please input your product name!" }]}
+        >
+          <Input size="large" placeholder="Product Name" />
+        </Form.Item>
+
+        <Form.Item
+          name="productDescription"
+          rules={[{ required: true, message: "Please input your product description!" }]}
+        >
+          <Input size="large" placeholder="Product Description" />
+        </Form.Item>
+
+        <Form.Item
+          name="price"
+          rules={[{ required: true, message: "Please input your product price!" }]}
+        >
+          <Input size="large" placeholder="Product Price" />
+        </Form.Item>
+
+        <Form.Item
+          name="category"
+          rules={[{ required: true, message: "Please input your product category!" }]}
+        >
+          <Input size="large" placeholder="Product Category" />
+        </Form.Item>
+
+
+        <Form.Item>
+          <Button
+            shape="round"
+            size="large"
+            htmlType="submit"
+            className="login-form-button"
+          >
+            Signup
+          </Button>
+        </Form.Item>
+      </Form>
+
+
+
+
+
+      <ScrollToBottom className="messages">
+          <ul>
+            {products.map((product) => (
+              <li >
+               
+                <img src={`data:image/jpeg;base64,${product.file}`} alt={product.imageName} width="200" height="300"/>
+                <p>{product.productId}</p>
+                <p>{product.productName}</p>
+                <p>{product.productDescription}</p>
+                <p>{product.price}</p>
+                <p>{product.userId}</p>
+                <p>{product.category}</p>
+
+              </li>
+            ))}
+          </ul>
+        </ScrollToBottom>
+
+
+    </div>
+  );
+};
+
+export default UploadAndDisplayImage;

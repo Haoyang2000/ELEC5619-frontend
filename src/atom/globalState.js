@@ -46,3 +46,11 @@ export const chatMessages = atom({
     type: "chatMessages",
   },
 });
+
+export const productsI = atom({
+  key: "productsI",
+  default: [],
+  persistence_UNSTABLE: {
+    type: "productsI",
+  },
+});

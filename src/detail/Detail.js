@@ -6,7 +6,6 @@ import {
   loadSingleProduct,
 } from "../atom/globalState";
 import { getCurrentUser, getProducts } from "../util/ApiUtil";
-import Axios from "axios";
 
 import "./Detail.css";
 

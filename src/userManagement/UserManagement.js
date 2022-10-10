@@ -138,7 +138,16 @@ const UserManagement = (props) => {
                         ></input>
                         <div class="input-group-append">
                           <button
-                            onClick={() => changeClick(user)}
+                            onClick={() => {
+                              if (!newEmail) {
+                                notification.error({
+                                  message: "Error",
+                                  description: "Please input new content",
+                                });
+                              } else {
+                                changeClick(user);
+                              }
+                            }}
                             class="btn btn-outline-secondary"
                             type="button"
                           >
@@ -166,7 +175,9 @@ const UserManagement = (props) => {
       </div>
     );
 
+    let warning = <div></div>;
     if (currentUser.username == "Admin") return content;
+    else return warning;
   };
 
   return (

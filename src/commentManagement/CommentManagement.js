@@ -109,7 +109,7 @@ const CommentManagement = (props) => {
 
     let warning = (
       <div>
-        <h1>You are not admin!</h1>
+        // <h1>You are not admin!</h1>
       </div>
     );
     if (0) return content;

@@ -11,6 +11,7 @@ import ChangePassword from "./changePassword/ChangePassword";
 import UserManagement from "./userManagement/UserManagement";
 import ProductManagement from "./productManagement/ProductManagement";
 import CommentManagement from "./commentManagement/CommentManagement";
+import UploadAndDisplayImage from "./homepage/addProduct";
 import "./App.css";
 import "bootstrap/dist/css/bootstrap.css";
 
@@ -64,6 +65,12 @@ const App = (props) => {
             path="/CommentManagement"
             render={(props) => <CommentManagement {...props} />}
           />
+           <Route
+            exact
+            path="/AddProduct"
+            render={(props) => <UploadAndDisplayImage {...props} />}
+          />
+          
         </Switch>
       </BrowserRouter>
     </div>

@@ -80,10 +80,11 @@ const Signin = (props) => {
 
   const onFinish = (values) => {
     setLoading(true);
+
     login(values)
       .then((response) => {
         localStorage.setItem("accessToken", response.accessToken);
-        localStorage.setItem("name", values.username);
+        localStorage.setItem("name", values.username)
         console.log("signed in");
         props.history.push("/");
         setLoading(false);
