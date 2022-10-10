@@ -8,7 +8,6 @@ import {
 import { getCurrentUser, getProducts } from "../util/ApiUtil";
 import "./Home.css";
 import { useState } from "react";
-import Axios from "axios";
 
 const Home = (props) => {
   const [currentUser, setLoggedInUser] = useRecoilState(loggedInUser);
@@ -21,12 +20,11 @@ const Home = (props) => {
       props.history.push("/login");
     }
 
-    loadCurrentUser();
-
     // jump to user management
-    if (currentUser.username == "Admin") {
+    if (localStorage.getItem("name") === "Admin") {
       props.history.push("/userManagement");
-    } else props.history.push("/");
+    }
+    loadCurrentUser();
 
     loadProducts();
 

@@ -166,13 +166,7 @@ const UserManagement = (props) => {
       </div>
     );
 
-    let warning = (
-      <div>
-        <h1>You are not admin!</h1>
-      </div>
-    );
     if (currentUser.username == "Admin") return content;
-    else return warning;
   };
 
   return (
