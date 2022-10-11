@@ -4,7 +4,10 @@ const CHAT_SERVICE = "http://localhost:8080";
 const request = (options) => {
   const headers = new Headers();
 
-  if (options.setContentType !== false && options.url !== "http://localhost:8080/products/add") {
+  if (
+    options.setContentType !== false &&
+    options.url !== "http://localhost:8080/products/add"
+  ) {
     headers.append("Content-Type", "application/json");
   }
 
@@ -54,7 +57,7 @@ export function signup(signupRequest) {
   });
 }
 
-export function createProduct(createRequest, image){
+export function createProduct(createRequest, image) {
   return request({
     url: AUTH_SERVICE + "/products/add",
     method: "POST",
@@ -62,8 +65,29 @@ export function createProduct(createRequest, image){
   });
 }
 
+// get single product
+export function getSingleProduct(productId) {
+  return request({
+    url: AUTH_SERVICE + "/product/" + productId,
+    method: "GET",
+  });
+}
 
+// get single user
+export function getSingleUser(userId) {
+  return request({
+    url: AUTH_SERVICE + "/user/" + userId,
+    method: "GET",
+  });
+}
 
+// delete single product
+export function deleteProduct(productId) {
+  return request({
+    url: AUTH_SERVICE + "/product/delete/" + productId,
+    method: "POST",
+  });
+}
 
 export function getCurrentUser() {
   if (!localStorage.getItem("accessToken")) {
@@ -99,7 +123,7 @@ export function getProducts() {
   });
 }
 
-
+// get all products
 export function getProductss() {
   if (!localStorage.getItem("accessToken")) {
     return Promise.reject("No access token set.");
@@ -110,6 +134,18 @@ export function getProductss() {
     method: "GET",
   });
 }
+
+// get products from a user
+export function getUserProduct(userId) {
+  if (!localStorage.getItem("accessToken")) {
+    return Promise.reject("No access token set.");
+  }
+  return request({
+    url: AUTH_SERVICE + "/productOfUser/" + userId,
+    method: "GET",
+  });
+}
+
 // delete user
 export function deleteUser(deleteRequest) {
   return request({
@@ -134,6 +170,15 @@ export function changepassword(loginRequest) {
     url: AUTH_SERVICE + "/users/changepassword",
     method: "POST",
     body: JSON.stringify(loginRequest),
+  });
+}
+
+// modify product
+export function modifyProduct(productId, requestBody) {
+  return request({
+    url: AUTH_SERVICE + "/product/update/" + productId,
+    method: "POST",
+    body: JSON.stringify(requestBody),
   });
 }
 

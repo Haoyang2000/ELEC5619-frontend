@@ -8,6 +8,12 @@
   margin-top: 10px;
 }
 
+.content {
+  width: 40%;
+  margin: auto;
+  border: 1px;
+}
+
 .display-flex {
   display: flex;
   margin-bottom: 20px;

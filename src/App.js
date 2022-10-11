@@ -14,6 +14,7 @@ import CommentManagement from "./commentManagement/CommentManagement";
 import UploadAndDisplayImage from "./homepage/addProduct";
 import "./App.css";
 import "bootstrap/dist/css/bootstrap.css";
+import UserProductManagement from "./userProductManagement/UserProductManagement";
 
 export const AppContext = React.createContext();
 const App = (props) => {
@@ -62,15 +63,19 @@ const App = (props) => {
           />
           <Route
             exact
+            path="/UserProductManagement"
+            render={(props) => <UserProductManagement {...props} />}
+          />
+          <Route
+            exact
             path="/CommentManagement"
             render={(props) => <CommentManagement {...props} />}
           />
-           <Route
+          <Route
             exact
             path="/AddProduct"
             render={(props) => <UploadAndDisplayImage {...props} />}
           />
-          
         </Switch>
       </BrowserRouter>
     </div>

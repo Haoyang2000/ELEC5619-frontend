@@ -36,6 +36,23 @@ const Profile = (props) => {
 
   return (
     <div>
+      <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <a class="navbar-brand">Hello {currentUser.username}</a>
+        <div class="navbar-nav">
+          <a class="nav-item nav-link active" href="/">
+            Home <span class="sr-only">(current)</span>
+          </a>
+          <a class="nav-item nav-link" href="/profile">
+            Profile
+          </a>
+          <a class="nav-item nav-link" href="/chat">
+            Chat
+          </a>
+          <a class="nav-item nav-link" href="/cart">
+            Cart
+          </a>
+        </div>
+      </nav>
       <div class="container emp-profile">
         <div class="row">
           <div class="col-md-8">
@@ -70,57 +87,30 @@ const Profile = (props) => {
                     <label>Email</label>
                   </div>
                   <div class="col-md-6">
-                    <p>kshitighelani@gmail.com</p>
+                    <p>{currentUser.email}</p>
                   </div>
                 </div>
                 <div class="row">
                   <div class="col-md-6">
-                    <label>Phone</label>
+                    <label>Address</label>
                   </div>
                   <div class="col-md-6">
-                    <p>123 456 7890</p>
+                    <p>{currentUser.address}</p>
                   </div>
                 </div>
                 <div class="row">
                   <div class="col-md-6">
-                    <label>Profession</label>
+                    <label>create time</label>
                   </div>
                   <div class="col-md-6">
-                    <p>Web Developer and Designer</p>
+                    <p>{currentUser.createTime}</p>
                   </div>
-                </div>
-              </div>
-              <div class="row">
-                <div class="col-md-6">
-                  <label>English Level</label>
-                </div>
-                <div class="col-md-6">
-                  <p>Expert</p>
-                </div>
-              </div>
-              <div class="row">
-                <div class="col-md-6">
-                  <label>Availability</label>
-                </div>
-                <div class="col-md-6">
-                  <p>6 months</p>
                 </div>
               </div>
             </div>
-            <a href="/changepassword">
-              <btn onClick="" className="btn btn-secondary btn-mid mr-3">
-                Change Password
-              </btn>
-            </a>
-
-            <btn onClick={logout} className="btn btn-secondary btn-mid mr-3">
+            <btn onClick={logout} className="btn btn-danger btn-mid mr-3">
               Logout
             </btn>
-            <a href="/">
-              <btn onclick="/" className="btn btn-secondary btn-mid mr-3">
-                Homepage
-              </btn>
-            </a>
           </div>
         </div>
       </div>
@@ -135,12 +125,29 @@ const Profile = (props) => {
                 aria-labelledby="home-tab"
               >
                 <div class="col-md-0">
-                  <h1>Order history</h1>
+                  <h1>Operations</h1>
                 </div>
 
                 <div class="row">
-                  <div class="col-md-6">
-                    <label>Item</label>
+                  <div class="col-md-12">
+                    <a href="/changepassword">
+                      <btn onClick="" className="btn btn-warning btn-mid mr-3">
+                        Change Password
+                      </btn>
+                    </a>
+                    <a href="/addproduct">
+                      <btn className="btn btn-secondary btn-mid mr-3">
+                        Add new product
+                      </btn>
+                    </a>
+                    <a href="/UserProductManagement">
+                      <btn
+                        onclick="/addproduct"
+                        className="btn btn-secondary btn-mid mr-3"
+                      >
+                        Manage my products
+                      </btn>
+                    </a>
                   </div>
                   <div class="col-md-6">
                     <p>{currentUser.name}</p>

@@ -2,12 +2,12 @@ import React, { useEffect, useState } from "react";
 import { useRecoilState } from "recoil";
 import { notification } from "antd";
 import { productsI, loggedInUser } from "../atom/globalState";
-import { getProductss, deleteProduct } from "../util/ApiUtil";
+import { getUserProduct, deleteProduct } from "../util/ApiUtil";
 
-import "./ProductManagement.css";
+import "./UserProductManagement.css";
 
-const ProductManagement = (props) => {
-  const [products, setProducts] = useRecoilState(productsI);
+const UserProductManagement = (props) => {
+  const [products, setProducts] = useState([]);
   const [query, setQuery] = useState("");
   const [currentUser, setLoggedInUser] = useRecoilState(loggedInUser);
 
@@ -15,11 +15,11 @@ const ProductManagement = (props) => {
     if (localStorage.getItem("accessToken") === null) {
       props.history.push("/login");
     }
-    loadProducts();
+    loadProducts(currentUser.id);
   }, []);
 
-  const loadProducts = () => {
-    getProductss()
+  const loadProducts = (userId) => {
+    getUserProduct(userId)
       .then((response) => {
         console.log("loadProducts");
         console.log(response);
@@ -38,7 +38,7 @@ const ProductManagement = (props) => {
           message: "Success",
           description: "Deleted product successfully!",
         });
-        loadProducts();
+        loadProducts(currentUser.id);
       })
       .catch((error) => {
         notification.error({
@@ -49,11 +49,43 @@ const ProductManagement = (props) => {
       });
   };
 
-  // Only display content for admin!
-  const loadContentforAdmin = () => {
-    let content = (
+  const logout = () => {
+    localStorage.removeItem("accessToken");
+    props.history.push("/login");
+  };
+
+  return (
+    <div>
+      <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <a class="navbar-brand">Hello {currentUser.username}</a>
+        <div class="navbar-nav">
+          <a class="nav-item nav-link active" href="/">
+            Home <span class="sr-only">(current)</span>
+          </a>
+          <a class="nav-item nav-link" href="/profile">
+            Profile
+          </a>
+          <a class="nav-item nav-link" href="/chat">
+            Chat
+          </a>
+          <a class="nav-item nav-link" href="/cart">
+            Cart
+          </a>
+        </div>
+        <div style={{ marginLeft: "auto", marginRight: 0 }}>
+          {" "}
+          <div>
+            <input
+              type="text"
+              placeholder="Search"
+              className="form-control"
+              onChange={(e) => setQuery(e.target.value)}
+            ></input>
+          </div>
+        </div>
+      </nav>
       <div>
-        <h1 class="label">Product Management</h1>
+        <h1 class="label">My Products</h1>
         <table class="table">
           <thead>
             <tr>
@@ -107,54 +139,8 @@ const ProductManagement = (props) => {
           </tbody>
         </table>
       </div>
-    );
-
-    let warning = <div></div>;
-    if (currentUser.username == "Admin") return content;
-    else return warning;
-  };
-
-  const logout = () => {
-    localStorage.removeItem("accessToken");
-    props.history.push("/login");
-  };
-
-  return (
-    <div>
-      <nav class="navbar navbar-expand-lg navbar-light bg-light">
-        <a class="navbar-brand">Hello Admin</a>
-        <btn onClick={logout} className="btn btn-secondary btn-mid mr-3">
-          Logout
-        </btn>
-        <div class="navbar-nav">
-          <a class="nav-item nav-link" href="/chat">
-            Enquiry
-          </a>
-          <a class="nav-item nav-link" href="/userManagement">
-            User Management
-          </a>
-          <a class="nav-item nav-link" href="/productManagement">
-            Product Management
-          </a>
-          <a class="nav-item nav-link" href="/commentManagement">
-            Comment Management
-          </a>
-        </div>
-        <div style={{ marginLeft: "auto", marginRight: 0 }}>
-          {" "}
-          <div>
-            <input
-              type="text"
-              placeholder="Search"
-              className="form-control"
-              onChange={(e) => setQuery(e.target.value)}
-            ></input>
-          </div>
-        </div>
-      </nav>
-      <div>{loadContentforAdmin()}</div>
     </div>
   );
 };
 
-export default ProductManagement;
+export default UserProductManagement;

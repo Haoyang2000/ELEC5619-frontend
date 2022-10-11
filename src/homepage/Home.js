@@ -1,18 +1,13 @@
 import React, { useEffect } from "react";
 import { useRecoilState } from "recoil";
-import {
-  loggedInUser,
-  loadProduct,
-  loadSingleProduct,
-} from "../atom/globalState";
-import { getCurrentUser, getProducts } from "../util/ApiUtil";
+import { loggedInUser, productsI } from "../atom/globalState";
+import { getCurrentUser, getProductss } from "../util/ApiUtil";
 import "./Home.css";
 import { useState } from "react";
 
 const Home = (props) => {
   const [currentUser, setLoggedInUser] = useRecoilState(loggedInUser);
-  const [products, setProducts] = useRecoilState(loadProduct);
-  const [myProduct, setMyProducts] = useRecoilState(loadSingleProduct);
+  const [products, setProducts] = useRecoilState(productsI);
   const [query, setQuery] = useState("");
 
   useEffect(() => {
@@ -25,16 +20,9 @@ const Home = (props) => {
       props.history.push("/userManagement");
     }
     loadCurrentUser();
-
-    // jump to user management
-    // if (currentUser.username == "Admin") {
-    //   props.history.push("/userManagement");
-    // } else props.history.push("/");
-
     loadProducts();
 
     console.log("product");
-    console.log(myProduct);
   }, []);
 
   const loadCurrentUser = () => {
@@ -50,42 +38,16 @@ const Home = (props) => {
   };
 
   const loadProducts = () => {
-    getProducts()
+    getProductss()
       .then((response) => {
         console.log("loadProducts");
         console.log(response);
-        setProducts(response.results);
-        console.log(products);
+        setProducts(response);
       })
       .catch((error) => {
         console.log(error);
       });
   };
-
-  // const selectProduct = (id) => {
-  //   Axios.get("https://randomuser.me/api/?result=10").then((response) => {
-  //     let a = [];
-  //     console.log("Clean array");
-  //     setMyProducts(a);
-  //     console.log("see if blank");
-  //     console.log(myProduct);
-  //     setMyProducts(response.data.results);
-  //     console.log("response.data.results");
-  //     console.log(response.data.results);
-  //     console.log("myProduct");
-  //     console.log(myProduct);
-  //   });
-  // };
-
-  // const logout = () => {
-  //   localStorage.removeItem("accessToken");
-  //   props.history.push("/login");
-  // };
-
-  // const buyClick = (id) => {
-  //   setMyProducts([id]);
-  //   console.log(myProduct);
-  // };
 
   return (
     <div>
@@ -124,31 +86,36 @@ const Home = (props) => {
         {products
           .filter(
             (product) =>
-              product.name.first.toLowerCase().includes(query) ||
-              product.name.last.toLowerCase().includes(query)
+              product.productName.toLowerCase().includes(query) ||
+              product.userId.toString().toLowerCase().includes(query)
           )
           .map((product) => (
             <div>
               <div class="display-flex">
                 <div class="div-size-img">
-                  <img src={product.picture.large}></img>
+                  <img
+                    src={`data:image/jpeg;base64,${product.file}`}
+                    alt={product.imageName}
+                    width="200"
+                    height="200"
+                  />
                 </div>
 
                 <div class="div-size-content">
                   <h4>Product name</h4>
-                  <p>{product.name.first}</p>
+                  <p>{product.productName}</p>
                 </div>
                 <div class="div-size-button">
                   <h4>Owner</h4>
-                  <p> {product.name.last}</p>
+                  <p> {product.userId}</p>
                 </div>
                 <div class="div-size-button">
-                  <a href={`/detail/${1 + 1}`}>
-                    <btn className="btn btn-secondary btn-mid mr-3">Buy</btn>
+                  <a href={`/detail/${product.productId}`}>
+                    <btn className="btn btn-success btn-mid mr-3">Buy</btn>
                   </a>
 
                   <a href="/">
-                    <btn onclick="/" className="btn btn-secondary btn-mid mr-3">
+                    <btn onclick="/" className="btn btn-warning btn-mid mr-3">
                       Chat
                     </btn>
                   </a>
@@ -157,6 +124,19 @@ const Home = (props) => {
             </div>
           ))}
       </div>
+
+      {/* <ul>
+        {products.map((product) => (
+          <li>
+            <p>{product.productId}</p>
+            <p>{product.productName}</p>
+            <p>{product.productDescription}</p>
+            <p>{product.price}</p>
+            <p>{product.userId}</p>
+            <p>{product.category}</p>
+          </li>
+        ))}
+      </ul> */}
     </div>
   );
 };
