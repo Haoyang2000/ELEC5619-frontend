@@ -1,43 +1,40 @@
 import React, { useEffect, useState } from "react";
 import { Form, Input, Button, notification } from "antd";
 import { useRecoilState } from "recoil";
-import { loggedInUser, productsI } from "../atom/globalState";
-import { getCurrentUser, getProductss, createProduct } from "../util/ApiUtil";
+import { loggedInUser } from "../atom/globalState";
+import { getCurrentUser, createComment } from "../util/ApiUtil";
 
-const UploadAndDisplayImage = (props) => {
+const AddComment = (props) => {
   const [selectedImage, setSelectedImage] = useState(null);
   const [currentUser, setLoggedInUser] = useRecoilState(loggedInUser);
-  const [products, setProducts] = useRecoilState(productsI);
+  const productId = props.match.params.productId;
 
   useEffect(() => {
     if (localStorage.getItem("accessToken") === null) {
       props.history.push("/login");
     }
-    loadProducts();
   }, []);
 
-  const addProduct = (values) => {
+  const addComment = (values) => {
     console.log(values);
     console.log(selectedImage);
     loadCurrentUser();
     const formData = new FormData();
 
     formData.append("file", selectedImage);
-    formData.append("productName", values.productName);
-    formData.append("productDescription", values.productDescription);
-    formData.append("price", values.price);
+    formData.append("productId", productId);
+    formData.append("rating", values.rating);
+    formData.append("content", values.content);
     formData.append("userId", currentUser.id);
-    formData.append("category", values.category);
 
     console.log(formData);
-    createProduct(formData)
+    createComment(formData)
       .then((response) => {
         notification.success({
           message: "Success",
-          description: "Add new product successfully!",
+          description: "Add new comment successfully!",
         });
-        loadProducts();
-        props.history.push("/profile");
+        props.history.push(`/detail/${productId}`);
       })
       .catch((error) => {
         notification.error({
@@ -52,20 +49,6 @@ const UploadAndDisplayImage = (props) => {
     getCurrentUser()
       .then((response) => {
         setLoggedInUser(response);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-  };
-
-  const loadProducts = () => {
-    getProductss()
-      .then((response) => {
-        console.log("loadProducts");
-        console.log(response);
-        setProducts(response);
-
-        console.log(products);
       })
       .catch((error) => {
         console.log(error);
@@ -94,7 +77,7 @@ const UploadAndDisplayImage = (props) => {
         </div>
       </nav>
 
-      <h1 class="label">Add product</h1>
+      <h1 class="label">Add Comment</h1>
       <hr class="solid"></hr>
       <div class="content">
         {" "}
@@ -123,48 +106,28 @@ const UploadAndDisplayImage = (props) => {
           name="normal_login"
           className="login-form"
           initialValues={{ remember: true }}
-          onFinish={addProduct}
+          onFinish={addComment}
         >
           <Form.Item
-            name="productName"
-            rules={[
-              { required: true, message: "Please input your product name!" },
-            ]}
+            name="rating"
+            rules={[{ required: true, message: "Please input rating!" }]}
           >
-            <Input size="large" placeholder="Product Name" />
+            <Input
+              size="large"
+              placeholder="Input rating between the number 1 and 5"
+            />
           </Form.Item>
 
           <Form.Item
-            name="productDescription"
+            name="content"
             rules={[
               {
                 required: true,
-                message: "Please input your product description!",
+                message: "Please input your comment!",
               },
             ]}
           >
-            <Input size="large" placeholder="Product Description" />
-          </Form.Item>
-
-          <Form.Item
-            name="price"
-            rules={[
-              { required: true, message: "Please input your product price!" },
-            ]}
-          >
-            <Input size="large" placeholder="Product Price" />
-          </Form.Item>
-
-          <Form.Item
-            name="category"
-            rules={[
-              {
-                required: true,
-                message: "Please input your product category!",
-              },
-            ]}
-          >
-            <Input size="large" placeholder="Product Category" />
+            <Input size="large" placeholder="Please input comment" />
           </Form.Item>
 
           <Form.Item>
@@ -174,7 +137,7 @@ const UploadAndDisplayImage = (props) => {
               htmlType="submit"
               className="login-form-button"
             >
-              Add new product
+              Add new comment
             </Button>
           </Form.Item>
         </Form>
@@ -183,4 +146,4 @@ const UploadAndDisplayImage = (props) => {
   );
 };
 
-export default UploadAndDisplayImage;
+export default AddComment;

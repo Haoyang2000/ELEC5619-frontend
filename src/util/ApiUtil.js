@@ -6,7 +6,8 @@ const request = (options) => {
 
   if (
     options.setContentType !== false &&
-    options.url !== "http://localhost:8080/products/add"
+    options.url !== "http://localhost:8080/products/add" &&
+    options.url !== "http://localhost:8080/comments/add"
   ) {
     headers.append("Content-Type", "application/json");
   }
@@ -49,7 +50,6 @@ export function facebookLogin(facebookLoginRequest) {
   });
 }
 
-
 export function signup(signupRequest) {
   return request({
     url: AUTH_SERVICE + "/users",
@@ -61,6 +61,15 @@ export function signup(signupRequest) {
 export function createProduct(createRequest, image) {
   return request({
     url: AUTH_SERVICE + "/products/add",
+    method: "POST",
+    body: createRequest,
+  });
+}
+
+//create comment!!!!!!
+export function createComment(createRequest, image) {
+  return request({
+    url: AUTH_SERVICE + "/comments/add",
     method: "POST",
     body: createRequest,
   });

@@ -14,6 +14,7 @@ import CommentManagement from "./commentManagement/CommentManagement";
 import UploadAndDisplayImage from "./homepage/addProduct";
 import ModifyUser from "./modifyUser/ModifyUser";
 import ModifyProduct from "./modifyProduct/ModifyProduct";
+import AddComment from "./homepage/addComment";
 import "./App.css";
 import "bootstrap/dist/css/bootstrap.css";
 import UserProductManagement from "./userProductManagement/UserProductManagement";
@@ -46,6 +47,11 @@ const App = (props) => {
             exact
             path="/chat/:userId"
             render={(props) => <Chat {...props} />}
+          />
+          <Route
+            exact
+            path="/addComment/:productId"
+            render={(props) => <AddComment {...props} />}
           />
           <Route exact path="/chats" render={(props) => <Chats {...props} />} />
           <Route exact path="/cart" render={(props) => <Cart {...props} />} />

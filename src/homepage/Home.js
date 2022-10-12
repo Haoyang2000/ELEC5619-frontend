@@ -49,6 +49,34 @@ const Home = (props) => {
       });
   };
 
+  // const hideContentForSelf = () => {
+  //   let content = <div></div>;
+
+  //   let hide = <div></div>;
+  //   if (currentUser.username != product.userName) return content;
+  //   else return hide;
+  // };
+
+  const buy = (name) => {
+    {
+      let buy = <btn className="btn btn-success btn-mid mr-3">Buy</btn>;
+      let detail = (
+        <btn className="btn btn-primary btn-mid mr-3">Go deail page</btn>
+      );
+      if (currentUser.username === name) {
+        return detail;
+      } else return buy;
+    }
+  };
+
+  const chat = (name) => {
+    {
+      let chat = <btn className="btn btn-warning btn-mid mr-3">Chat</btn>;
+      if (currentUser.username === name) {
+        return null;
+      } else return chat;
+    }
+  };
   return (
     <div>
       <nav class="navbar navbar-expand-lg navbar-light bg-light">
@@ -115,12 +143,12 @@ const Home = (props) => {
                   <p> {product.userName}</p>
                 </div>
                 <div class="div-size-button">
+                  {" "}
                   <a href={`/detail/${product.productId}`}>
-                    <btn className="btn btn-success btn-mid mr-3">Buy</btn>
+                    {buy(product.userName)}
                   </a>
-
                   <a href={`/chat/${product.userId}`}>
-                    <btn className="btn btn-warning btn-mid mr-3">Chat</btn>
+                    {chat(product.userName)}
                   </a>
                 </div>
               </div>

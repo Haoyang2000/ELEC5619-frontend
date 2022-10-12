@@ -1,10 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useRecoilState } from "recoil";
-import {
-  loggedInUser,
-  loadProduct,
-  loadSingleProduct,
-} from "../atom/globalState";
+import { loggedInUser } from "../atom/globalState";
 import {
   getCurrentUser,
   getSingleProduct,
@@ -15,9 +11,7 @@ import "./Detail.css";
 
 const Detail = (props) => {
   const [currentUser, setLoggedInUser] = useRecoilState(loggedInUser);
-  // const [products, setProducts] = useRecoilState(loadProduct);
   const [myProduct, setMyProduct] = useState({});
-  const [owner, setOwner] = useState({});
   const productId = props.match.params.productId;
 
   useEffect(() => {
@@ -27,8 +21,6 @@ const Detail = (props) => {
     console.log("show the productId: " + productId);
     loadCurrentUser();
     loadSingleProduct();
-    // loadSingleUser();
-    loadSingleUser(myProduct.userId);
   }, []);
 
   const loadCurrentUser = () => {
@@ -55,19 +47,56 @@ const Detail = (props) => {
       });
   };
 
-  const loadSingleUser = (id) => {
-    console.log("111111" + myProduct.userId);
-    getSingleUser(id)
-      .then((response) => {
-        console.log("getOwner");
-        console.log(response);
-        setOwner(response);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
+  const hideCart = (name) => {
+    {
+      let hideCart = (
+        <button class="add-to-cart btn btn-default mr-3" type="button">
+          Add to cart
+        </button>
+      );
+      if (currentUser.username === name) {
+        return null;
+      } else return hideCart;
+    }
   };
 
+  const hideComment = (name) => {
+    {
+      let hideComment = (
+        <button class="add-to-cart btn btn-primary mr-3" type="button">
+          Add comment
+        </button>
+      );
+      if (currentUser.username === name) {
+        return null;
+      } else return hideComment;
+    }
+  };
+
+  const hideBuy = (name) => {
+    {
+      let hideBuy = (
+        <button class="add-to-cart btn btn-success mr-3" type="button">
+          Buy it now
+        </button>
+      );
+      if (currentUser.username === name) {
+        return null;
+      } else return hideBuy;
+    }
+  };
+  const hideChat = (name) => {
+    {
+      let hideChat = (
+        <button class="add-to-cart btn btn-warning mr-3" type="button">
+          Chat
+        </button>
+      );
+      if (currentUser.username === name) {
+        return null;
+      } else return hideChat;
+    }
+  };
   return (
     <div>
       <nav class="navbar navbar-expand-lg navbar-light bg-light">
@@ -97,15 +126,15 @@ const Detail = (props) => {
                     <img
                       src={`data:image/jpeg;base64,${myProduct.file}`}
                       alt={myProduct.imageName}
-                      width="200"
-                      height="200"
+                      width="550"
+                      height="400"
                     />
                   </div>
                 </div>
               </div>
               <div class="details col-md-6">
                 <h3 class="product-title">
-                  Product name:{myProduct.productName}
+                  Product name: {myProduct.productName}
                 </h3>
                 <p class="product-description">
                   <h4>Description:</h4>
@@ -120,30 +149,19 @@ const Detail = (props) => {
                 </h4>
 
                 <h4 class="price">
-                  owner: <span>{owner.username}</span>
+                  owner: <span>{myProduct.userName}</span>
                 </h4>
 
                 <div class="action">
-                  <button
-                    class="add-to-cart btn btn-default mr-3"
-                    type="button"
-                  >
-                    Add to cart
-                  </button>
+                  {hideCart(myProduct.userName)}
+                  <a href={`/addComment/${productId}`}>
+                    {" "}
+                    {hideComment(myProduct.userName)}
+                  </a>
 
-                  <button
-                    class="add-to-cart btn btn-success mr-3"
-                    type="button"
-                  >
-                    Buy it now
-                  </button>
-                  <a href="">
-                    <button
-                      class="add-to-cart btn btn-warning mr-3"
-                      type="button"
-                    >
-                      Chat
-                    </button>
+                  {hideBuy(myProduct.userName)}
+                  <a href={`/chat/${myProduct.userId}`}>
+                    {hideChat(myProduct.userName)}
                   </a>
                 </div>
               </div>
@@ -153,25 +171,6 @@ const Detail = (props) => {
 
         <h3 style={{ marginTop: "30px" }}>Comments</h3>
         <hr class="solid"></hr>
-
-        {/* {myProduct.map((product) => (
-          <div>
-            {" "}
-            <tr>
-              <td style={{ width: "120px" }}>
-                <h5>{product.name.first}</h5>
-              </td>
-              <td style={{ width: "120px" }}>
-                <h6>Rating: {product.dob.age}</h6>
-              </td>
-              <td style={{ width: "500px" }}>
-                <h6>Publish date: {product.dob.date}</h6>
-              </td>
-            </tr>
-            <p>{product.login.sha256}</p>
-            <hr class="solid"></hr>
-          </div>
-        ))} */}
       </div>
     </div>
   );
