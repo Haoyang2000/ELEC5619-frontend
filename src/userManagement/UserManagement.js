@@ -3,6 +3,7 @@ import { useRecoilState } from "recoil";
 import { notification } from "antd";
 import { loadUsers, loggedInUser } from "../atom/globalState";
 import { getUsers, deleteUser, modifyUser } from "../util/ApiUtil";
+import moment from "moment";
 
 import "./UserManagement.css";
 
@@ -101,13 +102,13 @@ const UserManagement = (props) => {
         <table class="table">
           <thead>
             <tr>
-              <th scope="col">User Id</th>
-              <th scope="col">Name</th>
-              <th scope="col">Language</th>
-              <th scope="col">Email</th>
-              <th scope="col">Address</th>
-              <th scope="col">Create Time</th>
-              <th scope="col">Operation</th>
+              <th class="col-md-1">User Id</th>
+              <th class="col-md-1">Name</th>
+              <th class="col-md-1">Language</th>
+              <th class="col-md-3">Email</th>
+              <th class="col-md-2">Address</th>
+              <th class="col-md-1">Create Time</th>
+              <th class="col-md-1">Operation</th>
             </tr>
           </thead>
           <tbody>
@@ -158,7 +159,7 @@ const UserManagement = (props) => {
                     </div>
                   </td>
                   <td>{user.address}</td>
-                  <td>{user.createTime}</td>
+                  <td>{moment(user.createTime).format("ll")}</td>
                   <td>
                     <button
                       onClick={() => deleteClick(user.id)}
@@ -183,14 +184,7 @@ const UserManagement = (props) => {
   return (
     <div>
       <nav class="navbar navbar-expand-lg navbar-light bg-light">
-        <a class="navbar-brand">Hello Admin</a>
-        <btn onClick={logout} className="btn btn-secondary btn-mid mr-3">
-          Logout
-        </btn>
         <div class="navbar-nav">
-          <a class="nav-item nav-link" href="/chat">
-            Enquiry
-          </a>
           <a class="nav-item nav-link" href="/userManagement">
             User Management
           </a>
@@ -201,17 +195,21 @@ const UserManagement = (props) => {
             Comment Management
           </a>
         </div>
-        <div style={{ marginLeft: "auto", marginRight: 0 }}>
-          {" "}
+        <div style={{ marginLeft: "auto", marginRight: "50px" }}>
           <div>
             <input
               type="text"
-              placeholder="Search"
+              placeholder="Input keywords to search user"
               className="form-control"
+              id="inputdefault"
+              style={{ width: "300px" }}
               onChange={(e) => setQuery(e.target.value)}
             ></input>
           </div>
         </div>
+        <btn onClick={logout} className="btn btn-danger btn-mid mr-1">
+          Logout
+        </btn>
       </nav>
       <div>{loadContentforAdmin()}</div>
     </div>

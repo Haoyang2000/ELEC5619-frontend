@@ -12,9 +12,12 @@ import UserManagement from "./userManagement/UserManagement";
 import ProductManagement from "./productManagement/ProductManagement";
 import CommentManagement from "./commentManagement/CommentManagement";
 import UploadAndDisplayImage from "./homepage/addProduct";
+import ModifyUser from "./modifyUser/ModifyUser";
+import ModifyProduct from "./modifyProduct/ModifyProduct";
 import "./App.css";
 import "bootstrap/dist/css/bootstrap.css";
 import UserProductManagement from "./userProductManagement/UserProductManagement";
+import Chats from "./chat/Chats";
 
 export const AppContext = React.createContext();
 const App = (props) => {
@@ -39,12 +42,22 @@ const App = (props) => {
             path="/signup"
             render={(props) => <Signup {...props} />}
           />
-          <Route exact path="/chat" render={(props) => <Chat {...props} />} />
+          <Route
+            exact
+            path="/chat/:userId"
+            render={(props) => <Chat {...props} />}
+          />
+          <Route exact path="/chats" render={(props) => <Chats {...props} />} />
           <Route exact path="/cart" render={(props) => <Cart {...props} />} />
           <Route
             exact
             path="/detail/:productId"
             render={(props) => <Detail {...props} />}
+          />
+          <Route
+            exact
+            path="/ModifyProduct/:productId"
+            render={(props) => <ModifyProduct {...props} />}
           />
           <Route
             exact
@@ -75,6 +88,11 @@ const App = (props) => {
             exact
             path="/AddProduct"
             render={(props) => <UploadAndDisplayImage {...props} />}
+          />
+          <Route
+            exact
+            path="/ModifyUser"
+            render={(props) => <ModifyUser {...props} />}
           />
         </Switch>
       </BrowserRouter>

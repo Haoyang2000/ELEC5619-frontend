@@ -57,7 +57,9 @@ const UserProductManagement = (props) => {
   return (
     <div>
       <nav class="navbar navbar-expand-lg navbar-light bg-light">
-        <a class="navbar-brand">Hello {currentUser.username}</a>
+        <a class="navbar-brand" href="/">
+          Hello, {currentUser.username}
+        </a>
         <div class="navbar-nav">
           <a class="nav-item nav-link active" href="/">
             Home <span class="sr-only">(current)</span>
@@ -65,7 +67,7 @@ const UserProductManagement = (props) => {
           <a class="nav-item nav-link" href="/profile">
             Profile
           </a>
-          <a class="nav-item nav-link" href="/chat">
+          <a class="nav-item nav-link" href="/chats">
             Chat
           </a>
           <a class="nav-item nav-link" href="/cart">
@@ -73,14 +75,17 @@ const UserProductManagement = (props) => {
           </a>
         </div>
         <div style={{ marginLeft: "auto", marginRight: 0 }}>
-          {" "}
-          <div>
-            <input
-              type="text"
-              placeholder="Search"
-              className="form-control"
-              onChange={(e) => setQuery(e.target.value)}
-            ></input>
+          <div style={{ marginLeft: "auto", marginRight: "25px" }}>
+            <div>
+              <input
+                type="text"
+                placeholder="Input keywords to search product"
+                className="form-control"
+                id="inputdefault"
+                style={{ width: "300px" }}
+                onChange={(e) => setQuery(e.target.value)}
+              ></input>
+            </div>
           </div>
         </div>
       </nav>
@@ -129,10 +134,15 @@ const UserProductManagement = (props) => {
                     <button
                       onClick={() => deleteClick(product.productId)}
                       type="button"
-                      class="btn btn-danger"
+                      class="btn btn-danger  mr-3"
                     >
                       Delete
                     </button>
+                    <a href={`/modifyProduct/${product.productId}`}>
+                      <button type="button" class="btn btn-warning">
+                        Modify
+                      </button>
+                    </a>
                   </td>
                 </tr>
               ))}

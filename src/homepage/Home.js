@@ -52,7 +52,9 @@ const Home = (props) => {
   return (
     <div>
       <nav class="navbar navbar-expand-lg navbar-light bg-light">
-        <a class="navbar-brand">Hello {currentUser.username}</a>
+        <a class="navbar-brand" href="/">
+          Hello, {currentUser.username}
+        </a>
         <div class="navbar-nav">
           <a class="nav-item nav-link active" href="/">
             Home <span class="sr-only">(current)</span>
@@ -60,7 +62,7 @@ const Home = (props) => {
           <a class="nav-item nav-link" href="/profile">
             Profile
           </a>
-          <a class="nav-item nav-link" href="/chat">
+          <a class="nav-item nav-link" href="/chats">
             Chat
           </a>
           <a class="nav-item nav-link" href="/cart">
@@ -68,14 +70,17 @@ const Home = (props) => {
           </a>
         </div>
         <div style={{ marginLeft: "auto", marginRight: 0 }}>
-          {" "}
-          <div>
-            <input
-              type="text"
-              placeholder="Search"
-              className="form-control"
-              onChange={(e) => setQuery(e.target.value)}
-            ></input>
+          <div style={{ marginLeft: "auto", marginRight: "25px" }}>
+            <div>
+              <input
+                type="text"
+                placeholder="Input keywords to search product"
+                className="form-control"
+                id="inputdefault"
+                style={{ width: "300px" }}
+                onChange={(e) => setQuery(e.target.value)}
+              ></input>
+            </div>
           </div>
         </div>
       </nav>
@@ -87,7 +92,7 @@ const Home = (props) => {
           .filter(
             (product) =>
               product.productName.toLowerCase().includes(query) ||
-              product.userId.toString().toLowerCase().includes(query)
+              product.userName.toString().toLowerCase().includes(query)
           )
           .map((product) => (
             <div>
@@ -107,17 +112,15 @@ const Home = (props) => {
                 </div>
                 <div class="div-size-button">
                   <h4>Owner</h4>
-                  <p> {product.userId}</p>
+                  <p> {product.userName}</p>
                 </div>
                 <div class="div-size-button">
                   <a href={`/detail/${product.productId}`}>
                     <btn className="btn btn-success btn-mid mr-3">Buy</btn>
                   </a>
 
-                  <a href="/">
-                    <btn onclick="/" className="btn btn-warning btn-mid mr-3">
-                      Chat
-                    </btn>
+                  <a href={`/chat/${product.userId}`}>
+                    <btn className="btn btn-warning btn-mid mr-3">Chat</btn>
                   </a>
                 </div>
               </div>

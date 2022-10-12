@@ -3,6 +3,7 @@ import { Card, Avatar } from "antd";
 import { useRecoilState } from "recoil";
 import { loggedInUser, chatMessages, FakeUser } from "../atom/globalState";
 import { getCurrentUser } from "../util/ApiUtil";
+import moment from "moment";
 
 import "./Profile.css";
 
@@ -37,7 +38,9 @@ const Profile = (props) => {
   return (
     <div>
       <nav class="navbar navbar-expand-lg navbar-light bg-light">
-        <a class="navbar-brand">Hello {currentUser.username}</a>
+        <a class="navbar-brand" href="/">
+          Hello, {currentUser.username}
+        </a>
         <div class="navbar-nav">
           <a class="nav-item nav-link active" href="/">
             Home <span class="sr-only">(current)</span>
@@ -45,7 +48,7 @@ const Profile = (props) => {
           <a class="nav-item nav-link" href="/profile">
             Profile
           </a>
-          <a class="nav-item nav-link" href="/chat">
+          <a class="nav-item nav-link" href="/chats">
             Chat
           </a>
           <a class="nav-item nav-link" href="/cart">
@@ -55,7 +58,7 @@ const Profile = (props) => {
       </nav>
       <div class="container emp-profile">
         <div class="row">
-          <div class="col-md-8">
+          <div class="col-md-4">
             <div class="tab-content profile-tab" id="myTabContent">
               <div
                 class="tab-pane fade show active"
@@ -64,7 +67,7 @@ const Profile = (props) => {
                 aria-labelledby="home-tab"
               >
                 <div class="col-md-0">
-                  <h1>Personal profile</h1>
+                  <h1>Personal Profile</h1>
                 </div>
                 <div class="row">
                   <div class="col-md-6">
@@ -103,14 +106,11 @@ const Profile = (props) => {
                     <label>create time</label>
                   </div>
                   <div class="col-md-6">
-                    <p>{currentUser.createTime}</p>
+                    <p>{moment(currentUser.createTime).format("ll")}</p>
                   </div>
                 </div>
               </div>
             </div>
-            <btn onClick={logout} className="btn btn-danger btn-mid mr-3">
-              Logout
-            </btn>
           </div>
         </div>
       </div>
@@ -125,16 +125,51 @@ const Profile = (props) => {
                 aria-labelledby="home-tab"
               >
                 <div class="col-md-0">
-                  <h1>Operations</h1>
+                  <h1>Account Operations</h1>
                 </div>
 
                 <div class="row">
                   <div class="col-md-12">
+                    <btn
+                      onClick={logout}
+                      className="btn btn-danger btn-mid mr-3"
+                    >
+                      Logout
+                    </btn>
                     <a href="/changepassword">
                       <btn onClick="" className="btn btn-warning btn-mid mr-3">
                         Change Password
                       </btn>
                     </a>
+                    <a href="/modifyUser">
+                      <btn onClick="" className="btn btn-warning btn-mid mr-3">
+                        Modify profile
+                      </btn>
+                    </a>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="container emp-profile">
+        <div class="row">
+          <div class="col-md-8">
+            <div class="tab-content profile-tab" id="myTabContent">
+              <div
+                class="tab-pane fade show active"
+                id="home"
+                role="tabpanel"
+                aria-labelledby="home-tab"
+              >
+                <div class="col-md-0">
+                  <h1>Product Management</h1>
+                </div>
+
+                <div class="row">
+                  <div class="col-md-12">
                     <a href="/addproduct">
                       <btn className="btn btn-secondary btn-mid mr-3">
                         Add new product
@@ -148,9 +183,6 @@ const Profile = (props) => {
                         Manage my products
                       </btn>
                     </a>
-                  </div>
-                  <div class="col-md-6">
-                    <p>{currentUser.name}</p>
                   </div>
                 </div>
               </div>

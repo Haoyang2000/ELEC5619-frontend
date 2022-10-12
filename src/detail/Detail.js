@@ -79,7 +79,7 @@ const Detail = (props) => {
           <a class="nav-item nav-link" href="/profile">
             Profile
           </a>
-          <a class="nav-item nav-link" href="/chat">
+          <a class="nav-item nav-link" href="/chats">
             Chat
           </a>
           <a class="nav-item nav-link" href="/cart">

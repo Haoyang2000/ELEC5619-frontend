@@ -45,9 +45,9 @@ const ChangePassword = (props) => {
       .then((response) => {
         notification.success({
           message: "Success",
-          description: "Your password has been changed",
+          description: "Your password has been changed. Please login again!",
         });
-        props.history.push("/");
+        logout();
       })
       .catch((error) => {
         notification.error({
@@ -59,40 +59,66 @@ const ChangePassword = (props) => {
   };
 
   return (
-    <div className="profile-container">
-      <Form
-        name="normal_login"
-        className="login-form"
-        initialValues={{ remember: true }}
-        onFinish={change}
-      >
-        <Form.Item
-          name="old_password"
-          rules={[
-            { required: true, message: "Please input your Old Password" },
-          ]}
-        >
-          <Input size="large" placeholder="Old password" />
-        </Form.Item>
-        <Form.Item
-          name="password"
-          rules={[
-            { required: true, message: "Please input your New Password!" },
-          ]}
-        >
-          <Input size="large" type="password" placeholder="New password" />
-        </Form.Item>
-        <Form.Item>
-          <Button
-            shape="round"
-            size="large"
-            htmlType="submit"
-            className="login-form-button"
+    <div>
+      <div>
+        <nav class="navbar navbar-expand-lg navbar-light bg-light">
+          <a class="navbar-brand" href="/">
+            Hello, {currentUser.username}
+          </a>
+          <div class="navbar-nav">
+            <a class="nav-item nav-link active" href="/">
+              Home <span class="sr-only">(current)</span>
+            </a>
+            <a class="nav-item nav-link" href="/profile">
+              Profile
+            </a>
+            <a class="nav-item nav-link" href="/chats">
+              Chat
+            </a>
+            <a class="nav-item nav-link" href="/cart">
+              Cart
+            </a>
+          </div>
+        </nav>
+
+        <h1 class="label">Change password</h1>
+        <hr class="solid"></hr>
+        <div className="profile-container">
+          <Form
+            name="normal_login"
+            className="login-form"
+            initialValues={{ remember: true }}
+            onFinish={change}
           >
-            Change password
-          </Button>
-        </Form.Item>
-      </Form>
+            <Form.Item
+              name="old_password"
+              rules={[
+                { required: true, message: "Please input your Old Password" },
+              ]}
+            >
+              <Input size="large" placeholder="Old password" />
+            </Form.Item>
+            <Form.Item
+              name="password"
+              rules={[
+                { required: true, message: "Please input your New Password!" },
+              ]}
+            >
+              <Input size="large" type="password" placeholder="New password" />
+            </Form.Item>
+            <Form.Item>
+              <Button
+                shape="round"
+                size="large"
+                htmlType="submit"
+                className="login-form-button"
+              >
+                Change password
+              </Button>
+            </Form.Item>
+          </Form>
+        </div>
+      </div>
     </div>
   );
 };

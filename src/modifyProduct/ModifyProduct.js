@@ -5,12 +5,18 @@ import { signup } from "../util/ApiUtil";
 import ScrollToBottom from "react-scroll-to-bottom";
 import { useRecoilState } from "recoil";
 import { loggedInUser, productsI } from "../atom/globalState";
-import { getCurrentUser, getProductss, createProduct } from "../util/ApiUtil";
+import {
+  getCurrentUser,
+  getProductss,
+  createProduct,
+  modifyProduct,
+} from "../util/ApiUtil";
 
-const UploadAndDisplayImage = (props) => {
+const ModifyProduct = (props) => {
   const [selectedImage, setSelectedImage] = useState(null);
   const [currentUser, setLoggedInUser] = useRecoilState(loggedInUser);
   const [products, setProducts] = useRecoilState(productsI);
+  const productId = props.match.params.productId;
 
   useEffect(() => {
     if (localStorage.getItem("accessToken") === null) {
@@ -23,24 +29,25 @@ const UploadAndDisplayImage = (props) => {
     console.log(values);
     console.log(selectedImage);
     loadCurrentUser();
-    const formData = new FormData();
 
-    formData.append("file", selectedImage);
-    formData.append("productName", values.productName);
-    formData.append("productDescription", values.productDescription);
-    formData.append("price", values.price);
-    formData.append("userId", currentUser.id);
-    formData.append("category", values.category);
+    const message = {
+      productId: productId,
+      productDescription: values.productDescription,
+      price: values.price,
+      productName: values.productName,
+      category: values.category,
+    };
 
-    console.log(formData);
-    createProduct(formData)
+    console.log(message);
+
+    modifyProduct(productId, message)
       .then((response) => {
         notification.success({
           message: "Success",
-          description: "Add new product successfully!",
+          description: "Modify new product successfully!",
         });
+        props.history.push("/UserProductManagement");
         loadProducts();
-        props.history.push("/profile");
       })
       .catch((error) => {
         notification.error({
@@ -97,31 +104,9 @@ const UploadAndDisplayImage = (props) => {
         </div>
       </nav>
 
-      <h1 class="label">Add product</h1>
+      <h1 class="label">Modify product</h1>
       <hr class="solid"></hr>
       <div class="content">
-        {" "}
-        {selectedImage && (
-          <div>
-            <img
-              alt="notImage"
-              width={"250px"}
-              src={URL.createObjectURL(selectedImage)}
-            />
-            <br />
-            <button onClick={() => setSelectedImage(null)}>Remove</button>
-          </div>
-        )}
-        <br />
-        <br />
-        <input
-          type="file"
-          name="myImage"
-          onChange={(event) => {
-            console.log(event.target.files[0]);
-            setSelectedImage(event.target.files[0]);
-          }}
-        />
         <Form
           name="normal_login"
           className="login-form"
@@ -177,7 +162,7 @@ const UploadAndDisplayImage = (props) => {
               htmlType="submit"
               className="login-form-button"
             >
-              Add new product
+              Modify product
             </Button>
           </Form.Item>
         </Form>
@@ -186,4 +171,4 @@ const UploadAndDisplayImage = (props) => {
   );
 };
 
-export default UploadAndDisplayImage;
+export default ModifyProduct;

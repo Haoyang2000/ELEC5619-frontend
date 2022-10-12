@@ -129,7 +129,7 @@ const CommentManagement = (props) => {
           Logout
         </btn>
         <div class="navbar-nav">
-          <a class="nav-item nav-link" href="/chat">
+          <a class="nav-item nav-link" href="/chats">
             Enquiry
           </a>
           <a class="nav-item nav-link" href="/userManagement">

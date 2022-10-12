@@ -5,6 +5,7 @@ import {
   countNewMessages,
   findChatMessages,
   findChatMessage,
+  getSingleUser,
 } from "../util/ApiUtil";
 import { useRecoilValue, useRecoilState } from "recoil";
 import {
@@ -24,29 +25,44 @@ const Chat = (props) => {
   const [contacts, setContacts] = useState([]);
   const [activeContact, setActiveContact] = useRecoilState(chatActiveContact);
   const [messages, setMessages] = useRecoilState(chatMessages);
+  const [query, setQuery] = useState("");
+  const userId = props.match.params.userId;
 
   useEffect(() => {
+    console.log("hi");
     if (localStorage.getItem("accessToken") === null) {
       props.history.push("/login");
     }
     connect();
     loadCurrentUser();
-    loadContacts();
+    loadActiveUser(userId);
+    console.log(userId);
   }, []);
 
   useEffect(() => {
-    if (activeContact === undefined) return;
+    if (activeContact === undefined || activeContact === null) return;
+    console.log(activeContact, currentUser);
     findChatMessages(activeContact.id, currentUser.id).then((msgs) =>
       setMessages(msgs)
     );
 
-    loadContacts();
+    // loadContacts(userId);
   }, [activeContact]);
 
   const loadCurrentUser = () => {
     getCurrentUser()
       .then((response) => {
         setLoggedInUser(response);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+
+  const loadActiveUser = (userId) => {
+    getSingleUser(userId)
+      .then((response) => {
+        setActiveContact(response);
       })
       .catch((error) => {
         console.log(error);
@@ -93,8 +109,10 @@ const Chat = (props) => {
       });
     } else {
       message.info("Received a new message from " + notification.senderName);
+      findChatMessages(currentUser.id, activeContact.id).then((msgs) =>
+        setMessages(msgs)
+      );
     }
-    loadContacts();
   };
 
   const sendMessage = (msg) => {
@@ -102,8 +120,8 @@ const Chat = (props) => {
       const message = {
         senderId: currentUser.id,
         recipientId: activeContact.id,
-        senderName: currentUser.name,
-        recipientName: activeContact.name,
+        senderName: currentUser.username,
+        recipientName: activeContact.username,
         content: msg,
         timestamp: new Date(),
       };
@@ -115,137 +133,92 @@ const Chat = (props) => {
     }
   };
 
-  const loadContacts = () => {
-    const promise = getUsers().then((users) =>
-      users.map((contact) =>
-        countNewMessages(contact.id, currentUser.id).then((count) => {
-          contact.newMessages = count;
-          return contact;
-        })
-      )
-    );
-
-    promise.then((promises) =>
-      Promise.all(promises).then((users) => {
-        setContacts(users);
-        if (activeContact === undefined && users.length > 0) {
-          setActiveContact(users[0]);
-        }
-      })
-    );
-  };
-
   return (
-    <div id="frame">
-      <div id="sidepanel">
-        <div id="profile">
-          <div class="wrap">
-            <h2>{currentUser.name}</h2>
+    <div>
+      <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <a class="navbar-brand">Hello {currentUser.username}</a>
+        <div class="navbar-nav">
+          <a class="nav-item nav-link active" href="/">
+            Home <span class="sr-only">(current)</span>
+          </a>
+          <a class="nav-item nav-link" href="/profile">
+            Profile
+          </a>
+          <a class="nav-item nav-link" href="/chats">
+            Chat
+          </a>
+          <a class="nav-item nav-link" href="/cart">
+            Cart
+          </a>
+        </div>
+      </nav>
 
-            <div id="status-options">
-              <ul>
-                <li id="status-online" class="active">
-                  <span class="status-circle"></span> <p>Online</p>
-                </li>
-                <li id="status-away">
-                  <span class="status-circle"></span> <p>Away</p>
-                </li>
-                <li id="status-busy">
-                  <span class="status-circle"></span> <p>Busy</p>
-                </li>
-                <li id="status-offline">
-                  <span class="status-circle"></span> <p>Offline</p>
-                </li>
-              </ul>
+      <div id="frame">
+        <div id="sidepanel">
+          <div id="profile">
+            <div class="wrap">
+              <img
+                id="profile-img"
+                src={currentUser.profilePicture}
+                class="online"
+                alt=""
+              />
+              <p>{currentUser.username}</p>
             </div>
           </div>
+          <div id="search" />
         </div>
-        {/* <div id="search" /> */}
-        <div id="contacts">
-          <ul>
-            {contacts.map((contact) => (
-              <li
-                onClick={() => setActiveContact(contact)}
-                class={
-                  activeContact && contact.id === activeContact.id
-                    ? "contact active"
-                    : "contact"
-                }
-              >
-                <div class="wrap">
-                  <span class="contact-status online"></span>
-                  <img id={contact.id} src={contact.profilePicture} alt="" />
-                  <div class="meta">
-                    <p class="name">{contact.name}</p>
-                    {contact.newMessages !== undefined &&
-                      contact.newMessages > 0 && (
-                        <p class="preview">
-                          {contact.newMessages} new messages
-                        </p>
-                      )}
-                  </div>
-                </div>
-              </li>
-            ))}
-          </ul>
-        </div>
-
-        <a href="/">
-          <button className="btn btn-secondary btn-mid mr-3">Profile</button>
-        </a>
-        <a href="/">
-          <button className="btn btn-secondary btn-mid mr-3">Profile</button>
-        </a>
-        <a href="/">
-          <button className="btn btn-secondary btn-mid mr-3">Profile</button>
-        </a>
-        {/* <button id="settings">
-            <i class="fa fa-cog fa-fw" aria-hidden="true"></i>{" "}
-            <span>Settings</span>
-          </button> */}
-      </div>
-      <div class="content">
-        <div class="contact-profile">
-          <img src={activeContact && activeContact.profilePicture} alt="" />
-          <p>{activeContact && activeContact.name}</p>
-        </div>
-        <ScrollToBottom className="messages">
-          <ul>
-            {messages.map((msg) => (
-              <li class={msg.senderId === currentUser.id ? "sent" : "replies"}>
-                {msg.senderId !== currentUser.id && (
+        <div class="content">
+          <div class="contact-profile">
+            <img src={activeContact && activeContact.profilePicture} alt="" />
+            <p>{activeContact && activeContact.username}</p>
+          </div>
+          <ScrollToBottom className="messages">
+            <ul>
+              {messages.map((msg) => (
+                <li
+                  class={
+                    msg.senderId.toString() === currentUser.id.toString()
+                      ? "sent"
+                      : "replies"
+                  }
+                >
+                  {/* {msg.senderId !== currentUser.id && (
                   <img src={activeContact.profilePicture} alt="" />
-                )}
-                <p>{msg.content}</p>
-              </li>
-            ))}
-          </ul>
-        </ScrollToBottom>
-        <div class="message-input">
-          <div class="wrap">
-            <input
-              name="user_input"
-              size="large"
-              placeholder="Write your message..."
-              value={text}
-              onChange={(event) => setText(event.target.value)}
-              onKeyPress={(event) => {
-                if (event.key === "Enter") {
+                )} */}
+                  <p>
+                    {msg.senderId.toString() === currentUser.id.toString()
+                      ? msg.content
+                      : msg.translatedContent}
+                  </p>
+                </li>
+              ))}
+            </ul>
+          </ScrollToBottom>
+          <div class="message-input">
+            <div class="wrap">
+              <input
+                name="user_input"
+                size="large"
+                placeholder="Write your message..."
+                value={text}
+                onChange={(event) => setText(event.target.value)}
+                onKeyPress={(event) => {
+                  if (event.key === "Enter") {
+                    sendMessage(text);
+                    setText("");
+                  }
+                }}
+              />
+
+              <Button
+                icon={<i class="fa fa-paper-plane" aria-hidden="true"></i>}
+                onClick={() => {
                   sendMessage(text);
                   setText("");
-                }
-              }}
-            />
-
-            <btn
-              onClick={() => {
-                sendMessage(text);
-                setText("");
-              }}
-              className="btn btn-secondary btn-mid mr-3"
-            >
-              Send
-            </btn>
+                }}
+              />
+            </div>
           </div>
         </div>
       </div>

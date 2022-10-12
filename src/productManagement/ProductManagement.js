@@ -63,6 +63,7 @@ const ProductManagement = (props) => {
               <th scope="col">Description</th>
               <th scope="col">Category</th>
               <th scope="col">Price</th>
+              <th scope="col">Owner</th>
               <th scope="col">Operation</th>
             </tr>
           </thead>
@@ -71,11 +72,11 @@ const ProductManagement = (props) => {
               .filter(
                 (product) =>
                   product.productName.toLowerCase().includes(query) ||
-                  product.userId.toString().toLowerCase().includes(query) ||
                   product.productId.toString().toLowerCase().includes(query) ||
                   product.price.toString().toLowerCase().includes(query) ||
                   product.category.toLowerCase().includes(query) ||
-                  product.productDescription.toLowerCase().includes(query)
+                  product.productDescription.toLowerCase().includes(query) ||
+                  product.userName.toString().toLowerCase().includes(query)
               )
               .map((product) => (
                 <tr>
@@ -93,6 +94,9 @@ const ProductManagement = (props) => {
                   <td>{product.productDescription}</td>
                   <td>{product.category}</td>
                   <td>{product.price}</td>
+
+                  <td>{product.userName}</td>
+
                   <td>
                     <button
                       onClick={() => deleteClick(product.productId)}
@@ -122,14 +126,7 @@ const ProductManagement = (props) => {
   return (
     <div>
       <nav class="navbar navbar-expand-lg navbar-light bg-light">
-        <a class="navbar-brand">Hello Admin</a>
-        <btn onClick={logout} className="btn btn-secondary btn-mid mr-3">
-          Logout
-        </btn>
         <div class="navbar-nav">
-          <a class="nav-item nav-link" href="/chat">
-            Enquiry
-          </a>
           <a class="nav-item nav-link" href="/userManagement">
             User Management
           </a>
@@ -140,17 +137,21 @@ const ProductManagement = (props) => {
             Comment Management
           </a>
         </div>
-        <div style={{ marginLeft: "auto", marginRight: 0 }}>
-          {" "}
+        <div style={{ marginLeft: "auto", marginRight: "50px" }}>
           <div>
             <input
               type="text"
-              placeholder="Search"
+              placeholder="Input keywords to search product"
               className="form-control"
+              id="inputdefault"
+              style={{ width: "300px" }}
               onChange={(e) => setQuery(e.target.value)}
             ></input>
           </div>
         </div>
+        <btn onClick={logout} className="btn btn-danger btn-mid mr-1">
+          Logout
+        </btn>
       </nav>
       <div>{loadContentforAdmin()}</div>
     </div>

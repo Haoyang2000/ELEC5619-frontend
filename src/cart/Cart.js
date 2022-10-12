@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useRecoilState } from "recoil";
 import { loggedInUser, FakeUser, loadProduct } from "../atom/globalState";
 import { getCurrentUser, getFakeusers, getProducts } from "../util/ApiUtil";
@@ -8,6 +8,7 @@ import "./Cart.css";
 const Cart = (props) => {
   const [currentUser, setLoggedInUser] = useRecoilState(loggedInUser);
   const [products, setProducts] = useRecoilState(loadProduct);
+  const [totalPrice, setTotalPricie] = useState();
 
   useEffect(() => {
     if (localStorage.getItem("accessToken") === null) {
@@ -15,6 +16,7 @@ const Cart = (props) => {
     }
     loadCurrentUser();
     loadProducts();
+    setTotalPricie(0);
   }, []);
 
   const loadCurrentUser = () => {
@@ -56,7 +58,7 @@ const Cart = (props) => {
           <a class="nav-item nav-link" href="/profile">
             Profile
           </a>
-          <a class="nav-item nav-link" href="/chat">
+          <a class="nav-item nav-link" href="/chats">
             Chat
           </a>
           <a class="nav-item nav-link" href="/cart">
@@ -134,7 +136,7 @@ const Cart = (props) => {
                   </td>
                   <td class="text-right">
                     <h3>
-                      <strong>$31.53</strong>
+                      <strong>{totalPrice}</strong>
                     </h3>
                   </td>
                 </tr>
