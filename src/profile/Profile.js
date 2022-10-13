@@ -206,7 +206,7 @@ const Profile = (props) => {
 
                 <div class="row">
                   <div class="col-md-12">
-                    <a href="/addproduct">
+                    <a href={`/usercommentmanagement`}>
                       <btn className="btn btn-info btn-mid mr-3">
                         See my comments
                       </btn>

@@ -58,11 +58,11 @@ export function signup(signupRequest) {
   });
 }
 
-export function addCart(addCartRequest) {
+export function addCart(data) {
   return request({
     url: AUTH_SERVICE + "/cart/add",
     method: "POST",
-    body: JSON.stringify(addCartRequest),
+    body: JSON.stringify(data),
   });
 }
 

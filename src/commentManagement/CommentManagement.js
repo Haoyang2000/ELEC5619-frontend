@@ -108,7 +108,7 @@ const CommentManagement = (props) => {
                     height="150"
                   />
                 </td>
-                <td>{userComment.userId}</td>
+                <td>{userComment.userName}</td>
                 <td>{displayStar(userComment.rating)}</td>
                 <td>{userComment.content}</td>
                 <td>
@@ -128,9 +128,11 @@ const CommentManagement = (props) => {
       </div>
     );
 
-    let warning = <div></div>;
-    if (currentUser.username == "Admin") return content;
-    else return warning;
+    if (localStorage.getItem("name") === "Admin") {
+      return content;
+    } else {
+      props.history.push("/error/401");
+    }
   };
 
   return (

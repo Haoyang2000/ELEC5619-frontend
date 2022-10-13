@@ -41,14 +41,14 @@ const Detail = (props) => {
 
   const addProductToCart = () => {
     const formData = new FormData();
-    formData.append("userId", 100);
+    formData.append("userId", currentUser.id);
     formData.append("productId", productId);
 
     const message = {
       productId: productId.toString(),
       userId: currentUser.id,
     };
-    console.log(message);
+    console.log(formData);
     addCart(formData)
       .then((response) => {
         notification.success({
@@ -218,7 +218,7 @@ const Detail = (props) => {
           Delete
         </button>
       );
-      if (commentUserId == currentUser.username) {
+      if (commentUserId == currentUser.id) {
         return deleteUserComment;
       } else return love;
     }
@@ -320,7 +320,7 @@ const Detail = (props) => {
                       height="150"
                     />
                   </td>
-                  <td>{userComment.userId}</td>
+                  <td>{userComment.userName}</td>
                   <td> {displayStar(userComment.rating)}</td>
                   <td>{userComment.content}</td>
                   <td>

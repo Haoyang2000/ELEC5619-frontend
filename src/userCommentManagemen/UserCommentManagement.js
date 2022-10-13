@@ -10,7 +10,6 @@ import "./UserCommentManagement.css";
 const UserCommentManagement = (props) => {
   const [currentUser, setLoggedInUser] = useRecoilState(loggedInUser);
   const [comment, setComment] = useState([]);
-  const productId = props.match.params.productId;
 
   useEffect(() => {
     if (localStorage.getItem("accessToken") === null) {
@@ -78,14 +77,13 @@ const UserCommentManagement = (props) => {
   // Only display content for admin!
   const loadContentforAdmin = () => {
     let content = (
-      <div>
+      <div class="content">
         {" "}
-        <h1 class="label">Comment Management</h1>
+        <h1 class="label">My Comment Management</h1>
         <table class="table">
           <thead>
             <tr>
               <th class="col-md-2">Comment image</th>
-              <th class="col-md-2">Post owner</th>
               <th class="col-md-1">Rating</th>
               <th class="col-md-3">Description</th>
               <th class="col-md-1">Operation</th>
@@ -102,7 +100,6 @@ const UserCommentManagement = (props) => {
                     height="150"
                   />
                 </td>
-                <td>{userComment.userId}</td>
                 <td>{displayStar(userComment.rating)}</td>
                 <td>{userComment.content}</td>
                 <td>
@@ -130,18 +127,22 @@ const UserCommentManagement = (props) => {
   return (
     <div>
       <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <a class="navbar-brand" href="/">
+          Hello, {currentUser.username}
+        </a>
         <div class="navbar-nav">
-          <a class="nav-item nav-link" href="/userManagement">
-            User Management
+          <a class="nav-item nav-link active" href="/">
+            Home <span class="sr-only">(current)</span>
           </a>
-          <a class="nav-item nav-link" href="/productManagement">
-            Product Management
+          <a class="nav-item nav-link" href="/profile">
+            Profile
           </a>
-        </div>
-        <div style={{ marginLeft: "auto", marginRight: "50px" }}>
-          <btn onClick={logout} className="btn btn-danger btn-mid mr-1">
-            Logout
-          </btn>
+          <a class="nav-item nav-link" href="/chats">
+            Chat
+          </a>
+          <a class="nav-item nav-link" href="/cart">
+            Cart
+          </a>
         </div>
       </nav>
       <div>{loadContentforAdmin()}</div>

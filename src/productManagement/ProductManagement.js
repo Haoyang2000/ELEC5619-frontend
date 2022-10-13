@@ -118,9 +118,11 @@ const ProductManagement = (props) => {
       </div>
     );
 
-    let warning = <div></div>;
-    if (currentUser.username == "Admin") return content;
-    else return warning;
+    if (localStorage.getItem("name") === "Admin") {
+      return content;
+    } else {
+      props.history.push("/error/401");
+    }
   };
 
   const logout = () => {
