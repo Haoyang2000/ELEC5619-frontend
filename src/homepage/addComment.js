@@ -23,7 +23,11 @@ const AddComment = (props) => {
 
     formData.append("file", selectedImage);
     formData.append("productId", productId);
-    formData.append("rating", values.rating);
+    if (!values.rating) {
+      formData.append("rating", 5);
+    } else {
+      formData.append("rating", values.rating);
+    }
     formData.append("content", values.content);
     formData.append("userId", currentUser.id);
 
@@ -108,24 +112,16 @@ const AddComment = (props) => {
           initialValues={{ remember: true }}
           onFinish={addComment}
         >
-          {/* <Form.Item
-            name="rating"
-            rules={[{ required: true, message: "Please input rating!" }]}
-          >
-            <Input
-              size="large"
-              placeholder="Input rating between the number 1 and 5"
-            />
-          </Form.Item> */}
+          <h3>What do you think of this product?</h3>
           <Form.Item name="rating">
             <select id="rating" size="large" placeholder="rating">
-              <option value="1">1</option>
-              <option value="2">2</option>
+              <option value="1">Very Dissatisfied</option>
+              <option value="2">Dissatisfied</option>
 
-              <option value="3">3</option>
-              <option value="4">4</option>
+              <option value="3">Neutral</option>
+              <option value="4">Satisfied</option>
               <option value="5" selected>
-                5
+                Very satisfied
               </option>
             </select>
           </Form.Item>
