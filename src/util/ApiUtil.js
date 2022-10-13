@@ -58,11 +58,31 @@ export function signup(signupRequest) {
   });
 }
 
-export function addCart(data) {
+export function addCart(userId, productId) {
   return request({
-    url: AUTH_SERVICE + "/cart/add",
+    url: AUTH_SERVICE + "/cart/add/" + userId + "/" + productId,
     method: "POST",
-    body: JSON.stringify(data),
+  });
+}
+
+export function getCart(userId) {
+  return request({
+    url: AUTH_SERVICE + "/cart/" + userId,
+    method: "GET",
+  });
+}
+
+export function deleteCart(cartId) {
+  return request({
+    url: AUTH_SERVICE + "/cart/delete/" + cartId,
+    method: "POST",
+  });
+}
+
+export function modifyCart(cartId, quantity) {
+  return request({
+    url: AUTH_SERVICE + "/cart/updateQuantity/" + cartId + "/" + quantity,
+    method: "POST",
   });
 }
 

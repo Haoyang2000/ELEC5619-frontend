@@ -39,23 +39,14 @@ const Detail = (props) => {
       });
   };
 
-  const addProductToCart = () => {
-    const formData = new FormData();
-    formData.append("userId", currentUser.id);
-    formData.append("productId", productId);
-
-    const message = {
-      productId: productId.toString(),
-      userId: currentUser.id,
-    };
-    console.log(formData);
-    addCart(formData)
+  const addProductToCart = (userId, productId) => {
+    addCart(userId, productId)
       .then((response) => {
         notification.success({
           message: "Success",
           description: "Add product to cart successfully!",
         });
-        props.history.push(`/cart`);
+        // props.history.push(`/cart`);
       })
       .catch((error) => {
         notification.error({
@@ -94,7 +85,7 @@ const Detail = (props) => {
     {
       let hideCart = (
         <button
-          onClick={() => addProductToCart()}
+          onClick={() => addProductToCart(currentUser.id, productId)}
           class="add-to-cart btn btn-default mr-3"
           type="button"
         >

@@ -1,22 +1,27 @@
 import React, { useEffect, useState } from "react";
 import { useRecoilState } from "recoil";
 import { loggedInUser, FakeUser, loadProduct } from "../atom/globalState";
-import { getCurrentUser, getFakeusers, getProducts } from "../util/ApiUtil";
+import {
+  getCart,
+  getCurrentUser,
+  getFakeusers,
+  getProducts,
+  deleteCart,
+  modifyCart,
+} from "../util/ApiUtil";
+import { notification } from "antd";
 
 import "./Cart.css";
 
 const Cart = (props) => {
   const [currentUser, setLoggedInUser] = useRecoilState(loggedInUser);
-  const [products, setProducts] = useRecoilState(loadProduct);
-  const [totalPrice, setTotalPricie] = useState();
+  const [products, setProducts] = useState([]);
 
   useEffect(() => {
     if (localStorage.getItem("accessToken") === null) {
       props.history.push("/login");
     }
-    loadCurrentUser();
     loadProducts();
-    setTotalPricie(0);
   }, []);
 
   const loadCurrentUser = () => {
@@ -32,14 +37,11 @@ const Cart = (props) => {
   };
 
   const loadProducts = () => {
-    getProducts()
+    getCart(currentUser.id)
       .then((response) => {
-        console.log("loadProducts");
+        console.log("load cart");
         console.log(response);
-        setProducts(response.results);
-        // name = response.title;
-        // console.log(user);
-
+        setProducts(response);
         console.log(products);
       })
       .catch((error) => {
@@ -47,6 +49,75 @@ const Cart = (props) => {
       });
   };
 
+  const deleteClick = (value) => {
+    console.log("value" + value);
+    deleteCart(value)
+      .then((response) => {
+        notification.success({
+          message: "Success",
+          description: "Deleted product successfully!",
+        });
+        loadProducts();
+      })
+      .catch((error) => {
+        notification.error({
+          message: "Error",
+          description:
+            error.message || "Sorry! Something went wrong. Please try again!",
+        });
+      });
+  };
+
+  const buyProduct = () => {
+    products.map((product) => {
+      deleteCart(product.cartId)
+        .then((response) => {})
+        .catch((error) => {
+          notification.error({
+            message: "Error",
+            description:
+              error.message || "Sorry! Something went wrong. Please try again!",
+          });
+        });
+    });
+    props.history.push("/");
+    notification.success({
+      message: "Success",
+      description: "Buy product successfully!",
+    });
+  };
+
+  const plusClick = (cartId, quantity) => {
+    modifyCart(cartId, quantity)
+      .then((response) => {
+        loadProducts();
+      })
+      .catch((error) => {
+        notification.error({
+          message: "Error",
+          description:
+            error.message || "Sorry! Something went wrong. Please try again!",
+        });
+      });
+  };
+
+  const minusClick = (cartId, quantity) => {
+    if (quantity == 0) {
+      deleteClick(cartId);
+    } else {
+      modifyCart(cartId, quantity)
+        .then((response) => {
+          loadProducts();
+        })
+        .catch((error) => {
+          notification.error({
+            message: "Error",
+            description:
+              error.message || "Sorry! Something went wrong. Please try again!",
+          });
+        });
+    }
+  };
   return (
     <div>
       <nav class="navbar navbar-expand-lg navbar-light bg-light">
@@ -75,7 +146,7 @@ const Cart = (props) => {
               <thead>
                 <tr>
                   <th>Product</th>
-                  <th>Quantity</th>
+                  <th class="text-center">Quantity</th>
                   <th class="text-center">Price</th>
                   <th class="text-center">Total</th>
                   <th> </th>
@@ -86,44 +157,60 @@ const Cart = (props) => {
                   <tr>
                     <td class="col-sm-8 col-md-6">
                       <div class="media">
-                        <a class="thumbnail pull-left" href="#">
+                        {/* <a class="thumbnail pull-left" href="#">
                           {" "}
                           <img
                             class="media-object"
                             style={{ width: 72, height: 72 }}
                             src={product.picture.large}
                           />{" "}
-                        </a>
+                        </a> */}
                         <div class="media-body">
                           <h5 class="media-heading">
-                            Product name: <a href="#">{product.name.first}</a>
+                            Product name: <a href="#">{product.productName}</a>
                           </h5>
                           <h6 class="media-heading">
                             {" "}
-                            by <a href="#">{product.name.last}</a>
+                            by <a href="#">{product.userName}</a>
                           </h6>
                         </div>
                       </div>
                     </td>
-                    <td
-                      class="col-sm-1 col-md-1"
-                      style={{ textAlign: "center" }}
-                    >
-                      <input
-                        type="email"
-                        class="form-control"
-                        id="exampleInputEmail1"
-                        value="1"
-                      />
+                    <td class="col-sm-1 col-md-8 text-center">
+                      <div>
+                        <button
+                          onClick={() => {
+                            minusClick(product.cartId, product.quantity - 1);
+                          }}
+                          type="button"
+                          class="btn btn-warning btn-sm mr-3"
+                        >
+                          -
+                        </button>
+                        <button
+                          onClick={() =>
+                            plusClick(product.cartId, product.quantity + 1)
+                          }
+                          type="button"
+                          class="btn btn-success btn-sm"
+                        >
+                          +
+                        </button>
+                        <p>{product.quantity}</p>
+                      </div>
                     </td>
-                    <td class="col-sm-1 col-md-1 text-center">
-                      <p>${product.dob.age}</p>
+                    <td class="col-sm-1 col-md-3 text-center">
+                      <p>${product.price}</p>
                     </td>
-                    <td class="col-sm-1 col-md-1 text-center">
-                      <p>${product.dob.age}</p>
+                    <td class="col-sm-1 col-md-3 text-center">
+                      <p>${product.price * product.quantity}</p>
                     </td>
                     <td class="col-sm-1 col-md-1">
-                      <button type="button" class="btn btn-danger">
+                      <button
+                        onClick={() => deleteClick(product.cartId)}
+                        type="button"
+                        class="btn btn-danger"
+                      >
                         <span class="glyphicon glyphicon-remove"></span> Remove
                       </button>
                     </td>
@@ -138,7 +225,13 @@ const Cart = (props) => {
                   </td>
                   <td class="text-right">
                     <h3>
-                      <strong>{totalPrice}</strong>
+                      <strong>
+                        $
+                        {products.reduce(
+                          (total, item) => total + item.price * item.quantity,
+                          0
+                        )}
+                      </strong>
                     </h3>
                   </td>
                 </tr>
@@ -157,7 +250,13 @@ const Cart = (props) => {
                     </a>
                   </td>
                   <td>
-                    <button type="button" class="btn btn-success">
+                    <button
+                      onClick={() => {
+                        buyProduct();
+                      }}
+                      type="button"
+                      class="btn btn-success"
+                    >
                       Checkout <span class="glyphicon glyphicon-play"></span>
                     </button>
                   </td>
