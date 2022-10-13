@@ -2,18 +2,12 @@ import React, { useEffect } from "react";
 import { useState } from "react";
 import { notification } from "antd";
 import { useRecoilState } from "recoil";
-import { loggedInUser, FakeUser, loadProduct } from "../atom/globalState";
-import {
-  getCurrentUser,
-  getFakeusers,
-  getProducts,
-  getSingleProductComment,
-  deleteComment,
-} from "../util/ApiUtil";
+import { loggedInUser } from "../atom/globalState";
+import { getUserComment, deleteComment } from "../util/ApiUtil";
 
-import "./CommentManagement.css";
+import "./UserCommentManagement.css";
 
-const CommentManagement = (props) => {
+const UserCommentManagement = (props) => {
   const [currentUser, setLoggedInUser] = useRecoilState(loggedInUser);
   const [comment, setComment] = useState([]);
   const productId = props.match.params.productId;
@@ -22,7 +16,7 @@ const CommentManagement = (props) => {
     if (localStorage.getItem("accessToken") === null) {
       props.history.push("/login");
     }
-    loadComment();
+    loadComment(currentUser.id);
   }, []);
   const displayStar = (rating) => {
     return (
@@ -51,8 +45,8 @@ const CommentManagement = (props) => {
     props.history.push("/login");
   };
 
-  const loadComment = () => {
-    getSingleProductComment(productId)
+  const loadComment = (userId) => {
+    getUserComment(userId)
       .then((response) => {
         console.log("load comment");
         console.log(response);
@@ -129,7 +123,7 @@ const CommentManagement = (props) => {
     );
 
     let warning = <div></div>;
-    if (currentUser.username == "Admin") return content;
+    if (1) return content;
     else return warning;
   };
 
@@ -155,4 +149,4 @@ const CommentManagement = (props) => {
   );
 };
 
-export default CommentManagement;
+export default UserCommentManagement;

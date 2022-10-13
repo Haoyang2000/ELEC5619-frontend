@@ -21,6 +21,7 @@ const Home = (props) => {
     }
     loadCurrentUser();
     loadProducts();
+    console.log(currentUser.username);
 
     console.log("product");
   }, []);

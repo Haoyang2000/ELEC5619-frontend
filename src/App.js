@@ -19,6 +19,8 @@ import "./App.css";
 import "bootstrap/dist/css/bootstrap.css";
 import UserProductManagement from "./userProductManagement/UserProductManagement";
 import Chats from "./chat/Chats";
+import Error from "./error/error";
+import UserCommentManagement from "./userCommentManagemen/UserCommentManagement";
 
 export const AppContext = React.createContext();
 const App = (props) => {
@@ -47,6 +49,11 @@ const App = (props) => {
             exact
             path="/chat/:userId"
             render={(props) => <Chat {...props} />}
+          />
+          <Route
+            exact
+            path="/error/:errorCode"
+            render={(props) => <Error {...props} />}
           />
           <Route
             exact
@@ -87,13 +94,18 @@ const App = (props) => {
           />
           <Route
             exact
-            path="/CommentManagement"
+            path="/CommentManagement/:productId"
             render={(props) => <CommentManagement {...props} />}
           />
           <Route
             exact
             path="/AddProduct"
             render={(props) => <UploadAndDisplayImage {...props} />}
+          />
+          <Route
+            exact
+            path="/UserCommentManagement"
+            render={(props) => <UserCommentManagement {...props} />}
           />
           <Route
             exact

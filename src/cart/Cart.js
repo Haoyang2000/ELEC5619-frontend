@@ -50,7 +50,9 @@ const Cart = (props) => {
   return (
     <div>
       <nav class="navbar navbar-expand-lg navbar-light bg-light">
-        <a class="navbar-brand">Hello {currentUser.name}</a>
+        <a class="navbar-brand" href="/">
+          Hello, {currentUser.username}
+        </a>
         <div class="navbar-nav">
           <a class="nav-item nav-link active" href="/">
             Home <span class="sr-only">(current)</span>

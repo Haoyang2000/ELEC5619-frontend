@@ -191,9 +191,6 @@ const UserManagement = (props) => {
           <a class="nav-item nav-link" href="/productManagement">
             Product Management
           </a>
-          <a class="nav-item nav-link" href="/commentManagement">
-            Comment Management
-          </a>
         </div>
         <div style={{ marginLeft: "auto", marginRight: "50px" }}>
           <div>

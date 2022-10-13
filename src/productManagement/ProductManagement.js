@@ -101,10 +101,15 @@ const ProductManagement = (props) => {
                     <button
                       onClick={() => deleteClick(product.productId)}
                       type="button"
-                      class="btn btn-danger"
+                      class="btn btn-danger mr-3"
                     >
                       Delete
                     </button>
+                    <a href={`/commentManagement/${product.productId}`}>
+                      <button type="button" class="btn btn-info mr-3">
+                        See comments
+                      </button>
+                    </a>
                   </td>
                 </tr>
               ))}
@@ -132,9 +137,6 @@ const ProductManagement = (props) => {
           </a>
           <a class="nav-item nav-link" href="/productManagement">
             Product Management
-          </a>
-          <a class="nav-item nav-link" href="/commentManagement">
-            Comment Management
           </a>
         </div>
         <div style={{ marginLeft: "auto", marginRight: "50px" }}>

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useRecoilState } from "recoil";
-import { Form, Input, Button, notification } from "antd";
+import { notification } from "antd";
 import { loggedInUser } from "../atom/globalState";
 import {
   getCurrentUser,
@@ -113,7 +113,16 @@ const Detail = (props) => {
   const hideBuy = (name) => {
     {
       let hideBuy = (
-        <button class="add-to-cart btn btn-success mr-3" type="button">
+        <button
+          onClick={() => {
+            notification.success({
+              message: "Success",
+              description: "Buy this product successfully!",
+            });
+          }}
+          class="add-to-cart btn btn-success mr-3"
+          type="button"
+        >
           Buy it now
         </button>
       );
@@ -177,8 +186,7 @@ const Detail = (props) => {
           Delete
         </button>
       );
-
-      if (commentUserId == currentUser.id) {
+      if (commentUserId == currentUser.username) {
         return deleteUserComment;
       } else return love;
     }
@@ -186,7 +194,9 @@ const Detail = (props) => {
   return (
     <div>
       <nav class="navbar navbar-expand-lg navbar-light bg-light">
-        <a class="navbar-brand">Hello {currentUser.username}</a>
+        <a class="navbar-brand" href="/">
+          Hello, {currentUser.username}
+        </a>
         <div class="navbar-nav">
           <a class="nav-item nav-link active" href="/">
             Home <span class="sr-only">(current)</span>
@@ -278,7 +288,7 @@ const Detail = (props) => {
                       height="150"
                     />
                   </td>
-                  <td>Anonymous User {userComment.userId}</td>
+                  <td>{userComment.userId}</td>
                   <td> {displayStar(userComment.rating)}</td>
                   <td>{userComment.content}</td>
                   <td>

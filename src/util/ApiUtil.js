@@ -115,6 +115,14 @@ export function deleteComment(commentId) {
   });
 }
 
+// get user comment
+export function getUserComment(userId) {
+  return request({
+    url: AUTH_SERVICE + "/commentOfUser/" + userId,
+    method: "GET",
+  });
+}
+
 export function getCurrentUser() {
   if (!localStorage.getItem("accessToken")) {
     return Promise.reject("No access token set.");

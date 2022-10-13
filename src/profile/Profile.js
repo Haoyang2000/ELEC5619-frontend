@@ -190,6 +190,34 @@ const Profile = (props) => {
           </div>
         </div>
       </div>
+      <div class="container emp-profile">
+        <div class="row">
+          <div class="col-md-8">
+            <div class="tab-content profile-tab" id="myTabContent">
+              <div
+                class="tab-pane fade show active"
+                id="home"
+                role="tabpanel"
+                aria-labelledby="home-tab"
+              >
+                <div class="col-md-0">
+                  <h1>Comments</h1>
+                </div>
+
+                <div class="row">
+                  <div class="col-md-12">
+                    <a href="/addproduct">
+                      <btn className="btn btn-info btn-mid mr-3">
+                        See my comments
+                      </btn>
+                    </a>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
   );
 };
