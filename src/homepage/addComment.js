@@ -16,7 +16,7 @@ const AddComment = (props) => {
   }, []);
 
   const addComment = (values) => {
-    console.log(values);
+    console.log(values.rating);
     console.log(selectedImage);
     loadCurrentUser();
     const formData = new FormData();
@@ -108,7 +108,7 @@ const AddComment = (props) => {
           initialValues={{ remember: true }}
           onFinish={addComment}
         >
-          <Form.Item
+          {/* <Form.Item
             name="rating"
             rules={[{ required: true, message: "Please input rating!" }]}
           >
@@ -116,6 +116,18 @@ const AddComment = (props) => {
               size="large"
               placeholder="Input rating between the number 1 and 5"
             />
+          </Form.Item> */}
+          <Form.Item name="rating">
+            <select id="rating" size="large" placeholder="rating">
+              <option value="1">1</option>
+              <option value="2">2</option>
+
+              <option value="3">3</option>
+              <option value="4">4</option>
+              <option value="5" selected>
+                5
+              </option>
+            </select>
           </Form.Item>
 
           <Form.Item

@@ -83,6 +83,14 @@ export function getSingleProduct(productId) {
   });
 }
 
+// get single product comment
+export function getSingleProductComment(productId) {
+  return request({
+    url: AUTH_SERVICE + "/commentOfProduct/" + productId,
+    method: "GET",
+  });
+}
+
 // get single user
 export function getSingleUser(userId) {
   return request({
@@ -95,6 +103,14 @@ export function getSingleUser(userId) {
 export function deleteProduct(productId) {
   return request({
     url: AUTH_SERVICE + "/product/delete/" + productId,
+    method: "POST",
+  });
+}
+
+// delete single comment
+export function deleteComment(commentId) {
+  return request({
+    url: AUTH_SERVICE + "/comment/delete/" + commentId,
     method: "POST",
   });
 }

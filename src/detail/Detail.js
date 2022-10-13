@@ -1,10 +1,12 @@
 import React, { useEffect, useState } from "react";
 import { useRecoilState } from "recoil";
+import { Form, Input, Button, notification } from "antd";
 import { loggedInUser } from "../atom/globalState";
 import {
   getCurrentUser,
   getSingleProduct,
-  getSingleUser,
+  getSingleProductComment,
+  deleteComment,
 } from "../util/ApiUtil";
 
 import "./Detail.css";
@@ -12,6 +14,7 @@ import "./Detail.css";
 const Detail = (props) => {
   const [currentUser, setLoggedInUser] = useRecoilState(loggedInUser);
   const [myProduct, setMyProduct] = useState({});
+  const [comment, setComment] = useState([]);
   const productId = props.match.params.productId;
 
   useEffect(() => {
@@ -21,7 +24,20 @@ const Detail = (props) => {
     console.log("show the productId: " + productId);
     loadCurrentUser();
     loadSingleProduct();
+    loadProductComment(productId);
   }, []);
+
+  const loadProductComment = (productId) => {
+    getSingleProductComment(productId)
+      .then((response) => {
+        console.log("loadSingleComment");
+        console.log(response);
+        setComment(response);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
 
   const loadCurrentUser = () => {
     getCurrentUser()
@@ -63,7 +79,7 @@ const Detail = (props) => {
   const hideComment = (name) => {
     {
       let hideComment = (
-        <button class="add-to-cart btn btn-primary mr-3" type="button">
+        <button class="add-to-cart btn btn-info mr-3" type="button">
           Add comment
         </button>
       );
@@ -95,6 +111,55 @@ const Detail = (props) => {
       if (currentUser.username === name) {
         return null;
       } else return hideChat;
+    }
+  };
+
+  const deleteOrLove = (commentUserId, commentId) => {
+    {
+      let love = (
+        <button
+          onClick={() => {
+            notification.success({
+              message: "Success",
+              description: "Love this comment successfully!",
+            });
+          }}
+          class="add-to-cart btn btn-primary mr-3"
+          type="button"
+        >
+          Love this comment
+        </button>
+      );
+      let deleteUserComment = (
+        <button
+          onClick={() => {
+            deleteComment(commentId)
+              .then((response) => {
+                notification.success({
+                  message: "Success",
+                  description: "Delete this comment successfully!",
+                });
+                loadProductComment(productId);
+              })
+              .catch((error) => {
+                notification.error({
+                  message: "Error",
+                  description:
+                    error.message ||
+                    "Sorry! Something went wrong. Please try again!",
+                });
+              });
+          }}
+          class="add-to-cart btn btn-danger mr-3"
+          type="button"
+        >
+          Delete
+        </button>
+      );
+
+      if (commentUserId == currentUser.id) {
+        return deleteUserComment;
+      } else return love;
     }
   };
   return (
@@ -155,7 +220,6 @@ const Detail = (props) => {
                 <div class="action">
                   {hideCart(myProduct.userName)}
                   <a href={`/addComment/${productId}`}>
-                    {" "}
                     {hideComment(myProduct.userName)}
                   </a>
 
@@ -171,6 +235,39 @@ const Detail = (props) => {
 
         <h3 style={{ marginTop: "30px" }}>Comments</h3>
         <hr class="solid"></hr>
+        <div>
+          <table class="table">
+            <thead>
+              <tr>
+                <th class="col-md-2">Comment image</th>
+                <th class="col-md-2">Post owner</th>
+                <th class="col-md-1">Rating</th>
+                <th class="col-md-3">Description</th>
+                <th class="col-md-1">Operation</th>
+              </tr>
+            </thead>
+            <tbody>
+              {comment.map((userComment) => (
+                <tr>
+                  <td>
+                    <img
+                      src={`data:image/jpeg;base64,${userComment.file}`}
+                      alt={userComment.imageName}
+                      width="250"
+                      height="150"
+                    />
+                  </td>
+                  <td>Anonymous User {userComment.userId}</td>
+                  <td>{userComment.rating}</td>
+                  <td>{userComment.content}</td>
+                  <td>
+                    {deleteOrLove(userComment.userId, userComment.commentId)}
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
       </div>
     </div>
   );
