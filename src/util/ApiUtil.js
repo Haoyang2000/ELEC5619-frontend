@@ -58,6 +58,14 @@ export function signup(signupRequest) {
   });
 }
 
+export function addCart(addCartRequest) {
+  return request({
+    url: AUTH_SERVICE + "/cart/add",
+    method: "POST",
+    body: JSON.stringify(addCartRequest),
+  });
+}
+
 export function createProduct(createRequest, image) {
   return request({
     url: AUTH_SERVICE + "/products/add",

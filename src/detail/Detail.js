@@ -7,6 +7,7 @@ import {
   getSingleProduct,
   getSingleProductComment,
   deleteComment,
+  addCart,
 } from "../util/ApiUtil";
 import "./Detail.css";
 
@@ -38,6 +39,33 @@ const Detail = (props) => {
       });
   };
 
+  const addProductToCart = () => {
+    const formData = new FormData();
+    formData.append("userId", 100);
+    formData.append("productId", productId);
+
+    const message = {
+      productId: productId.toString(),
+      userId: currentUser.id,
+    };
+    console.log(message);
+    addCart(formData)
+      .then((response) => {
+        notification.success({
+          message: "Success",
+          description: "Add product to cart successfully!",
+        });
+        props.history.push(`/cart`);
+      })
+      .catch((error) => {
+        notification.error({
+          message: "Error",
+          description:
+            error.message || "Sorry! Something went wrong. Please try again!",
+        });
+      });
+  };
+
   const loadCurrentUser = () => {
     getCurrentUser()
       .then((response) => {
@@ -65,7 +93,11 @@ const Detail = (props) => {
   const hideCart = (name) => {
     {
       let hideCart = (
-        <button class="add-to-cart btn btn-default mr-3" type="button">
+        <button
+          onClick={() => addProductToCart()}
+          class="add-to-cart btn btn-default mr-3"
+          type="button"
+        >
           Add to cart
         </button>
       );

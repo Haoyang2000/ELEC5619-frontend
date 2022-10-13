@@ -31,7 +31,7 @@ const AddComment = (props) => {
     formData.append("content", values.content);
     formData.append("userId", currentUser.id);
 
-    console.log(formData);
+    console.log("data:" + formData);
     createComment(formData)
       .then((response) => {
         notification.success({
