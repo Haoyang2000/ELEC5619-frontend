@@ -40,7 +40,7 @@ const Chats = (props) => {
       setMessages(msgs)
     );
 
-    loadContacts();
+    loadLightContacts();
   }, [activeContact]);
 
   const loadCurrentUser = () => {
@@ -96,8 +96,9 @@ const Chats = (props) => {
       findChatMessages(currentUser.id, activeContact.id).then((msgs) =>
         setMessages(msgs)
       );
+      console.log(active)
     }
-    loadContacts();
+    loadLightContacts();
   };
 
   const sendMessage = (msg) => {
@@ -119,7 +120,12 @@ const Chats = (props) => {
   };
 
   const loadContacts = () => {
+
+    getUsers().then((u) => {
+      setContacts(u);
+    })
     const promise = getUsers().then((users) =>
+    
       users.map((contact) =>
         countNewMessages(contact.id, currentUser.id).then((count) => {
           // console.log(contact.id + " " + currentUser.id);
@@ -131,13 +137,25 @@ const Chats = (props) => {
 
     promise.then((promises) =>
       Promise.all(promises).then((users) => {
-        setContacts(users);
+        // setContacts(users);
         if (activeContact === undefined && users.length > 0) {
           setActiveContact(users[0]);
         }
       })
     );
   };
+
+
+  const loadLightContacts = () => {
+   getUsers().then((users) => {
+      if (activeContact === undefined && users.length > 0) {
+        setActiveContact(users[0]);
+      }
+    }
+    );
+
+  };
+
 
   return (
     <div>
