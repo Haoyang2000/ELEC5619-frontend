@@ -6,12 +6,22 @@ const Error = (props) => {
   useEffect(() => {
     console.log(code);
   }, []);
+
+
+  const logout = () => {
+    localStorage.removeItem("accessToken");
+    props.history.push("/login");
+  };
   return (
-    <div>
-      <a class="nav-item nav-link" href="/login">
-        click here to re-login
-      </a>
-      <img src={code} alt="unauthrozied" width="50%" height="50%" />
+    <div class="error">
+      <nav class="error-navbar">
+        <a href="/">
+        Home
+        </a>
+        <a href="#" onClick={logout}>Exit</a>
+      </nav>
+
+      <img src={code} alt="unauthrozied" />
     </div>
   );
 };

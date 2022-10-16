@@ -40,6 +40,8 @@ const Home = (props) => {
       })
       .catch((error) => {
         console.log(error);
+        const code = error.status
+        props.history.push("/error/" + code)
       });
   };
 
@@ -52,6 +54,9 @@ const Home = (props) => {
       })
       .catch((error) => {
         console.log(error);
+        const code = error.status
+        props.history.push("/error/" + code)
+        
       });
   };
 

@@ -55,6 +55,8 @@ const AddComment = (props) => {
         setLoggedInUser(response);
       })
       .catch((error) => {
+        const code = error.status
+        props.history.push("/error/" + code)
         console.log(error);
       });
   };
@@ -85,7 +87,10 @@ const AddComment = (props) => {
       <section>
           <h1 class="label">Add Comment</h1>
           <hr class="solid"></hr>
+          <div class="content">
+          
             <div class="content-img">
+              <h2>Product Image</h2>
                 {" "}
                 {selectedImage && (
                   <div>
@@ -150,11 +155,9 @@ const AddComment = (props) => {
                 </Button>
               </Form.Item>
             </Form>
+          </div>
+         
       </section>
-      <footer>
-        <p>Author: ELEC5619-Group 2Spring 2022 USYD ---- Spring 2022 USYD</p>
-        <p><a href="https://github.com/jzha9393/ELEC5619/tree/eric">Backend Github Link</a></p>
-      </footer>
     </div>
   );
 };

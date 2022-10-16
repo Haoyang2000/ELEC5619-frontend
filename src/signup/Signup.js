@@ -41,7 +41,15 @@ const Signup = (props) => {
 
   return (
     <div class="login-container">
-      <DingtalkOutlined style={{ fontSize: 50 }} />
+          <link
+          rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css"
+          integrity="sha512-xh6O/CkQoPOWDdYTDqeRdPCVd1SpvCA9XXcUnZS2FmJNp1coAFzvtCN9BmamE+4aHK8yyUHUSCcJHgXloTyT2A=="
+          crossorigin="anonymous"
+          referrerpolicy="no-referrer"
+     />
+      {/* <DingtalkOutlined style={{ fontSize: 50 }} /> */}
+      <i class="fa-solid fa-globe"></i>
       <h1>Register</h1>
       <Form
         name="normal_login"

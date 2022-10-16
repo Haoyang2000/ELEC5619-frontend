@@ -1,0 +1,37 @@
+/*General Styling*/
+* {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+}
+
+html {
+    font-size: 62.5%;
+}
+
+body {
+    color: #333;
+    background-color: #ddd;
+    font: 1.6rem sans-serif;
+}
+
+nav.error-navbar {
+    padding: 3rem 5rem;
+    font-size: 1.8rem;
+    display: flex;
+    column-gap: 4rem;
+    background-color: #46576F;
+}
+
+nav.error-navbar > a {
+    text-decoration: none;
+    color: #ddd;
+}
+
+.error > img {
+    height: 80vh;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform:translate(-50%, -50%);
+}

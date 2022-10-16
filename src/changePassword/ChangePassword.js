@@ -25,6 +25,8 @@ const ChangePassword = (props) => {
         setLoggedInUser(response);
       })
       .catch((error) => {
+        const code = error.status
+        props.history.push("/error/" + code)
         console.log(error);
       });
   };

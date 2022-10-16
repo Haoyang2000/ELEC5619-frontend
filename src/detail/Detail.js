@@ -70,6 +70,8 @@ const Detail = (props) => {
         setLoggedInUser(response);
       })
       .catch((error) => {
+        const code = error.status
+        props.history.push("/error/" + code)
         console.log(error);
       });
   };
@@ -129,7 +131,7 @@ const Detail = (props) => {
     {
       let hideComment = (
         <button class="add-to-cart btn btn-info mr-3" type="button">
-          Add comment
+          Add Comment
         </button>
       );
       if (currentUser.username === name || currentUser.username == "Admin") {
@@ -143,7 +145,7 @@ const Detail = (props) => {
       let back = (
         <a href={'/UserProductManagement'}>
         <button type="button" class="btn btn-warning">
-         Go Back
+         Manage Product
         </button>
         </a>
       )
@@ -165,7 +167,7 @@ const Detail = (props) => {
           class="add-to-cart btn btn-success mr-3"
           type="button"
         >
-          Buy it now
+          Buy It Now
         </button>
       );
       if (currentUser.username === name) {
@@ -202,7 +204,7 @@ const Detail = (props) => {
           class="add-to-cart btn btn-primary mr-3"
           type="button"
         >
-          Love this comment
+          Love This Comment
         </button>
       );
       let deleteUserComment = (
@@ -352,10 +354,13 @@ const Detail = (props) => {
           </table>
         </div>
         </section>
+
+
       <footer>
         <p>Author: ELEC5619-Group 2Spring 2022 USYD ---- Spring 2022 USYD</p>
         <p><a href="https://github.com/jzha9393/ELEC5619/tree/eric">Backend Github Link</a></p>
       </footer>
+
       </div>
 
   );

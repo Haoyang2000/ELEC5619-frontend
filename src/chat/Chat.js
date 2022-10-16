@@ -55,6 +55,8 @@ const Chat = (props) => {
         setLoggedInUser(response);
       })
       .catch((error) => {
+        const code = error.status
+        props.history.push("/error/" + code)
         console.log(error);
       });
   };
@@ -62,9 +64,14 @@ const Chat = (props) => {
   const loadActiveUser = (userId) => {
     getSingleUser(userId)
       .then((response) => {
+        if (response === null) {
+          props.history.push("/error/404")
+        }
         setActiveContact(response);
       })
       .catch((error) => {
+        const code = error.status
+        props.history.push("/error/" + code)
         console.log(error);
       });
   };
@@ -99,7 +106,7 @@ const Chat = (props) => {
       sessionStorage.getItem("recoil-persist")
     ).chatActiveContact;
 
-    if (active.id === notification.senderId) {
+    if (active.id+"" === notification.senderId) {
       findChatMessage(notification.id).then((message) => {
         const newMessages = JSON.parse(
           sessionStorage.getItem("recoil-persist")
@@ -169,7 +176,7 @@ const Chat = (props) => {
           <div id="profile">
             <div class="wrap">
               <i class="fa-solid fa-user"></i>
-              <p>{currentUser.username}</p>
+              <span>{currentUser.username}</span>
             </div>
           </div>
           <div id="search" />

@@ -49,9 +49,47 @@ const Chats = (props) => {
         setLoggedInUser(response);
       })
       .catch((error) => {
+        const code = error.status
+        props.history.push("/error/" + code)
         console.log(error);
       });
   };
+
+    //if its admin return admin navbar
+    const loadNavforAdmin = () => {
+      let navigation = (
+        <nav class="nav-container">
+          <p> All-Lingual | Admin </p>
+          <div class="nav-item">
+              <a href="/chats">Chats</a>
+              <a href="/userManagement">User Management</a>
+              <a href="/productManagement">Product Management</a>
+              <a href="#" onClick={logout}>Logout</a>
+          </div>
+        </nav>
+      )
+      let userNav = (
+        <nav class="nav-container">
+          <a class="logo" href="/"> All-Lingual | {currentUser.username}</a>
+          <div class="nav-item">
+              <a href="/chats">Chats</a>
+              <a href="/cart">Cart</a>
+              <a href="/UserProductManagement"
+                 onclick="/addproduct">
+                 My Products
+              </a>
+              <a href={`/usercommentmanagement`}>
+                My Comments
+              </a>
+              <a href="/profile">Profile</a>
+              <a href="#" onClick={logout}>Logout</a>
+          </div>
+        </nav>
+      )
+        if (currentUser.username == "Admin") {
+          return navigation;
+        } else return userNav;
+    };
 
   const connect = () => {
     const Stomp = require("stompjs");
@@ -77,26 +115,27 @@ const Chats = (props) => {
   };
 
   const onMessageReceived = (msg) => {
-    console.log("front end recievd ");
     const notification = JSON.parse(msg.body);
     const active = JSON.parse(
       sessionStorage.getItem("recoil-persist")
     ).chatActiveContact;
 
-    if (active.id === notification.senderId) {
+    console.log(active.id, notification.senderId)
+    if (active.id +"" === notification.senderId) {
       findChatMessage(notification.id).then((message) => {
         const newMessages = JSON.parse(
           sessionStorage.getItem("recoil-persist")
         ).chatMessages;
+        console.log("id same")
         newMessages.push(message);
         setMessages(newMessages);
       });
     } else {
       message.info("Received a new message from " + notification.senderName);
-      findChatMessages(currentUser.id, activeContact.id).then((msgs) =>
-        setMessages(msgs)
-      );
       console.log(active)
+      
+      
+
     }
     loadLightContacts();
   };
@@ -128,6 +167,8 @@ const Chats = (props) => {
 
     getUsers().then((u) => {
       setContacts(u);
+      setActiveContact(u[0]);
+      
     })
     const promise = getUsers().then((users) =>
     
@@ -135,6 +176,7 @@ const Chats = (props) => {
         countNewMessages(contact.id, currentUser.id).then((count) => {
           // console.log(contact.id + " " + currentUser.id);
           contact.newMessages = count;
+          console.log(count)
           return contact;
         })
       )
@@ -152,12 +194,10 @@ const Chats = (props) => {
 
 
   const loadLightContacts = () => {
-   getUsers().then((users) => {
-      if (activeContact === undefined && users.length > 0) {
-        setActiveContact(users[0]);
-      }
-    }
-    );
+    getUsers().then((u) => {
+      setContacts(u);
+      
+    })
 
   };
 
@@ -172,22 +212,7 @@ const Chats = (props) => {
           referrerpolicy="no-referrer"
      />
 
-      <nav class="nav-container">
-        <a class="logo" href="/"> All-Lingual | {currentUser.username}</a>
-        <div class="nav-item">
-            <a href="/chats">Chats</a>
-            <a href="/cart">Cart</a>
-            <a href="/UserProductManagement"
-               onclick="/addproduct">
-               My Products
-            </a>
-            <a href={`/usercommentmanagement`}>
-              My Comments
-            </a>
-            <a href="/profile">Profile</a>
-            <a href="#" onClick={logout}>Logout</a>
-        </div>
-      </nav>
+      {loadNavforAdmin()}
       <section>
       <div id="frame">
         <div id="sidepanel">
@@ -227,10 +252,7 @@ const Chats = (props) => {
           </div>
         </div>
         <div class="content">
-          <div class="contact-profile">
-            <img src={activeContact && activeContact.profilePicture} alt="" />
-            <p>{activeContact.username}</p>
-          </div>
+    
           <ScrollToBottom className="messages">
             <ul>
               {messages.map((msg) => (

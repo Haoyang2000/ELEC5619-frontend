@@ -50,7 +50,7 @@ const UserManagement = (props) => {
           message: "Success",
           description: "Deleted user successfully!",
         });
-        props.history.push("/userManagement");
+        loadTotalUsers();
       })
       .catch((error) => {
         notification.error({
@@ -136,37 +136,7 @@ const UserManagement = (props) => {
                   <td>{user.id}</td>
                   <td>{user.username}</td>
                   <td>{user.language}</td>
-                  <td>
-                    <div>
-                      <div class="input-group mb-3">
-                        <input
-                          type="text"
-                          class="form-control"
-                          placeholder={user.email}
-                          aria-describedby="basic-addon2"
-                          onChange={(e) => setNewEmail(e.target.value)}
-                        ></input>
-                        <div class="input-group-append">
-                          <button
-                            onClick={() => {
-                              if (!newEmail) {
-                                notification.error({
-                                  message: "Error",
-                                  description: "Please input new content",
-                                });
-                              } else {
-                                changeClick(user);
-                              }
-                            }}
-                            class="btn btn-outline-secondary"
-                            type="button"
-                          >
-                            Change
-                          </button>
-                        </div>
-                      </div>
-                    </div>
-                  </td>
+                  <td>{user.email}</td>
                   <td>{user.address}</td>
                   <td>{moment(user.createTime).format("ll")}</td>
                   <td>
@@ -206,10 +176,7 @@ const UserManagement = (props) => {
       <section>
         <div>{loadContentforAdmin()}</div>
       </section>
-      <footer>
-        <p>Author: ELEC5619-Group 2Spring 2022 USYD ---- Spring 2022 USYD</p>
-        <p><a href="https://github.com/jzha9393/ELEC5619/tree/eric">Backend Github Link</a></p>
-      </footer>
+
     </div>
   );
 };

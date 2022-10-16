@@ -38,6 +38,8 @@ const Cart = (props) => {
       })
       .catch((error) => {
         console.log(error);
+        const code = error.status
+        props.history.push("/error/" + code)
       });
   };
 
@@ -50,6 +52,8 @@ const Cart = (props) => {
         console.log(products);
       })
       .catch((error) => {
+        const code = error.status
+        props.history.push("/error/" + code)
         console.log(error);
       });
   };
@@ -264,10 +268,7 @@ const Cart = (props) => {
             </div>
           </div>
       </section>
-      <footer>
-        <p>Author: ELEC5619-Group 2Spring 2022 USYD ---- Spring 2022 USYD</p>
-        <p><a href="https://github.com/jzha9393/ELEC5619/tree/eric">Backend Github Link</a></p>
-      </footer>
+
     </div>
   );
 };
