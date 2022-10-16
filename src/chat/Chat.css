@@ -1,3 +1,20 @@
+/*General Styling*/
+* {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+}
+
+html {
+    font-size: 62.5%;
+}
+
+body {
+    color: #333;
+    background-color: #ddd;
+    font: 1.6rem sans-serif;
+}
+
 #frame {
   width: 100%;
   min-width: 360px;
@@ -6,9 +23,40 @@
   min-height: 300px;
   max-height: 720px;
   background: #e6eaea;
-  margin: auto;
-  margin-top: 2%;
+  position: absolute;
+  top: 60%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  margin: 3rem 0;
 }
+
+#profile {
+    background-color: #2C3E50;
+}
+
+#contacts {
+    background-color: rgb(69, 92, 114);
+}
+
+.contact-profile {
+    text-align: center;
+}
+
+.wrap i {
+    font-size: 1.8rem;
+    margin-right: 3rem;
+}
+
+.wrap-message {
+    display: flex;
+    justify-content: space-evenly;
+}
+
+
+.message-input Button {
+    float: right;
+}
+
 @media screen and (max-width: 360px) {
   #frame {
     width: 100%;

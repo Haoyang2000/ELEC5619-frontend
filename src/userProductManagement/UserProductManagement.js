@@ -99,21 +99,19 @@ const UserProductManagement = (props) => {
                      <p class="product-name">{product.productName}</p>
                      <p class="product-user"> {product.userName}</p>
                      <p class="product-user">$ {product.price}</p>
-                     {" "}
-
-                        <button
-                          onClick={() => deleteClick(product.productId)}
-                          type="button"
-                          class="btn btn-danger  mr-3"
-                        >
-                          Delete
-                        </button>
-                        <a href={`/modifyProduct/${product.productId}`}>
-                          <button type="button" class="btn btn-warning">
-                            Modify
-                          </button>
-                        </a>
                    </a>
+                    <button
+                      onClick={() => deleteClick(product.productId)}
+                      type="button"
+                      class="btn btn-danger  mr-3"
+                    >
+                      Delete
+                    </button>
+                    <a href={`/modifyProduct/${product.productId}`}>
+                      <button type="button" class="btn btn-warning">
+                        Modify
+                      </button>
+                    </a>
                 </div>
               ))}
           </div>

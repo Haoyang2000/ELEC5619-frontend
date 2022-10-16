@@ -12,6 +12,12 @@
   text-align: center;
 }
 
+.login-container select {
+    width: 319px;
+    height: 40px;
+    border-color: #BFBFBF;
+}
+
 .login-form-button {
   width: 100%;
   background-color: grey !important;

@@ -164,6 +164,14 @@ const Chats = (props) => {
 
   return (
     <div>
+    <link
+          rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css"
+          integrity="sha512-xh6O/CkQoPOWDdYTDqeRdPCVd1SpvCA9XXcUnZS2FmJNp1coAFzvtCN9BmamE+4aHK8yyUHUSCcJHgXloTyT2A=="
+          crossorigin="anonymous"
+          referrerpolicy="no-referrer"
+     />
+
       <nav class="nav-container">
         <a class="logo" href="/"> All-Lingual | {currentUser.username}</a>
         <div class="nav-item">
@@ -180,34 +188,13 @@ const Chats = (props) => {
             <a href="#" onClick={logout}>Logout</a>
         </div>
       </nav>
-
+      <section>
       <div id="frame">
         <div id="sidepanel">
           <div id="profile">
             <div class="wrap">
-              <img
-                id="profile-img"
-                src={currentUser.profilePicture}
-                class="online"
-                alt=""
-              />
-              <p>{currentUser.username}</p>
-              <div id="status-options">
-                <ul>
-                  <li id="status-online" class="active">
-                    <span class="status-circle"></span> <p>Online</p>
-                  </li>
-                  <li id="status-away">
-                    <span class="status-circle"></span> <p>Away</p>
-                  </li>
-                  <li id="status-busy">
-                    <span class="status-circle"></span> <p>Busy</p>
-                  </li>
-                  <li id="status-offline">
-                    <span class="status-circle"></span> <p>Offline</p>
-                  </li>
-                </ul>
-              </div>
+              <i class="fa-solid fa-user"></i>
+              <span>{currentUser.username}</span>
             </div>
           </div>
           <div id="search" />
@@ -223,7 +210,6 @@ const Chats = (props) => {
                   }
                 >
                   <div class="wrap">
-                    <span class="contact-status online"></span>
                     <img id={contact.id} src={contact.profilePicture} alt="" />
                     <div class="meta">
                       <p class="name">{contact.username}</p>
@@ -239,25 +225,11 @@ const Chats = (props) => {
               ))}
             </ul>
           </div>
-          <div id="bottom-bar">
-            <a href="/">
-              <button id="addcontact">
-                <i class="fa fa-user fa-fw" aria-hidden="true"></i>{" "}
-                <span>Profile</span>
-              </button>
-            </a>
-            <a href="http://localhost:8080/login">
-              <button id="settings">
-                <i class="fa fa-cog fa-fw" aria-hidden="true"></i>{" "}
-                <span>Settings</span>
-              </button>
-            </a>
-          </div>
         </div>
         <div class="content">
           <div class="contact-profile">
             <img src={activeContact && activeContact.profilePicture} alt="" />
-            <p>{activeContact && activeContact.username}</p>
+            <p>{activeContact.username}</p>
           </div>
           <ScrollToBottom className="messages">
             <ul>
@@ -269,9 +241,6 @@ const Chats = (props) => {
                       : "replies"
                   }
                 >
-                  {/* {msg.senderId !== currentUser.id && (
-                  <img src={activeContact.profilePicture} alt="" />
-                )} */}
                   <p>
                     {msg.senderId.toString() === currentUser.id.toString()
                       ? msg.content
@@ -282,11 +251,9 @@ const Chats = (props) => {
             </ul>
           </ScrollToBottom>
           <div class="message-input">
-            <div class="wrap">
+            <div class="wrap-message">
               <input
-                name="user_input"
-                size="large"
-                placeholder="Write your message..."
+                placeholder="    Write your message..."
                 value={text}
                 onChange={(event) => setText(event.target.value)}
                 onKeyPress={(event) => {
@@ -308,6 +275,7 @@ const Chats = (props) => {
           </div>
         </div>
       </div>
+      </section>
     </div>
   );
 };

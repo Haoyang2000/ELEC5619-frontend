@@ -80,16 +80,16 @@ const ProductManagement = (props) => {
                      <p class="product-user"> {product.userName}</p>
                      <p class="product-user">$ {product.price}</p>
                      {" "}
-
-                        <button
-                          onClick={() => deleteClick(product.productId)}
-                          type="button"
-                          class="btn btn-danger  mr-3"
-                        >
-                          Delete
-                        </button>
                    </a>
+                    <button
+                      onClick={() => deleteClick(product.productId)}
+                      type="button"
+                      class="btn btn-danger  mr-3"
+                    >
+                      Delete
+                    </button>
                 </div>
+
               ))}
           </div>
       </section>

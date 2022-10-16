@@ -37,7 +37,7 @@ const UploadAndDisplayImage = (props) => {
           description: "Add new product successfully!",
         });
         loadProducts();
-        props.history.push("/profile");
+        props.history.push("/");
       })
       .catch((error) => {
         notification.error({
@@ -146,7 +146,7 @@ const UploadAndDisplayImage = (props) => {
                   },
                 ]}
               >
-                <textarea rows="10" cols="60"></textarea>
+                <textarea placeholder=" Product Description" rows="10" cols="60"></textarea>
               </Form.Item>
               <Form.Item
                 name="price"

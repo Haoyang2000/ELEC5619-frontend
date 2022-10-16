@@ -40,8 +40,9 @@ const Signup = (props) => {
   };
 
   return (
-    <div className="login-container">
+    <div class="login-container">
       <DingtalkOutlined style={{ fontSize: 50 }} />
+      <h1>Register</h1>
       <Form
         name="normal_login"
         className="login-form"
@@ -76,14 +77,13 @@ const Signup = (props) => {
         </Form.Item>
         <Form.Item name="language">
           <select id="language" size="large" placeholder="Perferred Language">
+            <option value="en" selected disabled>
+              {" "}
+              Pick Language (Default English){" "}
+            </option>
             <option value="ar">Arabic</option>
             <option value="zh">Chinese</option>
             <option value="nl">Dutch</option>
-            <option value="en">English</option>
-            <option value="en" selected>
-              {" "}
-              Pick a language you perfer to use (default English){" "}
-            </option>
             <option value="fr">French</option>
             <option value="de">German</option>
             <option value="el">Greek</option>
