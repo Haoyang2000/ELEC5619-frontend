@@ -205,6 +205,10 @@ const UserManagement = (props) => {
       <section>
         <div>{loadContentforAdmin()}</div>
       </section>
+      <footer>
+        <p>Author: ELEC5619-Group 2Spring 2022 USYD ---- Spring 2022 USYD</p>
+        <p><a href="https://github.com/jzha9393/ELEC5619/tree/eric">Backend Github Link</a></p>
+      </footer>
     </div>
   );
 };

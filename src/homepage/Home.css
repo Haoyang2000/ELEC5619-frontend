@@ -46,9 +46,25 @@ body {
     transition-duration: 0.5s;
 }
 
+/*Footer Styles*/
+footer {
+    padding: 3rem 5rem;
+    font-size: 1rem;
+    background-color: #444;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    color: #eee;
+}
+
+footer a{
+    color: #eee;
+    text-decoration: none;
+}
+
 /*List Product Styling*/
 section {
-    margin: 3% 5%;
+    margin: 3rem 5rem 20rem;
 }
 
 section > h1, section > input{
@@ -183,7 +199,6 @@ section > h1, section > input{
 
 .product-form textarea {
     border-color: #BFBFBF;
-    color: #BFBFBF;
 }
 
 .content Input{
