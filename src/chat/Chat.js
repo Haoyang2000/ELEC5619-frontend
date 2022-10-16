@@ -140,6 +140,13 @@ const Chat = (props) => {
 
   return (
     <div>
+    <link
+          rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css"
+          integrity="sha512-xh6O/CkQoPOWDdYTDqeRdPCVd1SpvCA9XXcUnZS2FmJNp1coAFzvtCN9BmamE+4aHK8yyUHUSCcJHgXloTyT2A=="
+          crossorigin="anonymous"
+          referrerpolicy="no-referrer"
+     />
       <nav class="nav-container">
         <a class="logo" href="/"> All-Lingual | {currentUser.username}</a>
         <div class="nav-item">
@@ -161,12 +168,7 @@ const Chat = (props) => {
         <div id="sidepanel">
           <div id="profile">
             <div class="wrap">
-              <img
-                id="profile-img"
-                src={currentUser.profilePicture}
-                class="online"
-                alt=""
-              />
+              <i class="fa-solid fa-user"></i>
               <p>{currentUser.username}</p>
             </div>
           </div>
@@ -187,9 +189,6 @@ const Chat = (props) => {
                       : "replies"
                   }
                 >
-                  {/* {msg.senderId !== currentUser.id && (
-                  <img src={activeContact.profilePicture} alt="" />
-                )} */}
                   <p>
                     {msg.senderId.toString() === currentUser.id.toString()
                       ? msg.content
@@ -200,11 +199,9 @@ const Chat = (props) => {
             </ul>
           </ScrollToBottom>
           <div class="message-input">
-            <div class="wrap">
+            <div class="wrap-message">
               <input
-                name="user_input"
-                size="large"
-                placeholder="Write your message..."
+                placeholder="    Write your message..."
                 value={text}
                 onChange={(event) => setText(event.target.value)}
                 onKeyPress={(event) => {
