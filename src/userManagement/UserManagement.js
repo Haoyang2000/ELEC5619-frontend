@@ -197,6 +197,7 @@ const UserManagement = (props) => {
       <nav class="nav-container">
         <p> All-Lingual | Admin </p>
         <div class="nav-item">
+            <a href="/chats">Chats</a>
             <a href="/userManagement">User Management</a>
             <a href="/productManagement">Product Management</a>
             <a href="#" onClick={logout}>Logout</a>
