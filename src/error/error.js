@@ -4,9 +4,11 @@ import "./error.css";
 const Error = (props) => {
   const code = "https://http.dog/" + props.match.params.errorCode + ".jpg";
   useEffect(() => {
-    console.log(code);
+    console.log(props.match.params.errorCode);
+    if (props.match.params.errorCode === "undefined") {
+      props.history.push("/login");
+    }
   }, []);
-
 
   const logout = () => {
     localStorage.removeItem("accessToken");
@@ -15,10 +17,10 @@ const Error = (props) => {
   return (
     <div class="error">
       <nav class="error-navbar">
-        <a href="/">
-        Home
+        <a href="/">Home</a>
+        <a href="#" onClick={logout}>
+          Exit
         </a>
-        <a href="#" onClick={logout}>Exit</a>
       </nav>
 
       <img src={code} alt="unauthrozied" />
