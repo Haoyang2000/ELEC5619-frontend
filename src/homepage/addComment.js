@@ -59,97 +59,98 @@ const AddComment = (props) => {
       });
   };
 
+  const logout = () => {
+    localStorage.removeItem("accessToken");
+    props.history.push("/login");
+  };
+
   return (
     <div>
-      <nav class="navbar navbar-expand-lg navbar-light bg-light">
-        <a class="navbar-brand" href="/">
-          Hello, {currentUser.username}
-        </a>
-        <div class="navbar-nav">
-          <a class="nav-item nav-link active" href="/">
-            Home <span class="sr-only">(current)</span>
-          </a>
-          <a class="nav-item nav-link" href="/profile">
-            Profile
-          </a>
-          <a class="nav-item nav-link" href="/chats">
-            Chat
-          </a>
-          <a class="nav-item nav-link" href="/cart">
-            Cart
-          </a>
+      <nav class="nav-container">
+        <a class="logo" href="/"> All-Lingual | {currentUser.username}</a>
+        <div class="nav-item">
+            <a href="/chats">Chats</a>
+            <a href="/cart">Cart</a>
+            <a href="/UserProductManagement"
+               onclick="/addproduct">
+               My Products
+            </a>
+            <a href={`/usercommentmanagement`}>
+              My Comments
+            </a>
+            <a href="/profile">Profile</a>
+            <a href="#" onClick={logout}>Logout</a>
         </div>
       </nav>
-
-      <h1 class="label">Add Comment</h1>
-      <hr class="solid"></hr>
-      <div class="content">
-        {" "}
-        {selectedImage && (
-          <div>
-            <img
-              alt="notImage"
-              width={"250px"}
-              src={URL.createObjectURL(selectedImage)}
-            />
-            <br />
-            <button onClick={() => setSelectedImage(null)}>Remove</button>
-          </div>
-        )}
-        <br />
-        <br />
-        <input
-          type="file"
-          name="myImage"
-          onChange={(event) => {
-            console.log(event.target.files[0]);
-            setSelectedImage(event.target.files[0]);
-          }}
-        />
-        <Form
-          name="normal_login"
-          className="login-form"
-          initialValues={{ remember: true }}
-          onFinish={addComment}
-        >
-          <h3>What do you think of this product?</h3>
-          <Form.Item name="rating">
-            <select id="rating" size="large" placeholder="rating">
-              <option value="1">Very Dissatisfied</option>
-              <option value="2">Dissatisfied</option>
-
-              <option value="3">Neutral</option>
-              <option value="4">Satisfied</option>
-              <option value="5" selected>
-                Very satisfied
-              </option>
-            </select>
-          </Form.Item>
-
-          <Form.Item
-            name="content"
-            rules={[
-              {
-                required: true,
-                message: "Please input your comment!",
-              },
-            ]}
-          >
-            <Input size="large" placeholder="Please input comment" />
-          </Form.Item>
-
-          <Form.Item>
-            <Button
-              shape="round"
-              size="large"
-              htmlType="submit"
-              className="login-form-button"
+      <section>
+          <h1 class="label">Add Comment</h1>
+          <hr class="solid"></hr>
+            <div class="content-img">
+                {" "}
+                {selectedImage && (
+                  <div>
+                    <img
+                      alt="notImage"
+                      width={"250px"}
+                      src={URL.createObjectURL(selectedImage)}
+                    />
+                    <br />
+                    <button onClick={() => setSelectedImage(null)}>Remove</button>
+                  </div>
+                )}
+                <br />
+                <br />
+                <input
+                  type="file"
+                  name="myImage"
+                  onChange={(event) => {
+                    console.log(event.target.files[0]);
+                    setSelectedImage(event.target.files[0]);
+                  }}
+                />
+            </div>
+            <Form
+              name="normal_login"
+              className="login-form"
+              initialValues={{ remember: true }}
+              onFinish={addComment}
             >
-              Add new comment
-            </Button>
-          </Form.Item>
-        </Form>
-      </div>
+              <h3>What do you think of this product?</h3>
+              <Form.Item name="rating">
+                <select id="rating" size="large" placeholder="rating">
+                  <option value="1">Very Dissatisfied</option>
+                  <option value="2">Dissatisfied</option>
+
+                  <option value="3">Neutral</option>
+                  <option value="4">Satisfied</option>
+                  <option value="5" selected>
+                    Very satisfied
+                  </option>
+                </select>
+              </Form.Item>
+
+              <Form.Item
+                name="content"
+                rules={[
+                  {
+                    required: true,
+                    message: "Please input your comment!",
+                  },
+                ]}
+              >
+                <textarea rows="10" cols="60"></textarea>
+              </Form.Item>
+
+              <Form.Item>
+                <Button
+                  shape="round"
+                  htmlType="submit"
+                >
+                  Add new comment
+                </Button>
+              </Form.Item>
+            </Form>
+      </section>
     </div>
   );
 };

@@ -4,7 +4,7 @@ import { notification } from "antd";
 import { productsI, loggedInUser } from "../atom/globalState";
 import { getUserProduct, deleteProduct } from "../util/ApiUtil";
 
-import "./UserProductManagement.css";
+import "../homepage/Home.css";
 
 const UserProductManagement = (props) => {
   const [products, setProducts] = useState([]);
@@ -56,101 +56,71 @@ const UserProductManagement = (props) => {
 
   return (
     <div>
-      <nav class="navbar navbar-expand-lg navbar-light bg-light">
-        <a class="navbar-brand" href="/">
-          Hello, {currentUser.username}
-        </a>
-        <div class="navbar-nav">
-          <a class="nav-item nav-link active" href="/">
-            Home <span class="sr-only">(current)</span>
-          </a>
-          <a class="nav-item nav-link" href="/profile">
-            Profile
-          </a>
-          <a class="nav-item nav-link" href="/chats">
-            Chat
-          </a>
-          <a class="nav-item nav-link" href="/cart">
-            Cart
-          </a>
-        </div>
-        <div style={{ marginLeft: "auto", marginRight: 0 }}>
-          <div style={{ marginLeft: "auto", marginRight: "25px" }}>
-            <div>
-              <input
-                type="text"
-                placeholder="Input keywords to search product"
-                className="form-control"
-                id="inputdefault"
-                style={{ width: "300px" }}
-                onChange={(e) => setQuery(e.target.value)}
-              ></input>
-            </div>
-          </div>
+      <nav class="nav-container">
+        <a class="logo" href="/"> All-Lingual | {currentUser.username}</a>
+        <div class="nav-item">
+            <a href="/chats">Chats</a>
+            <a href="/cart">Cart</a>
+            <a href="/UserProductManagement"
+               onclick="/addproduct">
+               My Products
+            </a>
+            <a href={`/usercommentmanagement`}>
+              My Comments
+            </a>
+            <a href="/profile">Profile</a>
+            <a href="#" onClick={logout}>Logout</a>
         </div>
       </nav>
-      <div>
-        <h1 class="label">My Products</h1>
-        <table class="table">
-          <thead>
-            <tr>
-              <th scope="col">Product Id</th>
-              <th scope="col">Image</th>
-              <th scope="col">Name</th>
-              <th scope="col">Description</th>
-              <th scope="col">Category</th>
-              <th scope="col">Price</th>
-              <th scope="col">Operation</th>
-            </tr>
-          </thead>
-          <tbody>
+      <section class="product">
+        <h1>My Products</h1>
+        <div class="container">
+            <input type="text"
+              placeholder="Input Keywords to Search Products" className="form-control"
+              id="search-engine" style={{ width: "50" }}
+              onChange={(e) => setQuery(e.target.value)}>
+            </input>
+            <a class="add-product-btn" href="/addproduct">Add new product</a>
+        </div>
+          <div class="container-product">
             {products
               .filter(
                 (product) =>
                   product.productName.toLowerCase().includes(query) ||
-                  product.userId.toString().toLowerCase().includes(query) ||
-                  product.productId.toString().toLowerCase().includes(query) ||
-                  product.price.toString().toLowerCase().includes(query) ||
-                  product.category.toLowerCase().includes(query) ||
-                  product.productDescription.toLowerCase().includes(query)
+                  product.userName.toString().toLowerCase().includes(query)
               )
               .map((product) => (
-                <tr>
-                  <td>{product.productId}</td>
-                  <td>
-                    {" "}
-                    <img
-                      src={`data:image/jpeg;base64,${product.file}`}
-                      alt={product.imageName}
-                      width="100"
-                      height="100"
-                    />
-                  </td>
-                  <td>{product.productName}</td>
-                  <td>{product.productDescription}</td>
-                  <td>{product.category}</td>
-                  <td>{product.price}</td>
-                  <td>
-                    <button
-                      onClick={() => deleteClick(product.productId)}
-                      type="button"
-                      class="btn btn-danger  mr-3"
-                    >
-                      Delete
-                    </button>
-                    <a href={`/modifyProduct/${product.productId}`}>
-                      <button type="button" class="btn btn-warning">
-                        Modify
-                      </button>
-                    </a>
-                  </td>
-                </tr>
+                <div class="product-background">
+                   <a class="product-list" href={`/detail/${product.productId}`}>
+                         <img
+                           src={`data:image/jpeg;base64,${product.file}`}
+                           alt={product.imageName}
+                         />
+                     <p class="product-name">{product.productName}</p>
+                     <p class="product-user"> {product.userName}</p>
+                     <p class="product-user">$ {product.price}</p>
+                     {" "}
+
+                        <button
+                          onClick={() => deleteClick(product.productId)}
+                          type="button"
+                          class="btn btn-danger  mr-3"
+                        >
+                          Delete
+                        </button>
+                        <a href={`/modifyProduct/${product.productId}`}>
+                          <button type="button" class="btn btn-warning">
+                            Modify
+                          </button>
+                        </a>
+                   </a>
+                </div>
               ))}
-          </tbody>
-        </table>
-      </div>
+          </div>
+      </section>
     </div>
   );
 };
 
 export default UserProductManagement;
+

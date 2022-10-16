@@ -12,6 +12,7 @@ import {
 } from "../util/ApiUtil";
 
 import "./CommentManagement.css";
+import "../homepage/Home.css";
 
 const CommentManagement = (props) => {
   const [currentUser, setLoggedInUser] = useRecoilState(loggedInUser);
@@ -87,44 +88,44 @@ const CommentManagement = (props) => {
       <div>
         {" "}
         <h1 class="label">Comment Management</h1>
-        <table class="table">
-          <thead>
-            <tr>
-              <th class="col-md-2">Comment image</th>
-              <th class="col-md-2">Post owner</th>
-              <th class="col-md-1">Rating</th>
-              <th class="col-md-3">Description</th>
-              <th class="col-md-1">Operation</th>
-            </tr>
-          </thead>
-          <tbody>
-            {comment.map((userComment) => (
-              <tr>
-                <td>
-                  <img
-                    src={`data:image/jpeg;base64,${userComment.file}`}
-                    alt={userComment.imageName}
-                    width="250"
-                    height="150"
-                  />
-                </td>
-                <td>{userComment.userName}</td>
-                <td>{displayStar(userComment.rating)}</td>
-                <td>{userComment.content}</td>
-                <td>
-                  <btn
-                    onClick={() => {
-                      deleteClick(userComment.commentId);
-                    }}
-                    className="btn btn-danger btn-mid mr-1"
-                  >
-                    delete
-                  </btn>
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
+        <div class="table-position">
+            <table class="my-product-table">
+              <thead>
+                <tr>
+                  <th>Comment image</th>
+                  <th>Post owner</th>
+                  <th>Rating</th>
+                  <th>Description</th>
+                  <th>Operation</th>
+                </tr>
+              </thead>
+              <tbody>
+                {comment.map((userComment) => (
+                  <tr>
+                    <td>
+                      <img
+                        src={`data:image/jpeg;base64,${userComment.file}`}
+                        alt={userComment.imageName}
+                      />
+                    </td>
+                    <td>{userComment.userName}</td>
+                    <td>{displayStar(userComment.rating)}</td>
+                    <td>{userComment.content}</td>
+                    <td>
+                      <btn
+                        onClick={() => {
+                          deleteClick(userComment.commentId);
+                        }}
+                        className="btn btn-danger btn-mid mr-1"
+                      >
+                        delete
+                      </btn>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+        </div>
       </div>
     );
 
@@ -137,22 +138,15 @@ const CommentManagement = (props) => {
 
   return (
     <div>
-      <nav class="navbar navbar-expand-lg navbar-light bg-light">
-        <div class="navbar-nav">
-          <a class="nav-item nav-link" href="/userManagement">
-            User Management
-          </a>
-          <a class="nav-item nav-link" href="/productManagement">
-            Product Management
-          </a>
-        </div>
-        <div style={{ marginLeft: "auto", marginRight: "50px" }}>
-          <btn onClick={logout} className="btn btn-danger btn-mid mr-1">
-            Logout
-          </btn>
+      <nav class="nav-container">
+        <p> All-Lingual | Admin </p>
+        <div class="nav-item">
+            <a href="/userManagement">User Management</a>
+            <a href="/productManagement">Product Management</a>
+            <a href="#" onClick={logout}>Logout</a>
         </div>
       </nav>
-      <div>{loadContentforAdmin()}</div>
+      <section class="product">{loadContentforAdmin()}</section>
     </div>
   );
 };

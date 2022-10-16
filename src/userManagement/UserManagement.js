@@ -96,9 +96,18 @@ const UserManagement = (props) => {
   // Only display content for admin!
   const loadContentforAdmin = () => {
     let content = (
-      <div>
+      <div class="product">
         {" "}
         <h1 class="label">User Management</h1>
+        <input
+          type="text"
+          placeholder="Input keywords to search user"
+          className="form-control"
+          id="inputdefault"
+          style={{ width: "300px" }}
+          onChange={(e) => setQuery(e.target.value)}
+          >
+        </input>
         <table class="table">
           <thead>
             <tr>
@@ -185,32 +194,17 @@ const UserManagement = (props) => {
 
   return (
     <div>
-      <nav class="navbar navbar-expand-lg navbar-light bg-light">
-        <div class="navbar-nav">
-          <a class="nav-item nav-link" href="/userManagement">
-            User Management
-          </a>
-          <a class="nav-item nav-link" href="/productManagement">
-            Product Management
-          </a>
+      <nav class="nav-container">
+        <p> All-Lingual | Admin </p>
+        <div class="nav-item">
+            <a href="/userManagement">User Management</a>
+            <a href="/productManagement">Product Management</a>
+            <a href="#" onClick={logout}>Logout</a>
         </div>
-        <div style={{ marginLeft: "auto", marginRight: "50px" }}>
-          <div>
-            <input
-              type="text"
-              placeholder="Input keywords to search user"
-              className="form-control"
-              id="inputdefault"
-              style={{ width: "300px" }}
-              onChange={(e) => setQuery(e.target.value)}
-            ></input>
-          </div>
-        </div>
-        <btn onClick={logout} className="btn btn-danger btn-mid mr-1">
-          Logout
-        </btn>
       </nav>
-      <div>{loadContentforAdmin()}</div>
+      <section>
+        <div>{loadContentforAdmin()}</div>
+      </section>
     </div>
   );
 };

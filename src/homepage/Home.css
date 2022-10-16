@@ -1,39 +1,191 @@
-.product {
-  width: 80%;
-  margin-left: 17%;
+/*General Styling*/
+* {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
 }
 
-.label {
-  text-align: center;
-  margin-top: 10px;
+html {
+    font-size: 62.5%;
 }
 
+body {
+    color: #333;
+    background-color: #ddd;
+    font: 1.6rem sans-serif;
+}
+
+/*Navbar Styling*/
+.nav-container {
+    padding: 3rem 5rem;
+    font-size: 1.8rem;
+    background-color: #46576F;
+    display: flex;
+    justify-content: space-between;
+}
+
+.nav-container p {
+    color: #ddd;
+}
+
+.nav-container a {
+    color: #ddd;
+    text-decoration: none;
+    border-bottom: solid transparent;
+}
+
+.nav-container a:not(:last-child) {
+    margin-right: 3rem;
+}
+
+.nav-container a:hover {
+    color: #8A9BB8;
+    text-decoration: none;
+    border-bottom-color: #8A9BB8;
+    transition-property: color, border-bottom-color;
+    transition-duration: 0.5s;
+}
+
+/*List Product Styling*/
+section {
+    margin: 3% 5%;
+}
+
+section > h1, section > input{
+    text-align: center;
+    text-transform: capitalize;
+    margin: 1.5rem 0;
+}
+
+.product input {
+    width: 50vw;
+    margin: auto;
+    border-radius: 15px;
+    font-size: 1.5rem;
+    text-align: center;
+}
+
+
+.container-product {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15rem 1.5rem;
+    justify-content: space-between;
+}
+
+.container-product img {
+    width: 27rem;
+    height: 100%;
+    object-fit: contain;
+    border: solid transparent;
+}
+
+.container-product img:hover {
+    border-color: #ddd;
+    transition-property: border-color;
+    transition-duration: 0.8s;
+}
+
+.product-list {
+    text-decoration:none;
+    color: #333;
+}
+
+.product-list:hover {
+    text-decoration: none;
+    color: #333;
+}
+
+.product-name {
+    font-size: 1.8rem;
+    font-weight: 700;
+}
+
+.product-user {
+    font-size: 1.6rem;
+}
+
+/*Product Management Styling*/
+
+.container {
+    display: flex;
+    margin-bottom: 3rem;
+}
+
+.add-product-btn {
+    text-align: center;
+    color: white;
+    background-color: #5A7DAC;
+    text-decoration: none;
+    border-radius: 20px;
+    width: 20rem;
+    font-size: 1.6rem;
+    line-height: 3rem;
+}
+
+.add-product-btn:hover {
+    text-decoration: none;
+    color: white;
+    background-color: #4B5C76;
+    transition: background-color 0.5s;
+}
+
+.my-product-table {
+    width: 90%;
+    margin: auto;
+    border-color: #ddd;
+}
+
+.my-product-table th{
+    font-size: 1.6rem;
+    font-weight: 700;
+    text-transform: uppercase;
+}
+
+.my-product-table tr {
+    height: 5rem;
+    font-size: 1.2rem;
+}
+
+
+/*Add Product Style*/
 .content {
-  width: 40%;
-  margin: auto;
-  border: 1px;
+    display: flex;
+    justify-content: space-around;
+    flex-wrap: wrap;
 }
 
-.display-flex {
-  display: flex;
-  margin-bottom: 20px;
+.content-img {
+    text-align: center;
+    margin: 3rem;
+}
+.content img{
+    width: 20vw;
 }
 
-.div-size-img {
-  /* border: 1px solid red; */
-  width: 300px;
+.add-product-btn {
+    padding: 0.5rem;
+    float: right;
 }
 
-.div-size-content {
-  /* border: 1px solid red; */
-  width: 200px;
-  height: 120px;
-  margin: 10px;
+.margin-bottom {
+    margin-bottom: 3rem;
 }
 
-.div-size-button {
-  /* border: 1px solid red; */
-  width: 200px;
-  height: 120px;
-  margin: 10px;
+.product-form {
+    margin: 3rem 0;
+    width: 40rem;
+}
+
+.product-form .description {
+    height: 20rem;
+}
+
+.content Input{
+    width: 50rem;
+}
+
+.content Button{
+    background-color: #31435D;
+    color: #fff;
 }

@@ -53,68 +53,46 @@ const ProductManagement = (props) => {
   const loadContentforAdmin = () => {
     let content = (
       <div>
-        <h1 class="label">Product Management</h1>
-        <table class="table">
-          <thead>
-            <tr>
-              <th scope="col">Product Id</th>
-              <th scope="col">Image</th>
-              <th scope="col">Name</th>
-              <th scope="col">Description</th>
-              <th scope="col">Category</th>
-              <th scope="col">Price</th>
-              <th scope="col">Owner</th>
-              <th scope="col">Operation</th>
-            </tr>
-          </thead>
-          <tbody>
+      <section class="product">
+        <h1>All Products</h1>
+        <div class="container">
+            <input type="text"
+              placeholder="Input Keywords to Search Products" className="form-control"
+              id="search-engine" style={{ width: "50" }}
+              onChange={(e) => setQuery(e.target.value)}>
+            </input>
+        </div>
+          <div class="container-product">
             {products
               .filter(
                 (product) =>
                   product.productName.toLowerCase().includes(query) ||
-                  product.productId.toString().toLowerCase().includes(query) ||
-                  product.price.toString().toLowerCase().includes(query) ||
-                  product.category.toLowerCase().includes(query) ||
-                  product.productDescription.toLowerCase().includes(query) ||
                   product.userName.toString().toLowerCase().includes(query)
               )
               .map((product) => (
-                <tr>
-                  <td>{product.productId}</td>
-                  <td>
-                    {" "}
-                    <img
-                      src={`data:image/jpeg;base64,${product.file}`}
-                      alt={product.imageName}
-                      width="100"
-                      height="100"
-                    />
-                  </td>
-                  <td>{product.productName}</td>
-                  <td>{product.productDescription}</td>
-                  <td>{product.category}</td>
-                  <td>{product.price}</td>
+                <div class="product-background">
+                   <a class="product-list" href={`/detail/${product.productId}`}>
+                         <img
+                           src={`data:image/jpeg;base64,${product.file}`}
+                           alt={product.imageName}
+                         />
+                     <p class="product-name">{product.productName}</p>
+                     <p class="product-user"> {product.userName}</p>
+                     <p class="product-user">$ {product.price}</p>
+                     {" "}
 
-                  <td>{product.userName}</td>
-
-                  <td>
-                    <button
-                      onClick={() => deleteClick(product.productId)}
-                      type="button"
-                      class="btn btn-danger mr-3"
-                    >
-                      Delete
-                    </button>
-                    <a href={`/commentManagement/${product.productId}`}>
-                      <button type="button" class="btn btn-info mr-3">
-                        See comments
-                      </button>
-                    </a>
-                  </td>
-                </tr>
+                        <button
+                          onClick={() => deleteClick(product.productId)}
+                          type="button"
+                          class="btn btn-danger  mr-3"
+                        >
+                          Delete
+                        </button>
+                   </a>
+                </div>
               ))}
-          </tbody>
-        </table>
+          </div>
+      </section>
       </div>
     );
 
@@ -132,32 +110,15 @@ const ProductManagement = (props) => {
 
   return (
     <div>
-      <nav class="navbar navbar-expand-lg navbar-light bg-light">
-        <div class="navbar-nav">
-          <a class="nav-item nav-link" href="/userManagement">
-            User Management
-          </a>
-          <a class="nav-item nav-link" href="/productManagement">
-            Product Management
-          </a>
+      <nav class="nav-container">
+        <p> All-Lingual | Admin </p>
+        <div class="nav-item">
+            <a href="/userManagement">User Management</a>
+            <a href="/productManagement">Product Management</a>
+            <a href="#" onClick={logout}>Logout</a>
         </div>
-        <div style={{ marginLeft: "auto", marginRight: "50px" }}>
-          <div>
-            <input
-              type="text"
-              placeholder="Input keywords to search product"
-              className="form-control"
-              id="inputdefault"
-              style={{ width: "300px" }}
-              onChange={(e) => setQuery(e.target.value)}
-            ></input>
-          </div>
-        </div>
-        <btn onClick={logout} className="btn btn-danger btn-mid mr-1">
-          Logout
-        </btn>
       </nav>
-      <div>{loadContentforAdmin()}</div>
+        {loadContentforAdmin()}
     </div>
   );
 };

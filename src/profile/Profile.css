@@ -1,19 +1,35 @@
+/*Background Styles*/
+
 .emp-profile {
-  padding: 1%;
-  margin-top: 1%;
-  margin-bottom: 1%;
-  border-radius: 0.5rem;
+  padding: 2rem;
+  border-radius: 15px;
   background: #f1f1f1;
 }
 
-.profile-head h5 {
-  color: #333;
-}
-.profile-head h6 {
-  color: #0062cc;
+.emp-profile > h1{
+    text-align: center;
 }
 
-.profile-tab p {
-  font-weight: 600;
-  color: #0062cc;
+.emp-profile a {
+    float: right;
+    font-size: 1.3rem;
+}
+
+.emp-profile table {
+    border-collapse: collapse;
+    margin: 3rem;
+    font-size: 1.5rem;
+    font-family: sans-serif;
+    width: 60vw;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
+}
+
+.emp-profile td {
+    padding: 12px 15px;
+    border-bottom: 1px solid #dddddd;
+}
+
+.emp-profile td:first-of-type {
+    font-weight: 700;
+
 }

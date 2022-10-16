@@ -61,26 +61,23 @@ const ChangePassword = (props) => {
   return (
     <div>
       <div>
-        <nav class="navbar navbar-expand-lg navbar-light bg-light">
-          <a class="navbar-brand" href="/">
-            Hello, {currentUser.username}
-          </a>
-          <div class="navbar-nav">
-            <a class="nav-item nav-link active" href="/">
-              Home <span class="sr-only">(current)</span>
+      <nav class="nav-container">
+        <a class="logo" href="/"> All-Lingual | {currentUser.username}</a>
+        <div class="nav-item">
+            <a href="/chats">Chats</a>
+            <a href="/cart">Cart</a>
+            <a href="/UserProductManagement"
+               onclick="/addproduct">
+               My Products
             </a>
-            <a class="nav-item nav-link" href="/profile">
-              Profile
+            <a href={`/usercommentmanagement`}>
+              My Comments
             </a>
-            <a class="nav-item nav-link" href="/chats">
-              Chat
-            </a>
-            <a class="nav-item nav-link" href="/cart">
-              Cart
-            </a>
-          </div>
-        </nav>
-
+            <a href="/profile">Profile</a>
+            <a href="#" onClick={logout}>Logout</a>
+        </div>
+      </nav>
+      <section>
         <h1 class="label">Change password</h1>
         <hr class="solid"></hr>
         <div className="profile-container">
@@ -118,6 +115,7 @@ const ChangePassword = (props) => {
             </Form.Item>
           </Form>
         </div>
+      </section>
       </div>
     </div>
   );

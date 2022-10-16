@@ -58,6 +58,11 @@ const UploadAndDisplayImage = (props) => {
       });
   };
 
+  const logout = () => {
+    localStorage.removeItem("accessToken");
+    props.history.push("/login");
+  };
+
   const loadProducts = () => {
     getProductss()
       .then((response) => {
@@ -74,111 +79,109 @@ const UploadAndDisplayImage = (props) => {
 
   return (
     <div>
-      <nav class="navbar navbar-expand-lg navbar-light bg-light">
-        <a class="navbar-brand" href="/">
-          Hello, {currentUser.username}
-        </a>
-        <div class="navbar-nav">
-          <a class="nav-item nav-link active" href="/">
-            Home <span class="sr-only">(current)</span>
-          </a>
-          <a class="nav-item nav-link" href="/profile">
-            Profile
-          </a>
-          <a class="nav-item nav-link" href="/chats">
-            Chat
-          </a>
-          <a class="nav-item nav-link" href="/cart">
-            Cart
-          </a>
+      <nav class="nav-container">
+        <a class="logo" href="/"> All-Lingual | {currentUser.username}</a>
+        <div class="nav-item">
+            <a href="/chats">Chats</a>
+            <a href="/cart">Cart</a>
+            <a href="/UserProductManagement"
+               onclick="/addproduct">
+               My Products
+            </a>
+            <a href={`/usercommentmanagement`}>
+              My Comments
+            </a>
+            <a href="/profile">Profile</a>
+            <a href="#" onClick={logout}>Logout</a>
         </div>
       </nav>
-
-      <h1 class="label">Add product</h1>
-      <hr class="solid"></hr>
-      <div class="content">
-        {" "}
-        {selectedImage && (
-          <div>
-            <img
-              alt="notImage"
-              width={"250px"}
-              src={URL.createObjectURL(selectedImage)}
-            />
+      <section>
+          <h1 class="label">Add new product</h1>
+          <hr class="solid"></hr>
+          <div class="content">
+            <div>
+            {" "}
+            {selectedImage && (
+              <div>
+                <img
+                  alt="notImage"
+                  src={URL.createObjectURL(selectedImage)}
+                />
+                <br />
+                <button onClick={() => setSelectedImage(null)}>Remove</button>
+              </div>
+            )}
             <br />
-            <button onClick={() => setSelectedImage(null)}>Remove</button>
-          </div>
-        )}
-        <br />
-        <br />
-        <input
-          type="file"
-          name="myImage"
-          onChange={(event) => {
-            console.log(event.target.files[0]);
-            setSelectedImage(event.target.files[0]);
-          }}
-        />
-        <Form
-          name="normal_login"
-          className="login-form"
-          initialValues={{ remember: true }}
-          onFinish={addProduct}
-        >
-          <Form.Item
-            name="productName"
-            rules={[
-              { required: true, message: "Please input your product name!" },
-            ]}
-          >
-            <Input size="large" placeholder="Product Name" />
-          </Form.Item>
-
-          <Form.Item
-            name="productDescription"
-            rules={[
-              {
-                required: true,
-                message: "Please input your product description!",
-              },
-            ]}
-          >
-            <Input size="large" placeholder="Product Description" />
-          </Form.Item>
-
-          <Form.Item
-            name="price"
-            rules={[
-              { required: true, message: "Please input your product price!" },
-            ]}
-          >
-            <Input size="large" placeholder="Product Price" />
-          </Form.Item>
-
-          <Form.Item
-            name="category"
-            rules={[
-              {
-                required: true,
-                message: "Please input your product category!",
-              },
-            ]}
-          >
-            <Input size="large" placeholder="Product Category" />
-          </Form.Item>
-
-          <Form.Item>
-            <Button
-              shape="round"
-              size="large"
-              htmlType="submit"
-              className="login-form-button"
+            <br />
+            <input class="margin-bottom"
+              type="file"
+              name="myImage"
+              onChange={(event) => {
+                console.log(event.target.files[0]);
+                setSelectedImage(event.target.files[0]);
+              }}
+            />
+            </div>
+            <div class="product-form">
+            <Form
+              name="normal_login"
+              className="login-form"
+              initialValues={{ remember: true }}
+              onFinish={addProduct}
             >
-              Add new product
-            </Button>
-          </Form.Item>
-        </Form>
-      </div>
+              <Form.Item
+                name="productName"
+                rules={[
+                  { required: true, message: "Please input your product name!" },
+                ]}
+              >
+                <Input placeholder="Product Name" />
+              </Form.Item>
+              <Form.Item
+                name="productDescription"
+                rules={[
+                  {
+                    required: true,
+                    message: "Please input your product description!",
+                  },
+                ]}
+              >
+                <textarea rows="10" cols="60"></textarea>
+              </Form.Item>
+              <Form.Item
+                name="price"
+                rules={[
+                  { required: true, message: "Please input your product price!" },
+                ]}
+              >
+                <Input placeholder="Product Price" />
+              </Form.Item>
+
+              <Form.Item
+                name="category"
+                rules={[
+                  {
+                    required: true,
+                    message: "Please input your product category!",
+                  },
+                ]}
+              >
+                <Input placeholder="Product Category" />
+              </Form.Item>
+
+              <Form.Item>
+                <Button
+                  shape="round"
+                  htmlType="submit"
+                  className="login-form-button"
+                >
+                  Add new product
+                </Button>
+              </Form.Item>
+            </Form>
+            </div>
+          </div>
+      </section>
     </div>
   );
 };

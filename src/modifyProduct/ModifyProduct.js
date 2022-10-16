@@ -82,91 +82,94 @@ const ModifyProduct = (props) => {
       });
   };
 
+  const logout = () => {
+    localStorage.removeItem("accessToken");
+    props.history.push("/login");
+  };
+
   return (
     <div>
-      <nav class="navbar navbar-expand-lg navbar-light bg-light">
-        <a class="navbar-brand" href="/">
-          Hello, {currentUser.username}
-        </a>
-        <div class="navbar-nav">
-          <a class="nav-item nav-link active" href="/">
-            Home <span class="sr-only">(current)</span>
-          </a>
-          <a class="nav-item nav-link" href="/profile">
-            Profile
-          </a>
-          <a class="nav-item nav-link" href="/chats">
-            Chat
-          </a>
-          <a class="nav-item nav-link" href="/cart">
-            Cart
-          </a>
+      <nav class="nav-container">
+        <a class="logo" href="/"> All-Lingual | {currentUser.username}</a>
+        <div class="nav-item">
+            <a href="/chats">Chats</a>
+            <a href="/cart">Cart</a>
+            <a href="/UserProductManagement"
+               onclick="/addproduct">
+               My Products
+            </a>
+            <a href={`/usercommentmanagement`}>
+              My Comments
+            </a>
+            <a href="/profile">Profile</a>
+            <a href="#" onClick={logout}>Logout</a>
         </div>
       </nav>
-
-      <h1 class="label">Modify product</h1>
-      <hr class="solid"></hr>
-      <div class="content">
-        <Form
-          name="normal_login"
-          className="login-form"
-          initialValues={{ remember: true }}
-          onFinish={addProduct}
-        >
-          <Form.Item
-            name="productName"
-            rules={[
-              { required: true, message: "Please input your product name!" },
-            ]}
-          >
-            <Input size="large" placeholder="Product Name" />
-          </Form.Item>
-
-          <Form.Item
-            name="productDescription"
-            rules={[
-              {
-                required: true,
-                message: "Please input your product description!",
-              },
-            ]}
-          >
-            <Input size="large" placeholder="Product Description" />
-          </Form.Item>
-
-          <Form.Item
-            name="price"
-            rules={[
-              { required: true, message: "Please input your product price!" },
-            ]}
-          >
-            <Input size="large" placeholder="Product Price" />
-          </Form.Item>
-
-          <Form.Item
-            name="category"
-            rules={[
-              {
-                required: true,
-                message: "Please input your product category!",
-              },
-            ]}
-          >
-            <Input size="large" placeholder="Product Category" />
-          </Form.Item>
-
-          <Form.Item>
-            <Button
-              shape="round"
-              size="large"
-              htmlType="submit"
-              className="login-form-button"
+      <section>
+          <h1 class="label">Modify product</h1>
+          <hr class="solid"></hr>
+          <div class="content">
+            <Form
+              name="normal_login"
+              className="login-form"
+              initialValues={{ remember: true }}
+              onFinish={addProduct}
             >
-              Modify product
-            </Button>
-          </Form.Item>
-        </Form>
-      </div>
+              <Form.Item
+                name="productName"
+                rules={[
+                  { required: true, message: "Please input your product name!" },
+                ]}
+              >
+                <Input size="large" placeholder="Product Name" />
+              </Form.Item>
+
+              <Form.Item
+                name="productDescription"
+                rules={[
+                  {
+                    required: true,
+                    message: "Please input your product description!",
+                  },
+                ]}
+              >
+                <Input size="large" placeholder="Product Description" />
+              </Form.Item>
+
+              <Form.Item
+                name="price"
+                rules={[
+                  { required: true, message: "Please input your product price!" },
+                ]}
+              >
+                <Input size="large" placeholder="Product Price" />
+              </Form.Item>
+
+              <Form.Item
+                name="category"
+                rules={[
+                  {
+                    required: true,
+                    message: "Please input your product category!",
+                  },
+                ]}
+              >
+                <Input size="large" placeholder="Product Category" />
+              </Form.Item>
+
+              <Form.Item>
+                <Button
+                  shape="round"
+                  size="large"
+                  htmlType="submit"
+                  className="login-form-button"
+                >
+                  Modify product
+                </Button>
+              </Form.Item>
+            </Form>
+          </div>
+      </section>
     </div>
   );
 };

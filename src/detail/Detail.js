@@ -27,6 +27,11 @@ const Detail = (props) => {
     loadProductComment(productId);
   }, []);
 
+  const logout = () => {
+      localStorage.removeItem("accessToken");
+      props.history.push("/login");
+  };
+
   const loadProductComment = (productId) => {
     getSingleProductComment(productId)
       .then((response) => {
@@ -92,7 +97,7 @@ const Detail = (props) => {
           Add to cart
         </button>
       );
-      if (currentUser.username === name) {
+      if (currentUser.username === name || currentUser.username == "Admin") {
         return null;
       } else return hideCart;
     }
@@ -127,7 +132,7 @@ const Detail = (props) => {
           Add comment
         </button>
       );
-      if (currentUser.username === name) {
+      if (currentUser.username === name || currentUser.username == "Admin") {
         return null;
       } else return hideComment;
     }
@@ -135,6 +140,20 @@ const Detail = (props) => {
 
   const hideBuy = (name) => {
     {
+      let back = (
+        <a href={'/UserProductManagement'}>
+        <button type="button" class="btn btn-warning">
+         Go Back
+        </button>
+        </a>
+      )
+      let backAdmin = (
+        <a href={'/ProductManagement'}>
+        <button type="button" class="btn btn-warning">
+          Go Back
+        </button>
+        </a>
+      )
       let hideBuy = (
         <button
           onClick={() => {
@@ -150,8 +169,11 @@ const Detail = (props) => {
         </button>
       );
       if (currentUser.username === name) {
-        return null;
-      } else return hideBuy;
+        return back;
+      } else if (currentUser.username == "Admin"){
+        return backAdmin;
+      }
+      else return hideBuy;
     }
   };
   const hideChat = (name) => {
@@ -161,7 +183,7 @@ const Detail = (props) => {
           Chat
         </button>
       );
-      if (currentUser.username === name) {
+      if (currentUser.username === name || currentUser.username == "Admin") {
         return null;
       } else return hideChat;
     }
@@ -209,85 +231,91 @@ const Detail = (props) => {
           Delete
         </button>
       );
-      if (commentUserId == currentUser.id) {
+      if (commentUserId == currentUser.id || currentUser.username == "Admin") {
         return deleteUserComment;
       } else return love;
     }
   };
-  return (
-    <div>
-      <nav class="navbar navbar-expand-lg navbar-light bg-light">
-        <a class="navbar-brand" href="/">
-          Hello, {currentUser.username}
-        </a>
-        <div class="navbar-nav">
-          <a class="nav-item nav-link active" href="/">
-            Home <span class="sr-only">(current)</span>
-          </a>
-          <a class="nav-item nav-link" href="/profile">
-            Profile
-          </a>
-          <a class="nav-item nav-link" href="/chats">
-            Chat
-          </a>
-          <a class="nav-item nav-link" href="/cart">
-            Cart
-          </a>
+
+  //if its admin return admin navbar
+  const loadNavforAdmin = () => {
+    let navigation = (
+      <nav class="nav-container">
+        <p> All-Lingual | Admin </p>
+        <div class="nav-item">
+            <a href="/userManagement">User Management</a>
+            <a href="/productManagement">Product Management</a>
+            <a href="#" onClick={logout}>Logout</a>
         </div>
       </nav>
-      <div class="detail">
-        <div class="card" style={{ marginTop: 10, padding: 10 }}>
-          <div class="container-fliud">
-            <div class="wrapper row">
-              <div class="preview col-md-6">
-                <div class="preview-pic tab-content">
-                  <div class="tab-pane active" id="pic-1">
-                    <img
-                      src={`data:image/jpeg;base64,${myProduct.file}`}
-                      alt={myProduct.imageName}
-                      width="550"
-                      height="400"
-                    />
-                  </div>
-                </div>
-              </div>
-              <div class="details col-md-6">
-                <h3 class="product-title">
-                  Product name: {myProduct.productName}
-                </h3>
-                <p class="product-description">
-                  <h4>Description:</h4>
-                  {myProduct.productDescription}
-                </p>
-                <p class="product-description">
-                  <h4>Category:</h4>
-                  {myProduct.category}
-                </p>
-                <h4 class="price">
-                  current price: <span>${myProduct.price}</span>
-                </h4>
+    )
+    let userNav = (
+      <nav class="nav-container">
+        <a class="logo" href="/"> All-Lingual | {currentUser.username}</a>
+        <div class="nav-item">
+            <a href="/chats">Chats</a>
+            <a href="/cart">Cart</a>
+            <a href="/UserProductManagement"
+               onclick="/addproduct">
+               My Products
+            </a>
+            <a href={`/usercommentmanagement`}>
+              My Comments
+            </a>
+            <a href="/profile">Profile</a>
+            <a href="#" onClick={logout}>Logout</a>
+        </div>
+      </nav>
+    )
+      if (currentUser.username == "Admin") {
+        return navigation;
+      } else return userNav;
+  };
 
-                <h4 class="price">
-                  owner: <span>{myProduct.userName}</span>
-                </h4>
-
-                <div class="action">
-                  {hideCart(myProduct.userName)}
+  return (
+    <div>
+      {loadNavforAdmin()}
+      <section>
+        <h1>Product name: {myProduct.productName}</h1>
+        <div class="container-cart">
+            <img
+                src={`data:image/jpeg;base64,${myProduct.file}`}
+                alt={myProduct.imageName}
+            />
+            <table>
+                <tr>
+                    <td>Description:</td>
+                    <td>{myProduct.productDescription}</td>
+                </tr>
+                <tr>
+                    <td>Category:</td>
+                    <td>{myProduct.category}</td>
+                </tr>
+                 <tr>
+                     <td>Price:</td>
+                     <td>${myProduct.price}</td>
+                 </tr>
+                <tr>
+                    <td>Owner:</td>
+                    <td>{myProduct.userName}</td>
+                </tr>
+            </table>
+            <div class="action">
+                  <a> {hideCart(myProduct.userName)} </a>
                   <a href={`/addComment/${productId}`}>
                     {hideComment(myProduct.userName)}
                   </a>
 
-                  {hideBuy(myProduct.userName)}
+                  <a>{hideBuy(myProduct.userName)}</a>
                   <a href={`/chat/${myProduct.userId}`}>
                     {hideChat(myProduct.userName)}
                   </a>
-                </div>
-              </div>
             </div>
-          </div>
         </div>
+      </section>
 
-        <h3 style={{ marginTop: "30px" }}>Comments</h3>
+      <section>
+        <h1 style={{ marginTop: "30px" }}>Comments</h1>
         <hr class="solid"></hr>
         <div>
           <table class="table">
@@ -322,8 +350,9 @@ const Detail = (props) => {
             </tbody>
           </table>
         </div>
+        </section>
       </div>
-    </div>
+
   );
 };
 

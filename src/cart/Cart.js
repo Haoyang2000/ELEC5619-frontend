@@ -24,6 +24,11 @@ const Cart = (props) => {
     loadProducts();
   }, []);
 
+  const logout = () => {
+      localStorage.removeItem("accessToken");
+      props.history.push("/login");
+    };
+
   const loadCurrentUser = () => {
     getCurrentUser()
       .then((response) => {
@@ -120,152 +125,146 @@ const Cart = (props) => {
   };
   return (
     <div>
-      <nav class="navbar navbar-expand-lg navbar-light bg-light">
-        <a class="navbar-brand" href="/">
-          Hello, {currentUser.username}
-        </a>
-        <div class="navbar-nav">
-          <a class="nav-item nav-link active" href="/">
-            Home <span class="sr-only">(current)</span>
-          </a>
-          <a class="nav-item nav-link" href="/profile">
-            Profile
-          </a>
-          <a class="nav-item nav-link" href="/chats">
-            Chat
-          </a>
-          <a class="nav-item nav-link" href="/cart">
-            Cart
-          </a>
+      <nav class="nav-container">
+        <a class="logo" href="/"> All-Lingual | {currentUser.username}</a>
+        <div class="nav-item">
+            <a href="/chats">Chats</a>
+            <a href="/cart">Cart</a>
+            <a href="/UserProductManagement"
+               onclick="/addproduct">
+               My Products
+            </a>
+            <a href={`/usercommentmanagement`}>
+              My Comments
+            </a>
+            <a href="/profile">Profile</a>
+            <a href="#" onClick={logout}>Logout</a>
         </div>
       </nav>
-      <div class="cart">
-        <div class="row">
-          <div class="col-sm-12 col-md-10 col-md-offset-1">
-            <table class="table table-hover">
-              <thead>
-                <tr>
-                  <th>Product</th>
-                  <th class="text-center">Quantity</th>
-                  <th class="text-center">Price</th>
-                  <th class="text-center">Total</th>
-                  <th> </th>
-                </tr>
-              </thead>
-              <tbody>
-                {products.map((product) => (
-                  <tr>
-                    <td class="col-sm-8 col-md-6">
-                      <div class="media">
-                        {/* <a class="thumbnail pull-left" href="#">
-                          {" "}
-                          <img
-                            class="media-object"
-                            style={{ width: 72, height: 72 }}
-                            src={product.picture.large}
-                          />{" "}
-                        </a> */}
-                        <div class="media-body">
-                          <h5 class="media-heading">
-                            Product name: <a href="#">{product.productName}</a>
-                          </h5>
-                          <h6 class="media-heading">
-                            {" "}
-                            by <a href="#">{product.userName}</a>
-                          </h6>
-                        </div>
-                      </div>
-                    </td>
-                    <td class="col-sm-1 col-md-8 text-center">
-                      <div>
+
+      <section>
+          <h1>My Shopping Cart</h1>
+          <div class="cart">
+            <div class="row">
+              <div class="col-sm-12 col-md-10 col-md-offset-1">
+                <table class="table table-hover">
+                  <thead>
+                    <tr>
+                      <th>Product</th>
+                      <th class="text-center">Quantity</th>
+                      <th class="text-center">Price</th>
+                      <th class="text-center">Total</th>
+                      <th> </th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {products.map((product) => (
+                      <tr>
+                        <td class="col-sm-8 col-md-6">
+                          <div class="media">
+                            <div class="media-body">
+                              <h5 class="media-heading">
+                                Product name: <a href="#">{product.productName}</a>
+                              </h5>
+                              <h6 class="media-heading">
+                                {" "}
+                                by <a href="#">{product.userName}</a>
+                              </h6>
+                            </div>
+                          </div>
+                        </td>
+                        <td class="col-sm-1 col-md-8 text-center">
+                          <div>
+                            <button
+                              onClick={() => {
+                                minusClick(product.cartId, product.quantity - 1);
+                              }}
+                              type="button"
+                              class="btn btn-warning btn-sm mr-3"
+                            >
+                              -
+                            </button>
+                            <button
+                              onClick={() =>
+                                plusClick(product.cartId, product.quantity + 1)
+                              }
+                              type="button"
+                              class="btn btn-success btn-sm"
+                            >
+                              +
+                            </button>
+                            <p>{product.quantity}</p>
+                          </div>
+                        </td>
+                        <td class="col-sm-1 col-md-3 text-center">
+                          <p>${product.price}</p>
+                        </td>
+                        <td class="col-sm-1 col-md-3 text-center">
+                          <p>${product.price * product.quantity}</p>
+                        </td>
+                        <td class="col-sm-1 col-md-1">
+                          <button
+                            onClick={() => deleteClick(product.cartId)}
+                            type="button"
+                            class="btn btn-danger"
+                          >
+                            <span class="glyphicon glyphicon-remove"></span> Remove
+                          </button>
+                        </td>
+                      </tr>
+                    ))}
+                    <tr>
+                      <td>   </td>
+                      <td>   </td>
+                      <td>   </td>
+                      <td>
+                        <h3>Total</h3>
+                      </td>
+                      <td class="text-right">
+                        <h3>
+                          <strong>
+                            $
+                            {products.reduce(
+                              (total, item) => total + item.price * item.quantity,
+                              0
+                            )}
+                          </strong>
+                        </h3>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>   </td>
+                      <td>   </td>
+                      <td>   </td>
+                      <td>
+                        <a href="/">
+                          <btn
+                            onclick="/"
+                            className="btn btn-secondary btn-mid mr-3"
+                          >
+                            Continue Shopping
+                          </btn>
+                        </a>
+                      </td>
+                      <td>
                         <button
                           onClick={() => {
-                            minusClick(product.cartId, product.quantity - 1);
+                            buyProduct();
                           }}
                           type="button"
-                          class="btn btn-warning btn-sm mr-3"
+                          class="btn btn-success"
                         >
-                          -
+                          Checkout <span class="glyphicon glyphicon-play"></span>
                         </button>
-                        <button
-                          onClick={() =>
-                            plusClick(product.cartId, product.quantity + 1)
-                          }
-                          type="button"
-                          class="btn btn-success btn-sm"
-                        >
-                          +
-                        </button>
-                        <p>{product.quantity}</p>
-                      </div>
-                    </td>
-                    <td class="col-sm-1 col-md-3 text-center">
-                      <p>${product.price}</p>
-                    </td>
-                    <td class="col-sm-1 col-md-3 text-center">
-                      <p>${product.price * product.quantity}</p>
-                    </td>
-                    <td class="col-sm-1 col-md-1">
-                      <button
-                        onClick={() => deleteClick(product.cartId)}
-                        type="button"
-                        class="btn btn-danger"
-                      >
-                        <span class="glyphicon glyphicon-remove"></span> Remove
-                      </button>
-                    </td>
-                  </tr>
-                ))}
-                <tr>
-                  <td>   </td>
-                  <td>   </td>
-                  <td>   </td>
-                  <td>
-                    <h3>Total</h3>
-                  </td>
-                  <td class="text-right">
-                    <h3>
-                      <strong>
-                        $
-                        {products.reduce(
-                          (total, item) => total + item.price * item.quantity,
-                          0
-                        )}
-                      </strong>
-                    </h3>
-                  </td>
-                </tr>
-                <tr>
-                  <td>   </td>
-                  <td>   </td>
-                  <td>   </td>
-                  <td>
-                    <a href="/">
-                      <btn
-                        onclick="/"
-                        className="btn btn-secondary btn-mid mr-3"
-                      >
-                        Continue Shopping
-                      </btn>
-                    </a>
-                  </td>
-                  <td>
-                    <button
-                      onClick={() => {
-                        buyProduct();
-                      }}
-                      type="button"
-                      class="btn btn-success"
-                    >
-                      Checkout <span class="glyphicon glyphicon-play"></span>
-                    </button>
-                  </td>
-                </tr>
-              </tbody>
-            </table>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
           </div>
-        </div>
-      </div>
+      </section>
+
     </div>
   );
 };

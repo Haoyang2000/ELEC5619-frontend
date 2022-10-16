@@ -107,9 +107,9 @@ const Signin = (props) => {
   };
 
   return (
-    <div class="container">
+    <div>
       <div class="title">
-        <h3>Login and connect to the world</h3>
+        <h1>LOGIN</h1>
         <hr class="solid"></hr>
       </div>
       <div className="login-container">

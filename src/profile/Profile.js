@@ -6,6 +6,7 @@ import { getCurrentUser } from "../util/ApiUtil";
 import moment from "moment";
 
 import "./Profile.css";
+import "../homepage/Home.css";
 
 const Profile = (props) => {
   const [currentUser, setLoggedInUser] = useRecoilState(loggedInUser);
@@ -37,187 +38,55 @@ const Profile = (props) => {
 
   return (
     <div>
-      <nav class="navbar navbar-expand-lg navbar-light bg-light">
-        <a class="navbar-brand" href="/">
-          Hello, {currentUser.username}
-        </a>
-        <div class="navbar-nav">
-          <a class="nav-item nav-link active" href="/">
-            Home <span class="sr-only">(current)</span>
-          </a>
-          <a class="nav-item nav-link" href="/profile">
-            Profile
-          </a>
-          <a class="nav-item nav-link" href="/chats">
-            Chat
-          </a>
-          <a class="nav-item nav-link" href="/cart">
-            Cart
-          </a>
+      <nav class="nav-container">
+        <a class="logo" href="/"> All-Lingual | {currentUser.username}</a>
+        <div class="nav-item">
+            <a href="/chats">Chats</a>
+            <a href="/cart">Cart</a>
+            <a href="/UserProductManagement"
+               onclick="/addproduct">
+               My Products
+            </a>
+            <a href={`/usercommentmanagement`}>
+              My Comments
+            </a>
+            <a href="/profile">Profile</a>
+            <a href="#" onClick={logout}>Logout</a>
         </div>
       </nav>
-      <div class="container emp-profile">
-        <div class="row">
-          <div class="col-md-4">
-            <div class="tab-content profile-tab" id="myTabContent">
-              <div
-                class="tab-pane fade show active"
-                id="home"
-                role="tabpanel"
-                aria-labelledby="home-tab"
-              >
-                <div class="col-md-0">
-                  <h1>Personal Profile</h1>
-                </div>
-                <div class="row">
-                  <div class="col-md-6">
-                    <label>User Id</label>
-                  </div>
-                  <div class="col-md-6">
-                    <p>{currentUser.id}</p>
-                  </div>
-                </div>
-                <div class="row">
-                  <div class="col-md-6">
-                    <label>Name</label>
-                  </div>
-                  <div class="col-md-6">
-                    <p>{currentUser.username}</p>
-                  </div>
-                </div>
-                <div class="row">
-                  <div class="col-md-6">
-                    <label>Email</label>
-                  </div>
-                  <div class="col-md-6">
-                    <p>{currentUser.email}</p>
-                  </div>
-                </div>
-                <div class="row">
-                  <div class="col-md-6">
-                    <label>Address</label>
-                  </div>
-                  <div class="col-md-6">
-                    <p>{currentUser.address}</p>
-                  </div>
-                </div>
-                <div class="row">
-                  <div class="col-md-6">
-                    <label>create time</label>
-                  </div>
-                  <div class="col-md-6">
-                    <p>{moment(currentUser.createTime).format("ll")}</p>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="container emp-profile">
-        <div class="row">
-          <div class="col-md-8">
-            <div class="tab-content profile-tab" id="myTabContent">
-              <div
-                class="tab-pane fade show active"
-                id="home"
-                role="tabpanel"
-                aria-labelledby="home-tab"
-              >
-                <div class="col-md-0">
-                  <h1>Account Operations</h1>
-                </div>
 
-                <div class="row">
-                  <div class="col-md-12">
-                    <btn
-                      onClick={logout}
-                      className="btn btn-danger btn-mid mr-3"
-                    >
-                      Logout
-                    </btn>
-                    <a href="/changepassword">
-                      <btn onClick="" className="btn btn-warning btn-mid mr-3">
-                        Change Password
-                      </btn>
-                    </a>
-                    <a href="/modifyUser">
-                      <btn onClick="" className="btn btn-warning btn-mid mr-3">
-                        Modify profile
-                      </btn>
-                    </a>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
+      <section class="emp-profile">
+            <h1>Personal Profile</h1>
+            <a href="/changepassword" className="btn btn-warning btn-mid mr-3">
+               Change Password
+            </a>
+            <a href="/modifyUser" className="btn btn-warning btn-mid mr-3">
+                 Modify profile
+            </a>
 
-      <div class="container emp-profile">
-        <div class="row">
-          <div class="col-md-8">
-            <div class="tab-content profile-tab" id="myTabContent">
-              <div
-                class="tab-pane fade show active"
-                id="home"
-                role="tabpanel"
-                aria-labelledby="home-tab"
-              >
-                <div class="col-md-0">
-                  <h1>Product Management</h1>
-                </div>
-
-                <div class="row">
-                  <div class="col-md-12">
-                    <a href="/addproduct">
-                      <btn className="btn btn-secondary btn-mid mr-3">
-                        Add new product
-                      </btn>
-                    </a>
-                    <a href="/UserProductManagement">
-                      <btn
-                        onclick="/addproduct"
-                        className="btn btn-secondary btn-mid mr-3"
-                      >
-                        Manage my products
-                      </btn>
-                    </a>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="container emp-profile">
-        <div class="row">
-          <div class="col-md-8">
-            <div class="tab-content profile-tab" id="myTabContent">
-              <div
-                class="tab-pane fade show active"
-                id="home"
-                role="tabpanel"
-                aria-labelledby="home-tab"
-              >
-                <div class="col-md-0">
-                  <h1>Comments</h1>
-                </div>
-
-                <div class="row">
-                  <div class="col-md-12">
-                    <a href={`/usercommentmanagement`}>
-                      <btn className="btn btn-info btn-mid mr-3">
-                        See my comments
-                      </btn>
-                    </a>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
+            <table>
+                <tr>
+                    <td>User Id:</td>
+                    <td>{currentUser.id}</td>
+                </tr>
+                <tr>
+                    <td>Name:</td>
+                    <td>{currentUser.username}</td>
+                </tr>
+                 <tr>
+                     <td>Email:</td>
+                     <td>{currentUser.email}</td>
+                 </tr>
+                <tr>
+                    <td>Address:</td>
+                    <td>{currentUser.address}</td>
+                </tr>
+                <tr>
+                    <td>Created Time:</td>
+                    <td>{moment(currentUser.createTime).format("ll")}</td>
+                </tr>
+            </table>
+      </section>
     </div>
   );
 };

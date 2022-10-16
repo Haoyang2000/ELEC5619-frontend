@@ -5,6 +5,7 @@ import { useRecoilState } from "recoil";
 import { loggedInUser } from "../atom/globalState";
 import { getUserComment, deleteComment } from "../util/ApiUtil";
 
+import "../homepage/Home.css";
 import "./UserCommentManagement.css";
 
 const UserCommentManagement = (props) => {
@@ -79,43 +80,46 @@ const UserCommentManagement = (props) => {
     let content = (
       <div class="content">
         {" "}
-        <h1 class="label">My Comment Management</h1>
-        <table class="table">
-          <thead>
-            <tr>
-              <th class="col-md-2">Comment image</th>
-              <th class="col-md-1">Rating</th>
-              <th class="col-md-3">Description</th>
-              <th class="col-md-1">Operation</th>
-            </tr>
-          </thead>
-          <tbody>
-            {comment.map((userComment) => (
-              <tr>
-                <td>
-                  <img
-                    src={`data:image/jpeg;base64,${userComment.file}`}
-                    alt={userComment.imageName}
-                    width="250"
-                    height="150"
-                  />
-                </td>
-                <td>{displayStar(userComment.rating)}</td>
-                <td>{userComment.content}</td>
-                <td>
-                  <btn
-                    onClick={() => {
-                      deleteClick(userComment.commentId);
-                    }}
-                    className="btn btn-danger btn-mid mr-1"
-                  >
-                    delete
-                  </btn>
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
+        <section>
+            <h1 class="label">My Comment Management</h1>
+            <table class="table">
+              <thead>
+                <tr>
+                  <th class="col-md-2">Comment image</th>
+                  <th class="col-md-1">Rating</th>
+                  <th class="col-md-3">Description</th>
+                  <th class="col-md-1">Operation</th>
+                </tr>
+              </thead>
+              <tbody>
+                {comment.map((userComment) => (
+                  <tr>
+                    <td>
+                      <img
+                        src={`data:image/jpeg;base64,${userComment.file}`}
+                        alt={userComment.imageName}
+                        width="250"
+                        height="150"
+                      />
+                    </td>
+                    <td>{displayStar(userComment.rating)}</td>
+                    <td>{userComment.content}</td>
+                    <td>
+                      <btn
+                        onClick={() => {
+                          deleteClick(userComment.commentId);
+                        }}
+                        className="btn btn-danger btn-mid mr-1"
+                      >
+                        delete
+                      </btn>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+        </section>
+
       </div>
     );
 
@@ -126,23 +130,20 @@ const UserCommentManagement = (props) => {
 
   return (
     <div>
-      <nav class="navbar navbar-expand-lg navbar-light bg-light">
-        <a class="navbar-brand" href="/">
-          Hello, {currentUser.username}
-        </a>
-        <div class="navbar-nav">
-          <a class="nav-item nav-link active" href="/">
-            Home <span class="sr-only">(current)</span>
-          </a>
-          <a class="nav-item nav-link" href="/profile">
-            Profile
-          </a>
-          <a class="nav-item nav-link" href="/chats">
-            Chat
-          </a>
-          <a class="nav-item nav-link" href="/cart">
-            Cart
-          </a>
+      <nav class="nav-container">
+        <a class="logo" href="/"> All-Lingual | {currentUser.username}</a>
+        <div class="nav-item">
+            <a href="/chats">Chats</a>
+            <a href="/cart">Cart</a>
+            <a href="/UserProductManagement"
+               onclick="/addproduct">
+               My Products
+            </a>
+            <a href={`/usercommentmanagement`}>
+              My Comments
+            </a>
+            <a href="/profile">Profile</a>
+            <a href="#" onClick={logout}>Logout</a>
         </div>
       </nav>
       <div>{loadContentforAdmin()}</div>

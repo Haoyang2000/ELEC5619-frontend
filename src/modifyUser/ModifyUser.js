@@ -60,75 +60,72 @@ const ModifyUser = (props) => {
       });
   };
 
+  const logout = () => {
+    localStorage.removeItem("accessToken");
+    props.history.push("/login");
+  };
+
   return (
     <div>
-      <nav class="navbar navbar-expand-lg navbar-light bg-light">
-        <a class="navbar-brand" href="/">
-          Hello, {currentUser.username}
-        </a>
-        <div class="navbar-nav">
-          <a class="nav-item nav-link active" href="/">
-            Home <span class="sr-only">(current)</span>
-          </a>
-          <a class="nav-item nav-link" href="/profile">
-            Profile
-          </a>
-          <a class="nav-item nav-link" href="/chats">
-            Chat
-          </a>
-          <a class="nav-item nav-link" href="/cart">
-            Cart
-          </a>
+      <nav class="nav-container">
+        <a class="logo" href="/"> All-Lingual | {currentUser.username}</a>
+        <div class="nav-item">
+            <a href="/chats">Chats</a>
+            <a href="/cart">Cart</a>
+            <a href="/UserProductManagement"
+               onclick="/addproduct">
+               My Products
+            </a>
+            <a href={`/usercommentmanagement`}>
+              My Comments
+            </a>
+            <a href="/profile">Profile</a>
+            <a href="#" onClick={logout}>Logout</a>
         </div>
       </nav>
-
-      <h1 class="label">Modify profile</h1>
-      <hr class="solid"></hr>
-      <div class="content">
-        <Form
-          name="normal_login"
-          className="login-form"
-          initialValues={{ remember: true }}
-          onFinish={modifyProfie}
-        >
-          {/* <Form.Item
-            name="username"
-            rules={[{ required: true, message: "Please input name!" }]}
-          >
-            <Input size="large" placeholder="Name" />
-          </Form.Item> */}
-
-          <Form.Item
-            name="email"
-            rules={[
-              {
-                required: true,
-                message: "Please input email!",
-              },
-            ]}
-          >
-            <Input size="large" placeholder="email" />
-          </Form.Item>
-
-          <Form.Item
-            name="address"
-            rules={[{ required: true, message: "Please input address!" }]}
-          >
-            <Input size="large" placeholder="address" />
-          </Form.Item>
-
-          <Form.Item>
-            <Button
-              shape="round"
-              size="large"
-              htmlType="submit"
-              className="login-form-button"
+      <section>
+          <h1 class="label">Modify profile</h1>
+          <hr class="solid"></hr>
+          <div class="content">
+            <Form
+              name="normal_login"
+              className="login-form"
+              initialValues={{ remember: true }}
+              onFinish={modifyProfie}
             >
-              Modify Profile
-            </Button>
-          </Form.Item>
-        </Form>
-      </div>
+
+              <Form.Item
+                name="email"
+                rules={[
+                  {
+                    required: true,
+                    message: "Please input email!",
+                  },
+                ]}
+              >
+                <Input size="large" placeholder="email" />
+              </Form.Item>
+
+              <Form.Item
+                name="address"
+                rules={[{ required: true, message: "Please input address!" }]}
+              >
+                <Input size="large" placeholder="address" />
+              </Form.Item>
+
+              <Form.Item>
+                <Button
+                  shape="round"
+                  size="large"
+                  htmlType="submit"
+                  className="login-form-button"
+                >
+                  Modify Profile
+                </Button>
+              </Form.Item>
+            </Form>
+          </div>
+      </section>
     </div>
   );
 };

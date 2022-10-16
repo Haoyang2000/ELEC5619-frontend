@@ -1,5 +1,28 @@
+/*General Styling*/
+* {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+}
+
+html {
+    font-size: 62.5%;
+}
+
+body {
+    color: #333;
+    font: 1.6rem sans-serif;
+}
+
+/*Cart Styles*/
 .cart {
-  width: 80%;
-  margin-left: 16%;
+  width: 90%;
+  margin-left: 14%;
   margin-top: 20px;
 }
+
+button.btn {
+    font-size: 1.3rem;
+}
+
+
