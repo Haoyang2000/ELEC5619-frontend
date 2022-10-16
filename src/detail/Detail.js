@@ -276,7 +276,7 @@ const Detail = (props) => {
   };
 
   return (
-    <div>
+    <div class="background-color">
       {loadNavforAdmin()}
       <section>
         <h1>Product name: {myProduct.productName}</h1>

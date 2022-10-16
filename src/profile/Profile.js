@@ -39,7 +39,7 @@ const Profile = (props) => {
   };
 
   return (
-    <div>
+    <div class="background-color">
       <nav class="nav-container">
         <a class="logo" href="/"> All-Lingual | {currentUser.username}</a>
         <div class="nav-item">

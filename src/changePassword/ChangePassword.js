@@ -61,7 +61,7 @@ const ChangePassword = (props) => {
   };
 
   return (
-    <div>
+    <div class="background-color">
       <div>
       <nav class="nav-container">
         <a class="logo" href="/"> All-Lingual | {currentUser.username}</a>

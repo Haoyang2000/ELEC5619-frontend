@@ -163,7 +163,7 @@ const UserManagement = (props) => {
   };
 
   return (
-    <div>
+    <div class="background-color">
       <nav class="nav-container">
         <p> All-Lingual | Admin </p>
         <div class="nav-item">

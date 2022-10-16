@@ -80,7 +80,7 @@ const Home = (props) => {
     }
   };
   return (
-    <div>
+    <div class="background-color">
 
       <nav class="nav-container">
         <a class="logo" href="/"> All-Lingual | {currentUser.username}</a>
@@ -100,7 +100,7 @@ const Home = (props) => {
       </nav>
 
       <section class="product">
-        <h1>Our best products</h1>
+        <h1>products</h1>
         <input type="text"
           placeholder="Input Keywords to Search Products" className="form-control"
           id="search-engine" style={{ width: "50" }}
