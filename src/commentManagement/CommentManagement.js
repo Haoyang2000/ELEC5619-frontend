@@ -86,6 +86,7 @@ const CommentManagement = (props) => {
   const loadContentforAdmin = () => {
     let content = (
       <div>
+      <section class="product">
         {" "}
         <h1 class="label">Comment Management</h1>
         <div class="table-position">
@@ -126,6 +127,11 @@ const CommentManagement = (props) => {
               </tbody>
             </table>
         </div>
+        </section>
+      <footer>
+        <p>Author: ELEC5619-Group 2Spring 2022 USYD ---- Spring 2022 USYD</p>
+        <p><a href="https://github.com/jzha9393/ELEC5619/tree/eric">Backend Github Link</a></p>
+      </footer>
       </div>
     );
 
@@ -146,11 +152,7 @@ const CommentManagement = (props) => {
             <a href="#" onClick={logout}>Logout</a>
         </div>
       </nav>
-      <section class="product">{loadContentforAdmin()}</section>
-      <footer>
-        <p>Author: ELEC5619-Group 2Spring 2022 USYD ---- Spring 2022 USYD</p>
-        <p><a href="https://github.com/jzha9393/ELEC5619/tree/eric">Backend Github Link</a></p>
-      </footer>
+      {loadContentforAdmin()}
     </div>
   );
 };
